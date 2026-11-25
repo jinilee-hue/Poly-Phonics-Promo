@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>POLY Phonics 시안 비교</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<style>
+:root {
+  --c-bg: #F4F1EA; --c-white: #FFFFFF; --c-navy: #1C315A; --c-navy-900: #121F3D; --c-ink-2: #3A4466; --c-muted: #6A7493;
+  --c-blue: #1B64E8; --c-blue-100: #E2ECFF; --c-orange: #FF8A1F; --c-orange-100: #FFE9D4; --c-yellow: #FFD23F; --c-yellow-100: #FFF3C7;
+  --c-teal: #14A3A8; --c-teal-100: #D4F3F1; --c-line: rgba(28, 49, 90, .10); --c-navy-a06: rgba(28, 49, 90, .06);
+  --shadow: 0 30px 60px -30px rgba(28, 49, 90, .35); --ease: cubic-bezier(.16, 1, .3, 1);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--c-bg); color: var(--c-navy); font-family: "Pretendard Variable", Pretendard, system-ui, sans-serif; word-break: keep-all; -webkit-font-smoothing: antialiased; }
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+.ic { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.wrap { width: min(1360px, 100%); margin: 0 auto; padding: 0 clamp(16px, 3vw, 40px); }
+header { padding: 56px 0 28px; }
+.top { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.brand { display: inline-flex; align-items: center; gap: 10px; font-family: Fredoka, sans-serif; font-weight: 600; font-size: 18px; margin-bottom: 18px; }
+.brand i { width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; background: var(--c-blue); color: var(--c-yellow); font-style: normal; font-weight: 700; }
+.brand b { color: var(--c-blue); }
+h1 { margin: 0; font-size: clamp(30px, 4vw, 48px); font-weight: 800; letter-spacing: -0.04em; line-height: 1.2; }
+.sub { margin: 12px 0 0; color: var(--c-ink-2); font-size: 16px; line-height: 1.7; }
+.views { display: inline-flex; gap: 4px; padding: 5px; border-radius: 999px; background: var(--c-white); box-shadow: inset 0 0 0 1px var(--c-line); }
+.views button { display: inline-flex; align-items: center; gap: 7px; padding: 10px 18px; border-radius: 999px; font-weight: 700; font-size: 15px; color: var(--c-muted); transition: background-color .4s var(--ease), color .4s var(--ease); }
+.views button.on { background: var(--c-navy); color: var(--c-white); }
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; padding-bottom: 72px; }
+.card { background: var(--c-white); border-radius: 30px; padding: 10px; box-shadow: inset 0 0 0 1px var(--c-line), var(--shadow); display: flex; flex-direction: column; }
+.preview { position: relative; border-radius: 22px; overflow: hidden; background: var(--c-navy-a06); aspect-ratio: 16 / 10; display: block; }
+.preview .bar { position: absolute; inset: 0 0 auto 0; height: 28px; display: flex; align-items: center; gap: 6px; padding: 0 14px; background: rgba(255,255,255,.9); z-index: 2; }
+.preview .bar span { width: 9px; height: 9px; border-radius: 50%; background: var(--c-line); }
+.preview .shot { position: absolute; inset: 28px 0 0 0; overflow: hidden; }
+.preview .shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform .8s var(--ease); }
+.card:hover .preview[data-v="desktop"] .shot img { transform: scale(1.02); }
+.preview[data-v="mobile"] { background: linear-gradient(160deg, var(--c-blue-100), var(--c-yellow-100)); }
+.preview[data-v="mobile"] .bar { display: none; }
+.preview[data-v="mobile"] .shot { inset: 18px auto 0 50%; width: 38%; transform: translateX(-50%); border-radius: 26px 26px 0 0; box-shadow: 0 0 0 7px var(--c-navy), 0 24px 40px -10px rgba(0,0,0,.35); }
+.preview[data-v="full"] .shot { overflow-y: auto; }
+.preview[data-v="full"] .shot img { height: auto; object-fit: initial; }
+.preview .shot img:not(.on) { display: none; }
+.info { padding: 20px 14px 10px; display: grid; grid-template-columns: auto 1fr auto; gap: 6px 16px; align-items: start; }
+.key { grid-row: span 2; width: 54px; height: 54px; border-radius: 18px; display: grid; place-items: center; font-family: Fredoka, sans-serif; font-weight: 700; font-size: 28px; color: var(--c-white); }
+.k-a { background: var(--c-blue); } .k-b { background: var(--c-teal); } .k-c { background: var(--c-orange); } .k-d { background: var(--c-navy); }
+.info h2 { margin: 0; font-size: 21px; font-weight: 800; letter-spacing: -0.03em; }
+.info p { margin: 0; grid-column: 2; color: var(--c-ink-2); font-size: 15px; line-height: 1.65; }
+.open { grid-row: span 2; align-self: center; display: inline-flex; align-items: center; gap: 10px; padding: 6px 6px 6px 18px; border-radius: 999px; background: var(--c-navy); color: var(--c-white); font-weight: 700; font-size: 15px; transition: background-color .4s var(--ease), transform .4s var(--ease); white-space: nowrap; }
+.open span { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,.14); }
+.open:hover { background: var(--c-blue); transform: translateY(-2px); }
+.chips { grid-column: 2 / -1; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.chips span { padding: 4px 11px; border-radius: 999px; font-size: 13px; font-weight: 700; background: var(--c-navy-a06); color: var(--c-ink-2); }
+.pending .preview::after { content: "제작 중"; position: absolute; inset: 0; display: grid; place-items: center; font-weight: 800; color: var(--c-muted); }
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+@media (max-width: 600px) {
+  .info { grid-template-columns: auto 1fr; }
+  .open { grid-column: 1 / -1; grid-row: auto; justify-content: space-between; }
+  .chips { grid-column: 1 / -1; }
+  .views { width: 100%; } .views button { flex: 1; justify-content: center; padding: 10px; }
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 5h5v5M19 5l-8 8M18 14v4a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h4"/></symbol>
+  <symbol id="i-desk" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="12" rx="2"/><path d="M9 20h6M12 16.5V20"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2.5"/><path d="M11 18h2"/></symbol>
+  <symbol id="i-scroll" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></symbol>
+</svg>
+
+<header class="wrap">
+  <div class="brand"><i>P</i><span><b>POLY</b> Phonics</span></div>
+  <div class="top">
+    <div>
+      <h1>5세 학부모 홍보 페이지 · 시안 4종</h1>
+      <p class="sub">콘텐츠와 기능(소리·그림 찾기·영상·게임 링크)은 같고, 디자인 방향만 다릅니다.</p>
+    </div>
+    <div class="views" role="group" aria-label="미리보기 종류">
+      <button type="button" class="on" data-v="desktop"><svg class="ic"><use href="#i-desk"/></svg>첫 화면</button>
+      <button type="button" data-v="mobile"><svg class="ic"><use href="#i-phone"/></svg>모바일</button>
+      <button type="button" data-v="full"><svg class="ic"><use href="#i-scroll"/></svg>전체</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap grid" id="grid"></main>
+
+<script>
+const CONCEPTS = [
+  { k: 'a', href: 'concept-a.html', name: '3D 클레이 월드', desc: '캐릭터와 같은 점토 질감의 글자·버튼·선반. 누르면 말랑하게 눌리는 젤리 UI, 탭으로 고르는 체험존.', chips: ['점토 질감', '젤리 버튼', '탭·선반 UI'] },
+  { k: 'b', href: 'concept-b.html', name: '모험 지도', desc: '화면 전체가 Phonics Land 풍경. 커리큘럼은 Unit 6곳을 잇는 길 지도.', chips: ['풀화면 일러스트', '길 지도 커리큘럼', '물결 구분선'] },
+  { k: 'c', href: 'concept-c.html', name: '팝 스티커', desc: '진한 파랑 위 큰 제목, 스티커 캐릭터, 굵은 테두리 카드와 단어 띠.', chips: ['고채도 컬러 블록', '스티커 캐릭터', '단어 마퀴'] },
+  { k: 'd', href: 'concept-d.html', name: '실제 화면 쇼케이스', desc: '태블릿·폰 목업에 실제 수업·게임 화면과 영상. 스크롤하면 수업 단계별 화면이 바뀝니다.', chips: ['디바이스 목업', '스크롤 연동 화면', '영상 중심'] }
+];
+const grid = document.getElementById('grid');
+const v = Date.now();
+grid.innerHTML = CONCEPTS.map(c => `
+  <article class="card" data-k="${c.k}">
+    <a class="preview" data-v="desktop" href="${c.href}" target="_blank" rel="noopener" aria-label="시안 ${c.k.toUpperCase()} 열기">
+      <div class="bar"><span></span><span></span><span></span></div>
+      <div class="shot">
+        <img class="on" data-v="desktop" src="assets/img/concepts/${c.k}-desktop.webp?v=${v}" alt="시안 ${c.k.toUpperCase()} 첫 화면" loading="lazy">
+        <img data-v="mobile" src="assets/img/concepts/${c.k}-mobile.webp?v=${v}" alt="시안 ${c.k.toUpperCase()} 모바일" loading="lazy">
+        <img data-v="full" src="assets/img/concepts/${c.k}-full.webp?v=${v}" alt="시안 ${c.k.toUpperCase()} 전체" loading="lazy">
+      </div>
+    </a>
+    <div class="info">
+      <span class="key k-${c.k}">${c.k.toUpperCase()}</span>
+      <h2>${c.name}</h2>
+      <a class="open" href="${c.href}" target="_blank" rel="noopener">열기<span><svg class="ic"><use href="#i-ext"/></svg></span></a>
+      <p>${c.desc}</p>
+      <div class="chips">${c.chips.map(t => `<span>${t}</span>`).join('')}</div>
+    </div>
+  </article>`).join('');
+grid.querySelectorAll('img').forEach(img => img.addEventListener('error', () => img.closest('.card').classList.add('pending'), { once: true }));
+document.querySelectorAll('.views button').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.views button').forEach(x => x.classList.toggle('on', x === b));
+  grid.querySelectorAll('.preview').forEach(p => {
+    p.dataset.v = b.dataset.v;
+    p.querySelectorAll('img').forEach(i => i.classList.toggle('on', i.dataset.v === b.dataset.v));
+    p.querySelector('.shot').scrollTop = 0;
+  });
+}));
+</script>
+</body>
+</html>
