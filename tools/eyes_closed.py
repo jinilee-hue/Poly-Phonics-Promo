@@ -43,7 +43,7 @@ for name in ['bobo', 'tata', 'nunu']:
         pts = np.column_stack(np.where(keep))[:, ::-1].astype(np.int32)
         hull = cv2.convexHull(pts); m = np.zeros((H, W), np.uint8)
         cv2.fillConvexPoly(m, hull + np.array([x0, y0]), 255)
-        m = cv2.dilate(m, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (17, 17)))   # cover the rim, its highlight and AA edge
+        m = cv2.dilate(m, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (23, 23)))   # cover the rim, its highlight and AA edge
         eye_masks.append(m > 0)
         yy, xx = np.where(m > 0); boxes.append((xx.min(), yy.min(), xx.max(), yy.max()))
     boxes, eye_masks = zip(*sorted(zip(boxes, eye_masks), key=lambda t: t[0][0]))
@@ -59,11 +59,30 @@ for name in ['bobo', 'tata', 'nunu']:
     nose = np.zeros_like(eye)
     for j in range(1, nk + 1):
         comp = nl == j
-        if (comp & ~eye).sum() > 400 and (comp & eye).any(): nose |= comp
+        if (comp & ~eye).sum() > 400 and (comp & eye).any():
+            # inside the eye area keep only real nose colour; rim / highlight slivers next to the nose get painted
+            nose_med = np.median(rgb[comp & ~eye], 0)
+            nose |= comp & (~eye | (np.abs(rgb - nose_med).sum(-1) < 90))
     paint = eye & ~nose
-    filled = fit_fill(rgb, skin, paint)
-    soft = cv2.GaussianBlur(paint.astype(np.float32), (0, 0), 2.5)
-    alpha = np.where(nose, 0, np.clip(soft * 1.6, 0, 1)) * 255   # fade out at the cheeks, hard stop at the nose
+    # fade outward over ~10px of real skin (never into the nose), solid inside -> no ghost ring, no seam at the nose
+    band = 10
+    outside = ~paint
+    dt = nd.distance_transform_edt(outside)
+    reach = (dt <= band) & ~nose & (al > 250)
+    region = paint | reach
+    filled = fit_fill(rgb, skin, region)
+    alpha = np.where(paint, 1.0, np.where(reach, np.clip(1 - dt / band, 0, 1) ** 1.5, 0.0))
+    # closed eyelid = a soft dome: a little lighter on top, a touch darker toward the lash line
+    for em, (bx0, by0, bx1, by1) in zip(eye_masks, boxes):
+        cx, cy = (bx0 + bx1) / 2, (by0 + by1) / 2; rx, ry = (bx1 - bx0) / 2, (by1 - by0) / 2
+        yy, xx = np.mgrid[0:H, 0:W]; nxv = (xx - cx) / rx; nyv = (yy - cy) / ry
+        r2 = nxv ** 2 + nyv ** 2; dome = np.clip(1 - r2, 0, 1)
+        shade = 1 + .06 * dome * np.clip(-nyv + .2, -1, 1)          # light from above
+        filled = np.where((em & paint)[..., None], np.clip(filled * shade[..., None], 0, 255), filled)
+    filled = cv2.GaussianBlur(filled.astype(np.float32), (0, 0), .8)
+    # a whisper of grain so the patch has the same clay texture as the face
+    rng = np.random.default_rng(7); filled = np.clip(filled + rng.normal(0, 1.2, filled.shape), 0, 255)
+    alpha = alpha * 255
     x0, y0, x1, y1 = boxes[0]
     band = rgb[max(0, y0 - (y1 - y0)):y0, x0:x1].reshape(-1, 3); s = band.sum(1)
     lash = tuple(int(v) for v in np.median(band[s < np.percentile(s, 5)], 0))
