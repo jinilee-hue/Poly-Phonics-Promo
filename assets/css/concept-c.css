@@ -510,6 +510,13 @@ p { margin: 0; }
 .meta .ic { width: 17px; height: 17px; color: var(--c-blue); }
 .go { margin-top: auto; align-self: flex-start; display: inline-flex; align-items: center; gap: 10px; padding: 5px 5px 5px 18px; border-radius: 999px; border: 2px solid var(--c-navy); background: var(--c-yellow); color: var(--c-navy); font-weight: 800; font-size: 15px; }
 .go .ic-dot { width: 32px; height: 32px; }
+/* 게임하기: bigger, the main action of the card (user 2026-11-25) */
+.card .go { min-height: 60px; padding: 7px 7px 7px 26px; gap: 14px; font-size: 18px; border-width: 2.5px; box-shadow: 4px 4px 0 var(--c-navy);
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
+.card .go .ic-dot { width: 44px; height: 44px; }
+.card .go .ic-dot .ic { width: 20px; height: 20px; }
+.card.press:hover .go { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--c-navy); }
+@media (max-width: 767px) { .card .go { min-height: 54px; font-size: 17px; padding-left: 22px; } .card .go .ic-dot { width: 40px; height: 40px; } }
 .press:hover .go .ic-dot { transform: translateX(3px); }
 .filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 26px; }
 .filter { display: inline-flex; align-items: center; gap: 7px; padding: 9px 18px; border-radius: 999px; border: var(--bd); background: var(--c-white); color: var(--c-navy); font-weight: 800; font-size: 15px; box-shadow: var(--hard-xs); transition: transform .2s var(--ease), box-shadow .2s var(--ease), background-color .3s; }
