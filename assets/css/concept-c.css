@@ -201,7 +201,7 @@ p { margin: 0; }
 }
 .hero-art .lt { position: absolute; animation: bob 5.5s ease-in-out infinite; }
 .lt-m1 { --s: 21cqw; top: 3%; left: 4%; rotate: -10deg; background: var(--c-yellow); color: var(--c-navy); }
-.lt-m2 { --s: 15cqw; top: 13%; left: 27%; rotate: 9deg; color: var(--c-orange); animation-delay: -1.2s !important; }
+.lt-m2 { --s: 15cqw; top: 14%; left: 30%; rotate: 9deg; color: var(--c-orange); animation-delay: -1.2s !important; }
 .lt-a { --s: 12cqw; top: 2%; left: 52%; rotate: -7deg; background: var(--c-orange); color: var(--c-white); animation-delay: -2.4s !important; }
 .lt-s { --s: 11cqw; top: 27%; left: 1%; rotate: 8deg; background: var(--c-teal); color: var(--c-white); animation-delay: -3.1s !important; }
 .lt-t { --s: 12cqw; top: 33%; right: 1%; rotate: 11deg; animation-delay: -.6s !important; }
@@ -209,7 +209,7 @@ p { margin: 0; }
 .sp1 { top: 30%; left: 22%; }
 .sp2 { top: 6%; left: 44%; width: 3.6cqw; height: 3.6cqw; fill: var(--c-white); animation-delay: -1s; }
 .sp3 { top: 52%; right: 18%; width: 4cqw; height: 4cqw; animation-delay: -1.8s; }
-.friends { position: absolute; inset: 0; transform-origin: 50% 100%; }
+.friends { position: absolute; inset: 0; transform-origin: 50% 100%; pointer-events: none; }   /* let hover/tap reach the dice behind */
 .friends.bop { animation: bop .7s var(--spring); }
 .stk-char { position: absolute; bottom: 0; filter: drop-shadow(0 18px 22px rgba(17, 29, 56, .28)) drop-shadow(0 4px 6px rgba(17, 29, 56, .18)); animation: hop 2.4s ease-in-out infinite; }
 .sc-bobo { left: -2%; width: 46%; bottom: 1%; rotate: -8deg; animation-delay: -.4s; }
@@ -648,15 +648,19 @@ p { margin: 0; }
 /* ===== 3D dice: logo mark + hero letter tiles (built by concept-c.js) — user 2026-11-25 ===== */
 .dice { --rest: rotateX(-16deg) rotateY(-22deg); width: var(--s, 40px) !important; height: var(--s, 40px) !important;
   display: block; padding: 0 !important; background: none !important; border: 0 !important; box-shadow: none !important;
-  perspective: calc(var(--s, 40px) * 7); font-size: calc(var(--s, 40px) * .6); }
+  font-size: calc(var(--s, 40px) * .6); }   /* no perspective: Chrome draws perspective-projected faces without antialiasing (jagged lines) */
 .dice-cube { position: relative; display: block; width: 100%; height: 100%; transform-style: preserve-3d; transform: var(--rest); }
-.dc-face, .dc-core { position: absolute; inset: 0; backface-visibility: hidden; outline: 1px solid transparent; }   /* transparent outline = smoother 3D edges in Chrome */
-.dc-face { display: grid; place-items: center; border-radius: 24%; border: var(--bw) solid var(--c-navy);
-  background: radial-gradient(120% 120% at 30% 20%, color-mix(in srgb, var(--dc) 72%, white), var(--dc) 55%, color-mix(in srgb, var(--dc) 86%, black));
+.dc-face, .dc-core { position: absolute; inset: 0; backface-visibility: hidden; }
+.dc-face::before { content: ""; position: absolute; inset: 4px; z-index: -1; border-radius: 24%; border: var(--bw) solid var(--c-navy);
+  background: radial-gradient(120% 120% at 30% 20%, color-mix(in srgb, var(--dc) 72%, white), var(--dc) 55%, color-mix(in srgb, var(--dc) 86%, black)); }
+.dc-core { inset: calc(6% - 3px) !important; padding: 3px; background-clip: content-box; }
+/* The face element is 4px bigger than the visible face and transparent at its rim: Chrome does not antialias the edge
+   of a 3D-transformed box, so the navy line is drawn inside (::before) where it gets texture-smoothed instead. */
+.dc-face { display: grid; place-items: center; inset: -4px; isolation: isolate;
   color: var(--di); font-family: var(--f-en); font-weight: 700; line-height: 1; letter-spacing: 0;
   /* letter pressed into the face */
   text-shadow: 0 -1px 0 rgba(0, 0, 0, .28), 0 1px 0 rgba(255, 255, 255, .5); }
-.dc-core { border-radius: 14%; background: color-mix(in srgb, var(--dc) 70%, var(--c-navy)); backface-visibility: visible; inset: 6%; }
+.dc-core { border-radius: 14%; background-color: color-mix(in srgb, var(--dc) 70%, var(--c-navy)); backface-visibility: visible; }
 .dc-front  { transform: translateZ(calc(var(--s) / 2)); }
 .dc-back   { transform: rotateY(180deg) translateZ(calc(var(--s) / 2)); }
 .dc-right  { transform: rotateY(90deg) translateZ(calc(var(--s) / 2)); filter: brightness(.82); }
@@ -664,6 +668,11 @@ p { margin: 0; }
 .dc-top    { transform: rotateX(90deg) translateZ(calc(var(--s) / 2)); filter: brightness(1.1); }
 .dc-bottom { transform: rotateX(-90deg) translateZ(calc(var(--s) / 2)); filter: brightness(.7); }
 .dc-cx { transform: none; } .dc-cy { transform: rotateY(90deg); } .dc-cz { transform: rotateX(90deg); }
+/* inner shell: one plane just under each face, square-ish corners, so the rounded corners never show daylight */
+.dc-fill { position: absolute; inset: -3px; padding: 3px; background-clip: content-box; border-radius: 12%; backface-visibility: visible; background-color: color-mix(in srgb, var(--dc) 84%, black); }
+.dc-f1 { transform: translateZ(calc(var(--s) * .44)); }  .dc-f2 { transform: translateZ(calc(var(--s) * -.44)); }
+.dc-f3 { transform: rotateY(90deg) translateZ(calc(var(--s) * .44)); } .dc-f4 { transform: rotateY(90deg) translateZ(calc(var(--s) * -.44)); }
+.dc-f5 { transform: rotateX(90deg) translateZ(calc(var(--s) * .44)); } .dc-f6 { transform: rotateX(90deg) translateZ(calc(var(--s) * -.44)); }
 @keyframes diceRoll { 0% { transform: var(--rest); } 100% { transform: rotateX(344deg) rotateY(338deg); } }
 @keyframes diceSway { 0%, 100% { transform: var(--rest); } 50% { transform: rotateX(-10deg) rotateY(-34deg); } }
 
@@ -686,18 +695,12 @@ p { margin: 0; }
 @keyframes diceTurn { 0% { transform: var(--rest); } 12% { transform: rotateX(342deg) rotateY(384deg); } 100% { transform: rotateX(342deg) rotateY(384deg); } }
 .hero-art .lt.dice:hover .dice-cube, .hero-art .lt.dice.is-rolling .dice-cube { animation: diceRoll .9s cubic-bezier(.34, 1.4, .5, 1); }
 
-/* 체험하기 arrow circles: pulse ring + nudge invite a click; on hover the arrow shoots out and comes back */
+/* 체험하기 arrow circles: the arrow nudges to invite a click (no ring — user); on hover it shoots out and comes back */
 .nav-cta .ic-dot, .hero .btn-yellow .ic-dot { position: relative; overflow: visible; }
 .nav-cta .ic-dot .ic, .hero .btn-yellow .ic-dot .ic { animation: arrowNudge 2.2s ease-in-out infinite; }
-.nav-cta .ic-dot::after, .hero .btn-yellow .ic-dot::after { content: ""; position: absolute; inset: -2px; border-radius: 50%;
-  border: 2.5px solid currentColor; opacity: 0; animation: ringPulse 2.2s ease-out infinite; pointer-events: none; }
-.hero .btn-yellow .ic-dot::after { border-color: var(--c-navy); }
-.nav-cta .ic-dot::after { border-color: var(--c-yellow); }
 .nav-cta:hover .ic-dot, .hero .btn-yellow:hover .ic-dot { overflow: hidden; }
 .nav-cta:hover .ic-dot .ic, .hero .btn-yellow:hover .ic-dot .ic { animation: arrowLoop .6s cubic-bezier(.5, 0, .2, 1) infinite; }
-.nav-cta:hover .ic-dot::after, .hero .btn-yellow:hover .ic-dot::after { animation: none; opacity: 0; }
 @keyframes arrowNudge { 0%, 55%, 100% { transform: translateX(0); } 65% { transform: translateX(5px); } 75% { transform: translateX(0); } 85% { transform: translateX(3px); } }
-@keyframes ringPulse { 0%, 40% { transform: scale(1); opacity: 0; } 45% { opacity: .7; } 100% { transform: scale(1.75); opacity: 0; } }
 @keyframes arrowLoop { 0% { transform: translateX(0); } 45% { transform: translateX(160%); } 46% { transform: translateX(-160%); } 100% { transform: translateX(0); } }
 
 @media (max-width: 767px) {
@@ -706,7 +709,7 @@ p { margin: 0; }
   .brand { gap: 9px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .dice-cube, .ic-dot .ic, .ic-dot::after, .brand-mark.logo-die { animation: none !important; }
+  .dice-cube, .ic-dot .ic, .brand-mark.logo-die { animation: none !important; }
 }
 
 @media print {
