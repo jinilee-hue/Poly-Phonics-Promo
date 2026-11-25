@@ -1,6 +1,4 @@
-"""Survey faces (Tata expressions, assets/img/emoji3d/fun-1..5.webp) split into layers so CSS can move them like a real face:
-  fun-N-body.webp  everything except the head (collar in front)
-  fun-N-head.webp  the head (+ a band below the collar line, hidden under the body, so a tilt never opens a gap)
+"""Survey faces (Tata expressions, assets/img/emoji3d/fun-1..5.webp): overlays so CSS can blink the eyes and beat the hearts:
   fun-N-lid.webp   closed eyelids for a blink (faces with open eyes: 2, 3, 4)
   fun-5-heartL/R.webp  each heart eye on its own, to pulse around its own centre
 Prints the neck pivot and heart centres (% of the canvas) for survey.css.
@@ -30,7 +28,7 @@ for n in range(1, 6):
     hmask = (head | (band & (al > 0)))
     headA = a.copy(); headA[~hmask, 3] = 0
     bodyA = a.copy(); bodyA[head, 3] = 0
-    save(headA, f'fun-{n}-head.webp'); save(bodyA, f'fun-{n}-body.webp')
+    # (head/body layers were tried and dropped: a head turning on its own opened gaps at the collar)
     cx = (x0 + x1) / 2
     info[n] = {'neck': [round(cx / W * 100, 1), round(split / H * 100, 1)]}
     # blink: open eyes = white blobs in the face (not the collar), fill with fitted skin, draw a soft lash curve

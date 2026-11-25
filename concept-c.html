@@ -14,8 +14,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Fredoka:wght@500;600;700&display=swap">
-<link rel="stylesheet" href="assets/css/concept-c.css?v=537424b9">
-<link rel="stylesheet" href="assets/css/survey.css?v=d1ed87d8">
+<link rel="stylesheet" href="assets/css/concept-c.css?v=310b807a">
+<link rel="stylesheet" href="assets/css/survey.css?v=8b41a041">
 </head>
 <body>
 
@@ -424,14 +424,25 @@
           </button>
           <img class="print-poster" src="assets/video/abc-song.jpg" alt="ABC Song 영상 장면">
         </div>
-        <ol class="playlist">
-          <li><button type="button" class="pl is-on" data-src="abc-song" data-title="ABC Song"><img src="assets/video/abc-song.jpg" alt="" loading="lazy" decoding="async"><span><b>ABC Song</b><small>알파벳송 · 0:44</small></span></button></li>
-          <li><button type="button" class="pl" data-src="dance-abc" data-title="Dance with ABC"><img src="assets/video/dance-abc.jpg?v=20261125b" alt="" loading="lazy" decoding="async"><span><b>Dance with ABC</b><small>몸으로 글자 만들기 · 1:05</small></span></button></li>
-          <li><button type="button" class="pl" data-src="l1-chant-1" data-title="Sound Chant 1"><img src="assets/video/l1-chant-1.jpg?v=20261125b" alt="" loading="lazy" decoding="async"><span><b>Chant 1 · m m</b><small>소리 · 0:40</small></span></button></li>
-          <li><button type="button" class="pl" data-src="l1-chant-2" data-title="Sound Chant 2"><img src="assets/video/l1-chant-2.jpg?v=20261125b" alt="" loading="lazy" decoding="async"><span><b>Chant 2 · m m milk</b><small>단어 · 0:41</small></span></button></li>
-          <li><button type="button" class="pl" data-src="l1-chant-3" data-title="Sound Chant 3"><img src="assets/video/l1-chant-3.jpg?v=20261125b" alt="" loading="lazy" decoding="async"><span><b>Chant 3 · pour the milk</b><small>문장 · 0:41</small></span></button></li>
-          <li><button type="button" class="pl" data-src="l1-chant-4" data-title="Sound Chant 4"><img src="assets/video/l1-chant-4.jpg?v=20261125b" alt="" loading="lazy" decoding="async"><span><b>Chant 4 · in the mug</b><small>문장 · 0:41</small></span></button></li>
-        </ol>
+        <!-- big screen + a rail below: 노래 | 챈트 1→4 (user 2026-11-25) -->
+        <div class="pl-rail">
+          <div class="pl-group pg-song">
+            <p class="pg-head"><svg class="ic"><use href="#i-music"/></svg>노래</p>
+            <ol class="playlist">
+            <li><button type="button" class="pl is-on" data-src="abc-song" data-title="ABC Song"><span class="pl-shot"><img src="assets/video/abc-song.jpg" alt="" loading="lazy" decoding="async"><span class="pl-now" aria-hidden="true"><i></i><i></i><i></i></span></span><span class="pl-txt"><b lang="en">ABC Song</b><small>알파벳송 · 0:44</small></span></button></li>
+            <li><button type="button" class="pl" data-src="dance-abc" data-title="Dance with ABC"><span class="pl-shot"><img src="assets/video/dance-abc.jpg?v=20261125b" alt="" loading="lazy" decoding="async"><span class="pl-now" aria-hidden="true"><i></i><i></i><i></i></span></span><span class="pl-txt"><b lang="en">Dance with ABC</b><small>몸으로 글자 · 1:05</small></span></button></li>
+            </ol>
+          </div>
+          <div class="pl-group pg-chant">
+            <p class="pg-head"><svg class="ic"><use href="#i-ear"/></svg>챈트 <small>1 → 4 이어서 불러요</small></p>
+            <ol class="playlist">
+            <li><button type="button" class="pl" data-src="l1-chant-1" data-title="Sound Chant 1"><span class="pl-shot"><img src="assets/video/l1-chant-1.jpg?v=20261125b" alt="" loading="lazy" decoding="async"><span class="pl-stage">소리</span><span class="pl-now" aria-hidden="true"><i></i><i></i><i></i></span></span><span class="pl-txt"><b lang="en">m m</b><small>Chant 1 · 0:40</small></span></button></li>
+            <li><button type="button" class="pl" data-src="l1-chant-2" data-title="Sound Chant 2"><span class="pl-shot"><img src="assets/video/l1-chant-2.jpg?v=20261125b" alt="" loading="lazy" decoding="async"><span class="pl-stage">단어</span><span class="pl-now" aria-hidden="true"><i></i><i></i><i></i></span></span><span class="pl-txt"><b lang="en">m m milk</b><small>Chant 2 · 0:41</small></span></button></li>
+            <li><button type="button" class="pl" data-src="l1-chant-3" data-title="Sound Chant 3"><span class="pl-shot"><img src="assets/video/l1-chant-3.jpg?v=20261125b" alt="" loading="lazy" decoding="async"><span class="pl-stage">문장</span><span class="pl-now" aria-hidden="true"><i></i><i></i><i></i></span></span><span class="pl-txt"><b lang="en">pour the milk</b><small>Chant 3 · 0:41</small></span></button></li>
+            <li><button type="button" class="pl" data-src="l1-chant-4" data-title="Sound Chant 4"><span class="pl-shot"><img src="assets/video/l1-chant-4.jpg?v=20261125b" alt="" loading="lazy" decoding="async"><span class="pl-stage">문장</span><span class="pl-now" aria-hidden="true"><i></i><i></i><i></i></span></span><span class="pl-txt"><b lang="en">in the mug</b><small>Chant 4 · 0:41</small></span></button></li>
+            </ol>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -593,6 +604,6 @@
 
 <script src="assets/js/site.js?v=7c46f246" defer></script>
 <script src="assets/js/concept-c.js?v=97c44cad" defer></script>
-<script src="assets/js/survey.js?v=d929baac" defer></script>
+<script src="assets/js/survey.js?v=eyes1" defer></script>
 </body>
 </html>

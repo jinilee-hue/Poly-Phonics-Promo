@@ -604,15 +604,55 @@ button.g:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--c-n
 .screen-title { font-family: var(--f-en); font-weight: 700; font-size: 24px; color: var(--c-white); letter-spacing: 0; padding: 4px 16px; border-radius: 999px; background: var(--c-navy); border: 2px solid var(--c-white); rotate: -3deg; }
 .screen.is-playing .screen-play { opacity: 0; pointer-events: none; }
 .print-poster { display: none; }
-.playlist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
-.pl { width: 100%; display: flex; align-items: center; gap: 12px; padding: 6px; border-radius: 16px; border: 2px solid transparent; text-align: left; color: var(--c-white); transition: background-color .3s var(--ease), border-color .3s var(--ease); }
-.pl:hover { background: var(--c-white-a12); }
+/* player: big screen on top, a rail of thumbnails below in two groups — 노래 | 챈트 1→4 (user 2026-11-25) */
+.player { grid-template-columns: 1fr; gap: 16px; padding: 16px; }
+.pl-rail { display: grid; grid-template-columns: 2fr 4fr; gap: 0; }
+.pl-group { min-width: 0; padding: 4px 4px 2px; }
+.pg-chant { padding-left: 22px; margin-left: 18px; border-left: 2px dashed var(--c-white-a20); }
+.pg-head { display: flex; align-items: center; gap: 7px; margin: 0 0 10px; font-weight: 800; font-size: 15px; color: var(--c-white); }
+.pg-head .ic { width: 18px; height: 18px; color: var(--c-yellow); }
+.pg-head small { font-size: 13px; font-weight: 700; color: var(--c-blue-300); }
+.playlist { list-style: none; margin: 0; padding: 0; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 16px; }
+.playlist li { position: relative; min-width: 0; }
+.pg-chant .playlist li:not(:last-child)::after { content: ""; position: absolute; top: calc(50% - 22px); right: -12px; width: 7px; height: 7px;
+  border-top: 2.5px solid var(--c-yellow); border-right: 2.5px solid var(--c-yellow); transform: rotate(45deg); }
+.pl { width: 100%; display: flex; flex-direction: column; gap: 8px; padding: 6px 6px 10px; border-radius: 16px; border: 2px solid transparent; text-align: left; color: var(--c-white);
+  background: var(--c-white-a12); cursor: pointer; transition: background-color .3s var(--ease), border-color .3s var(--ease), transform .3s var(--ease); }
+.pl:hover { background: var(--c-white-a20); transform: translateY(-2px); }
 .pl.is-on { background: var(--c-yellow); color: var(--c-navy); border-color: var(--c-yellow); }
-.pl img { width: 100px; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 10px; border: 2px solid var(--c-white-a20); flex: none; }
-.pl.is-on img { border-color: var(--c-navy); }
-.pl b { display: block; font-family: var(--f-en); font-weight: 600; font-size: 16px; letter-spacing: 0; line-height: 1.3; }
+.pl-shot { position: relative; display: block; }
+.pl-shot img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 11px; border: 2px solid var(--c-white-a20); }
+.pl.is-on .pl-shot img { border-color: var(--c-navy); }
+.pl-stage { position: absolute; left: 6px; top: 6px; padding: 2px 9px; border-radius: 999px; background: var(--c-white); color: var(--c-navy); border: 2px solid var(--c-navy);
+  font-size: 12px; font-weight: 800; line-height: 1.4; }
+.pl-now { position: absolute; right: 6px; bottom: 6px; display: none; align-items: flex-end; gap: 2px; height: 22px; padding: 4px 6px; border-radius: 8px; background: var(--c-navy); }
+.pl-now i { display: block; width: 3px; height: 30%; border-radius: 2px; background: var(--c-yellow); }
+.pl.is-on .pl-now { display: inline-flex; }
+.player:has(.screen.is-playing) .pl.is-on .pl-now i { animation: plEq .9s ease-in-out infinite; }
+.pl-now i:nth-child(2) { animation-delay: -.3s !important; } .pl-now i:nth-child(3) { animation-delay: -.6s !important; }
+@keyframes plEq { 0%, 100% { height: 30%; } 50% { height: 100%; } }
+.pl-txt { display: block; padding: 0 4px; min-width: 0; }
+.pl b { display: block; font-family: var(--f-en); font-weight: 600; font-size: 16px; letter-spacing: 0; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .pl small { font-size: 13px; font-weight: 600; color: var(--c-blue-300); }
 .pl.is-on small { color: var(--c-navy); }
+@media (max-width: 1080px) {
+  .playlist { gap: 12px; }
+  .pg-chant { padding-left: 16px; margin-left: 14px; }
+  .pg-chant .playlist li:not(:last-child)::after { right: -10px; }
+  .pl b { font-size: 14px; }
+  .pl small { font-size: 12px; }
+}
+@media (max-width: 767px) {
+  .player { gap: 12px; padding: 10px; }
+  .pl-rail { grid-template-columns: 1fr; gap: 14px; }
+  .pg-chant { padding-left: 4px; margin-left: 0; border-left: 0; padding-top: 14px; border-top: 2px dashed var(--c-white-a20); }
+  .pg-song .playlist, .pg-chant .playlist { grid-template-columns: repeat(2, 1fr); grid-auto-flow: row; gap: 10px; }
+  .pg-chant .playlist li::after { display: none; }
+  .pl { padding: 5px 5px 8px; gap: 6px; border-radius: 14px; }
+  .pl b { font-size: 14px; }
+  .pl small { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) { .pl-now i { animation: none !important; } }
 
 .cards { display: grid; gap: 28px; }
 .cards-2 { grid-template-columns: repeat(2, 1fr); }
@@ -762,11 +802,6 @@ button.g:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--c-n
   .faq-head { position: static; }
   .faq-char, .faq-pal { display: none; }
   .units { grid-template-columns: repeat(2, 1fr); }
-  .player { grid-template-columns: 1fr; }
-  .playlist { flex-direction: row; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 4px; }
-  .playlist li { flex: 0 0 auto; scroll-snap-align: start; }
-  .pl { width: auto; flex-direction: column; align-items: flex-start; gap: 6px; }
-  .pl img { width: 150px; }
   .cta-in { grid-template-columns: 1fr; }
   .cta-copy { padding-bottom: 10px; }
   .cta-art { max-width: 480px; width: 100%; margin: 0 auto; }
