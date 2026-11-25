@@ -1,6 +1,7 @@
 /* After every game or video, a short survey pops up — one per item, the same form for all (user 2026-11-25).
    Games open in a new tab: the survey shows when the parent comes back to this page.
    Videos: the survey shows when a video ends (each chant separately; the next one waits until the survey closes).
+   Faces are Fluent Emoji 3D (Microsoft, MIT — assets/img/emoji3d/SOURCE.txt), each with its own motion in survey.css.
    Answers are NOT sent anywhere yet ("화면만 먼저"): they stay in this browser (localStorage 'polySurvey.v1').
    Loaded after site.js on every concept page. */
 (() => {
@@ -25,20 +26,14 @@
       <fieldset class="sv-q">
         <legend>아이가 재미있어 했나요?</legend>
         <div class="sv-faces" role="radiogroup">
-          ${[['1', '😣', '전혀요'], ['2', '🙁', '별로'], ['3', '🙂', '보통'], ['4', '😀', '좋아했어요'], ['5', '🤩', '아주 좋아했어요']]
-            .map(([v, f, t]) => `<label><input type="radio" name="fun" value="${v}" required><span class="sv-face" aria-hidden="true">${f}</span><span class="sv-t">${t}</span></label>`).join('')}
+          ${[['1', '전혀요'], ['2', '별로'], ['3', '보통'], ['4', '좋아했어요'], ['5', '아주 좋아했어요']]
+            .map(([v, t]) => `<label class="f${v}"><input type="radio" name="fun" value="${v}" required><img class="sv-face" src="assets/img/emoji3d/fun-${v}.webp" width="72" height="72" alt="" aria-hidden="true"><span class="sv-t">${t}</span></label>`).join('')}
         </div>
       </fieldset>
       <fieldset class="sv-q">
         <legend>난이도는 어땠나요?</legend>
         <div class="sv-chips">
           ${['쉬웠어요', '적당했어요', '어려웠어요'].map(t => `<label><input type="radio" name="level" value="${t}"><span>${t}</span></label>`).join('')}
-        </div>
-      </fieldset>
-      <fieldset class="sv-q">
-        <legend>아이 나이</legend>
-        <div class="sv-chips">
-          ${['5세', '6세', '7세', '기타'].map(t => `<label><input type="radio" name="age" value="${t}"><span>${t}</span></label>`).join('')}
         </div>
       </fieldset>
       <label class="sv-q sv-note">
@@ -48,11 +43,11 @@
       <p class="sv-err" id="svErr" role="alert"></p>
       <div class="sv-actions">
         <button class="sv-later" type="button" value="later">다음에 할게요</button>
-        <button class="sv-send" type="submit">의견 보내기</button>
+        <button class="sv-send" type="submit">의견 보내기<span class="sv-go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></button>
       </div>
     </form>
     <div class="sv-card sv-thanks" hidden>
-      <span class="sv-big" aria-hidden="true">🎉</span>
+      <img class="sv-big" src="assets/img/emoji3d/party.webp" width="96" height="96" alt="" aria-hidden="true">
       <h2>고마워요!</h2>
       <p>남겨 주신 의견은 수업을 다듬는 데 참고할게요.</p>
       <div class="sv-actions">
@@ -94,7 +89,7 @@
     const fd = new FormData(form);
     if (!fd.get('fun')) { err.textContent = '아이가 재미있어 했는지 하나만 골라 주세요.'; dlg.querySelector('.sv-faces input').focus(); return; }
     save({ page: PAGE, id: current.id, title: current.title, type: current.type, fun: +fd.get('fun'),
-      level: fd.get('level') || '', age: fd.get('age') || '', note: (fd.get('note') || '').trim(), at: new Date().toISOString() });
+      level: fd.get('level') || '', note: (fd.get('note') || '').trim(), at: new Date().toISOString() });
     form.hidden = true; thanks.hidden = false;
     thanks.querySelector('.sv-later').focus();
   });

@@ -177,3 +177,42 @@
     });
   });
 })();
+
+/* 1분 맛보기: the lesson on a tablet, one screen at a time. The 소리 → 단어 → 문장 strip above is its stepper. */
+(() => {
+  const screen = document.getElementById('tabScreen'); if (!screen) return;
+  const pages = [...screen.querySelectorAll('.ts-page')], last = pages.length - 1;
+  const steps = [...document.querySelectorAll('.grow [data-go]')];
+  const dots = [...screen.querySelectorAll('.ts-dots i')];
+  const prev = document.getElementById('tsPrev'), next = document.getElementById('tsNext');
+  const title = document.getElementById('tsTitle'), now = document.getElementById('tsNow');
+  const nextText = [...next.childNodes].find(n => n.nodeType === 3);
+  let cur = 0;
+  function go(i) {
+    cur = Math.max(0, Math.min(last, i));
+    pages.forEach((p, k) => { p.classList.toggle('is-on', k === cur); p.classList.toggle('is-before', k < cur); p.inert = k !== cur; });
+    steps.forEach((b, k) => k === cur ? b.setAttribute('aria-current', 'step') : b.removeAttribute('aria-current'));
+    dots.forEach((d, k) => d.classList.toggle('is-on', k === cur));
+    title.textContent = pages[cur].dataset.title;
+    now.textContent = cur + 1;
+    prev.disabled = cur === 0;
+    nextText.textContent = cur === last ? '처음으로' : '다음';
+    next.classList.remove('is-cue');
+  }
+  next.addEventListener('click', () => go(cur === last ? 0 : cur + 1));
+  prev.addEventListener('click', () => go(cur - 1));
+  steps.forEach(b => b.addEventListener('click', () => go(+b.dataset.go)));
+  // nudge the parent on once a screen is done: the sound was heard / all four /m/ pictures found
+  const cue = k => { if (cur === k) next.classList.add('is-cue'); };
+  screen.querySelector('.ts-sound .big-tile').addEventListener('click', () => setTimeout(() => cue(0), 900));
+  const msg = document.getElementById('sortMsg');
+  new MutationObserver(() => { if (msg.classList.contains('win')) cue(1); }).observe(msg, { attributes: true, attributeFilter: ['class'] });
+  // swipe like a real tablet
+  let sx = 0, sy = 0;
+  screen.addEventListener('touchstart', e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+  screen.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) go(cur + (dx < 0 ? 1 : -1));
+  }, { passive: true });
+  go(0);
+})();
