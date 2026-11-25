@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Fredoka:wght@500;600;700&display=swap">
-<link rel="stylesheet" href="assets/css/concept-c.css?v=f50177d8">
+<link rel="stylesheet" href="assets/css/concept-c.css?v=45d57fe4">
 </head>
 <body>
 
@@ -100,9 +100,9 @@
         <span class="ground-shadow gs-bobo" aria-hidden="true"></span>
         <span class="ground-shadow gs-nunu" aria-hidden="true"></span>
         <span class="ground-shadow gs-tata" aria-hidden="true"></span>
-        <img class="stk-char sc-bobo" src="assets/img/concept-c/bobo-jump.webp" width="761" height="942" alt="">
-        <img class="stk-char sc-nunu" src="assets/img/concept-c/nunu-jump.webp" width="836" height="944" alt="">
-        <img class="stk-char sc-tata" src="assets/img/concept-c/tata-jump.webp" width="768" height="954" alt="">
+        <span class="stk-char sc-bobo char"><img src="assets/img/concept-c/bobo-jump.webp" width="761" height="942" alt=""><i class="lid" style="--x:32.39%;--y:25.3%;--w:14.73%;--h:13.18%;--skin:#2c74f3"></i><i class="lid" style="--x:54.69%;--y:23.03%;--w:13.49%;--h:12.44%;--skin:#2b6fee"></i></span>
+        <span class="stk-char sc-nunu char"><img src="assets/img/concept-c/nunu-jump.webp" width="836" height="944" alt=""><i class="lid" style="--x:36.59%;--y:28.28%;--w:11.15%;--h:8.6%;--skin:#ffce34"></i><i class="lid" style="--x:55.81%;--y:26.07%;--w:10.02%;--h:8.48%;--skin:#fecc32"></i></span>
+        <span class="stk-char sc-tata char"><img src="assets/img/concept-c/tata-jump.webp" width="768" height="954" alt=""><i class="lid" style="--x:33.04%;--y:26.1%;--w:14.14%;--h:12.16%;--skin:#fd8019"></i><i class="lid" style="--x:57.26%;--y:23.71%;--w:14.14%;--h:11.92%;--skin:#fe8019"></i></span>
       </div>
       <div class="bubble" aria-hidden="true">m… m… <b>milk!</b></div>
       <button class="sound-chip" type="button" data-say="m" aria-label="/m/ 소리 들어보기">
@@ -137,7 +137,7 @@
     <div class="why-head">
       <p class="reveal"><span class="tag t-blue">Why Phonics</span></p>
       <h2 id="why-title" class="h2 reveal" style="--i:1">글자 이름보다<br>소리를 먼저 만나요</h2>
-      <p class="lead reveal" style="--i:2">‘에이, 비, 씨’ 이름만 외워서는 단어를 읽을 수 없어요. 파닉스는 글자마다 어떤 소리가 나는지 익혀, 처음 보는 단어도 스스로 소리 내어 읽게 하는 방법입니다.</p>
+      <p class="lead reveal" style="--i:2">‘에이, 비, 씨’ 이름만 외워서는 단어를 읽을 수 없어요.<br>파닉스는 글자마다 어떤 소리가 나는지 익혀, 처음 보는 단어도 스스로 소리 내어 읽게 하는 방법입니다.</p>
       <div class="eq reveal" style="--i:3" aria-label="m 더하기 a 더하기 p 는 map">
         <span class="lt lt-in t-white">m</span><span class="op">+</span><span class="lt lt-in t-orange">a</span><span class="op">+</span><span class="lt lt-in t-white">p</span><span class="op">=</span><span class="eq-word">map</span>
       </div>
@@ -164,8 +164,8 @@
   <div class="wrap">
     <div class="sec-head center">
       <p class="reveal"><span class="tag t-white">Curriculum</span></p>
-      <h2 id="cur-title" class="h2 reveal" style="--i:1">5세 1년,<br>소리를 하나씩 차근차근</h2>
-      <p class="lead reveal" style="--i:2">Level K는 6개 Unit, 30개 레슨입니다. Unit마다 다섯 소리를 배우고, 단모음으로 묶어 단어 읽기의 기초를 다집니다.</p>
+      <h2 id="cur-title" class="h2 reveal" style="--i:1"><span id="curYear">5세 1년,</span><br><span id="curHead">소리를 하나씩 차근차근</span></h2>
+      <p class="lead reveal" id="curLead" style="--i:2">Level K는 6개 Unit, 30개 레슨입니다.<br>Unit마다 다섯 소리를 배우고, 단모음으로 묶어 단어 읽기의 기초를 다집니다.</p>
     </div>
 
     <div class="levels reveal" style="--i:3" role="tablist" aria-label="연령별 과정">
@@ -178,7 +178,7 @@
     <p class="level-note" id="levelNote" aria-live="polite">지금 보고 있는 과정 · <b>5세 Level K</b> — 입학 첫 레슨은 <b>Lesson 1 · Mm</b>입니다.</p>
 
     <div class="units-scroll">
-      <div class="units">
+      <div class="units" data-level="k">
         <article class="stk unit u-blue reveal" style="--i:0">
           <div class="unit-band"><span class="unit-no"><small>Unit</small>1</span><span class="unit-theme">Short a · 짧은 a</span></div>
           <div class="unit-tiles"><span class="lt lt-sm">M</span><span class="lt lt-sm t-orange">A</span><span class="lt lt-sm">S</span><span class="lt lt-sm">T</span><span class="lt lt-sm">P</span></div>
@@ -210,6 +210,70 @@
           <div class="unit-foot"><span>Lesson 26–30 · 다음은 6세 Level A</span></div>
         </article>
       </div>
+      <div class="units units-lv" data-level="a" hidden>
+        <article class="stk unit u-blue" style="--i:0">
+          <div class="unit-band"><span class="unit-no"><small>Unit</small>1</span><span class="unit-theme">Short vowels · 짧은 모음</span></div>
+          <div class="unit-tiles"><span class="lt lt-sm t-orange">a</span><span class="lt lt-sm t-orange">i</span><span class="lt lt-sm t-orange">o</span><span class="lt lt-sm t-orange">u</span><span class="lt lt-sm t-orange">e</span></div>
+          <div class="unit-foot"><span>Lesson 1–5</span><span class="unit-read" lang="en">“My Cat”</span></div>
+        </article>
+        <article class="stk unit u-orange" style="--i:1">
+          <div class="unit-band"><span class="unit-no"><small>Unit</small>2</span><span class="unit-theme">Blends · 자음 묶음</span></div>
+          <div class="unit-tiles"><span class="lt lt-sm lt-wide">bl</span><span class="lt lt-sm lt-wide">st</span><span class="lt lt-sm lt-wide">tr</span><span class="lt lt-sm lt-wide">sh</span><span class="lt lt-sm lt-wide">ch</span><span class="lt lt-sm lt-wide">ng</span></div>
+          <div class="unit-foot"><span>Lesson 6–11</span><span class="unit-read" lang="en">“The Plan for the Play”</span></div>
+        </article>
+        <article class="stk unit u-teal" style="--i:2">
+          <div class="unit-band"><span class="unit-no"><small>Unit</small>3</span><span class="unit-theme">Final e · 끝소리 e</span></div>
+          <div class="unit-tiles"><span class="lt lt-sm lt-wide t-orange">a_e</span><span class="lt lt-sm lt-wide t-orange">i_e</span><span class="lt lt-sm lt-wide t-orange">o_e</span><span class="lt lt-sm lt-wide t-orange">u_e</span></div>
+          <div class="unit-foot"><span>Lesson 12–13</span><span class="unit-read" lang="en">“The Plane Ride”</span></div>
+        </article>
+        <article class="stk unit u-yellow" style="--i:3">
+          <div class="unit-band"><span class="unit-no"><small>Unit</small>4</span><span class="unit-theme">Long vowels · 긴 모음</span></div>
+          <div class="unit-tiles"><span class="lt lt-sm lt-wide t-orange">ai</span><span class="lt lt-sm lt-wide t-orange">ee</span><span class="lt lt-sm lt-wide t-orange">oa</span><span class="lt lt-sm lt-wide t-orange">igh</span><span class="lt lt-sm lt-wide t-orange">ew</span></div>
+          <div class="unit-foot"><span>Lesson 14–19</span><span class="unit-read" lang="en">“Bo&#x27;s First Day”</span></div>
+        </article>
+        <article class="stk unit u-mint" style="--i:4">
+          <div class="unit-band"><span class="unit-no"><small>Unit</small>5</span><span class="unit-theme">r-vowels · 이중모음</span></div>
+          <div class="unit-tiles"><span class="lt lt-sm lt-wide t-orange">ar</span><span class="lt lt-sm lt-wide t-orange">er</span><span class="lt lt-sm lt-wide t-orange">or</span><span class="lt lt-sm lt-wide t-orange">oo</span><span class="lt lt-sm lt-wide t-orange">ou</span><span class="lt lt-sm lt-wide t-orange">oi</span></div>
+          <div class="unit-foot"><span>Lesson 20–27</span><span class="unit-read" lang="en">“Art Day”</span></div>
+        </article>
+        <article class="stk unit u-navy" style="--i:5">
+          <div class="unit-band"><span class="unit-no"><small>Unit</small>6</span><span class="unit-theme">More long vowels · 긴 모음 심화</span></div>
+          <div class="unit-tiles"><span class="lt lt-sm lt-wide t-orange">ild</span><span class="lt lt-sm lt-wide t-orange">old</span><span class="lt lt-sm lt-wide t-orange">ie</span><span class="lt lt-sm lt-wide t-orange">oe</span><span class="lt lt-sm lt-wide t-orange">ey</span></div>
+          <div class="unit-foot"><span>Lesson 28–30</span><span class="unit-read" lang="en">“A Good Pet”</span></div>
+        </article>
+      </div>
+      <div class="units units-lv" data-level="b" hidden>
+        <article class="stk unit u-blue" style="--i:0">
+          <div class="unit-band"><span class="unit-no"><small>Unit</small>1</span><span class="unit-theme">Syllables · 음절 읽기</span></div>
+          <div class="unit-tiles"><span class="lt lt-sm lt-wide">cvc</span><span class="lt lt-sm lt-wide">le</span><span class="lt lt-sm lt-wide">bl</span><span class="lt lt-sm lt-wide">st</span></div>
+          <div class="unit-foot"><span>Lesson 1–5</span><span class="unit-read" lang="en">“Ben&#x27;s Tips for Good Health”</span></div>
+        </article>
+        <article class="stk unit u-orange" style="--i:1">
+          <div class="unit-band"><span class="unit-no"><small>Unit</small>2</span><span class="unit-theme">Final e · 이중자음</span></div>
+          <div class="unit-tiles"><span class="lt lt-sm lt-wide t-orange">a_e</span><span class="lt lt-sm lt-wide">sh</span><span class="lt lt-sm lt-wide">ch</span><span class="lt lt-sm lt-wide">wh</span><span class="lt lt-sm lt-wide">ph</span></div>
+          <div class="unit-foot"><span>Lesson 6–9</span><span class="unit-read" lang="en">“Pine Cones”</span></div>
+        </article>
+        <article class="stk unit u-teal" style="--i:2">
+          <div class="unit-band"><span class="unit-no"><small>Unit</small>3</span><span class="unit-theme">Long vowels · 긴 모음</span></div>
+          <div class="unit-tiles"><span class="lt lt-sm lt-wide t-orange">ai</span><span class="lt lt-sm lt-wide t-orange">ee</span><span class="lt lt-sm lt-wide t-orange">igh</span><span class="lt lt-sm lt-wide t-orange">oa</span><span class="lt lt-sm lt-wide t-orange">ue</span></div>
+          <div class="unit-foot"><span>Lesson 10–17</span><span class="unit-read" lang="en">“Busy as a Beaver”</span></div>
+        </article>
+        <article class="stk unit u-yellow" style="--i:3">
+          <div class="unit-band"><span class="unit-no"><small>Unit</small>4</span><span class="unit-theme">r-vowels · r 모음</span></div>
+          <div class="unit-tiles"><span class="lt lt-sm lt-wide t-orange">ar</span><span class="lt lt-sm lt-wide t-orange">ur</span><span class="lt lt-sm lt-wide t-orange">or</span><span class="lt lt-sm lt-wide t-orange">air</span></div>
+          <div class="unit-foot"><span>Lesson 18–23</span><span class="unit-read" lang="en">“Star Party”</span></div>
+        </article>
+        <article class="stk unit u-mint" style="--i:4">
+          <div class="unit-band"><span class="unit-no"><small>Unit</small>5</span><span class="unit-theme">Diphthongs · 이중모음</span></div>
+          <div class="unit-tiles"><span class="lt lt-sm lt-wide t-orange">oo</span><span class="lt lt-sm lt-wide t-orange">ou</span><span class="lt lt-sm lt-wide t-orange">oi</span><span class="lt lt-sm lt-wide t-orange">aw</span></div>
+          <div class="unit-foot"><span>Lesson 24–28</span><span class="unit-read" lang="en">“Toy Drive!”</span></div>
+        </article>
+        <article class="stk unit u-navy" style="--i:5">
+          <div class="unit-band"><span class="unit-no"><small>Unit</small>6</span><span class="unit-theme">Syllable types · 음절 유형</span></div>
+          <div class="unit-tiles"><span class="lt lt-sm lt-wide">VC</span><span class="lt lt-sm lt-wide">CV</span><span class="lt lt-sm lt-wide">VCe</span><span class="lt lt-sm lt-wide">VV</span><span class="lt lt-sm">r</span><span class="lt lt-sm lt-wide">le</span></div>
+          <div class="unit-foot"><span>Lesson 29–30</span><span class="unit-read" lang="en">“Mission to Mars”</span></div>
+        </article>
+      </div>
     </div>
   </div>
 </section>
@@ -222,7 +286,7 @@
         <p class="reveal"><span class="tag t-yellow">Lesson Flow</span></p>
         <h2 id="flow-title" class="h2 reveal" style="--i:1">한 레슨은<br>이렇게 흘러가요</h2>
       </div>
-      <p class="lead reveal" style="--i:2">Lesson 1 · Mm 수업을 예로 들었어요. 그림으로 뜻을 먼저 알고, 노래로 소리를 듣고, 교재로 글자를 만나고, 게임으로 다시 말해 봅니다.</p>
+      <p class="lead reveal" style="--i:2">Lesson 1 · Mm 수업을 예로 들었어요.<br>그림으로 뜻을 먼저 알고, 노래로 소리를 듣고, 교재로 글자를 만나고, 게임으로 다시 말해 봅니다.</p>
     </div>
 
     <ol class="steps">
@@ -276,7 +340,7 @@
     <div class="sec-head center">
       <p class="reveal"><span class="tag t-yellow">Try Lesson 1</span></p>
       <h2 id="taste-title" class="h2 h2-pop reveal" style="--i:1">1분 맛보기 · Lesson 1 Mm</h2>
-      <p class="lead reveal" style="--i:2">교재 첫 레슨 활동을 그대로 옮겼어요. 소리는 모두 교재 공식 녹음입니다. 아이와 함께 눌러 보세요.</p>
+      <p class="lead reveal" style="--i:2">교재 첫 레슨 활동을 그대로 옮겨 왔어요.<br>그림과 글자를 눌러 아이와 함께 소리를 들어 보세요.</p>
     </div>
 
     <div class="taste-grid">
@@ -490,7 +554,6 @@
   <div class="wrap foot-in">
     <div class="foot-brand">
       <a class="brand" href="#top"><span class="brand-mark logo-die" aria-hidden="true"></span><span class="brand-word"><b>POLY</b> Phonics</span></a>
-      <p class="foot-note">From Phonics to Reading K 기반 · 체험 콘텐츠: Constella 정규 수업 · G&#8209;Learning · Phonics POND</p>
     </div>
     <nav class="foot-ask" aria-label="입학 문의와 홈페이지">
       <ul class="foot-links">
@@ -505,6 +568,6 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="assets/js/site.js?v=9f7f0e73" defer></script>
-<script src="assets/js/concept-c.js?v=e9af2d73" defer></script>
+<script src="assets/js/concept-c.js?v=f71d446c" defer></script>
 </body>
 </html>
