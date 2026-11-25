@@ -1,0 +1,76 @@
+/* Shared survey popup (assets/js/survey.js). Colours come from each concept's own tokens
+   (A: --navy/--blue…, B/C/D: --c-navy/--c-blue…); C adds its sticker border + hard shadow at the end of concept-c.css. */
+:root {
+  --sv-ink: var(--c-navy, var(--navy, #1C315A));
+  --sv-ink-2: var(--c-ink-2, var(--ink-2, #3A4466));
+  --sv-muted: var(--c-muted, var(--muted, #6A7493));
+  --sv-accent: var(--c-blue, var(--blue, #1B64E8));
+  --sv-accent-soft: var(--c-blue-100, var(--blue-pale, #E2ECFF));
+  --sv-warm: var(--c-yellow, var(--yellow, #FFD23F));
+  --sv-card: #FFFFFF;
+  --sv-line: rgba(28, 49, 90, .14);
+  --sv-dim: rgba(17, 29, 56, .55);
+  --sv-radius: 28px;
+  --sv-border: 0 solid transparent;
+  --sv-shadow: 0 30px 80px -24px rgba(17, 29, 56, .55);
+  --sv-ease: cubic-bezier(.16, 1, .3, 1);
+}
+.sv { width: min(520px, calc(100% - 32px)); max-height: calc(100dvh - 32px); padding: 0; border: 0; background: transparent; overflow: visible; color: var(--sv-ink); }
+.sv::backdrop { background: var(--sv-dim); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+.sv.is-in .sv-card { animation: svIn .5s var(--sv-ease); }
+@keyframes svIn { from { opacity: 0; transform: translateY(24px) scale(.97); } to { opacity: 1; transform: none; } }
+.sv-card { position: relative; display: flex; flex-direction: column; gap: 18px; max-height: calc(100dvh - 32px); overflow: auto;
+  padding: 28px 26px 22px; border-radius: var(--sv-radius); background: var(--sv-card); border: var(--sv-border); box-shadow: var(--sv-shadow); }
+.sv-card[hidden] { display: none; }
+.sv-x { position: absolute; top: 14px; right: 14px; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center;
+  border: 0; background: var(--sv-accent-soft); color: var(--sv-ink); cursor: pointer; }
+.sv-x svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
+.sv-head { padding-right: 40px; }
+.sv-kind { display: inline-block; padding: 3px 11px; border-radius: 999px; background: var(--sv-warm); color: var(--sv-ink); font-size: 12px; font-weight: 800; }
+.sv-head h2 { margin: 10px 0 6px; font-size: 22px; font-weight: 800; line-height: 1.3; letter-spacing: -0.03em; color: var(--sv-ink); word-break: keep-all; }
+.sv-head h2 b { color: var(--sv-accent); }
+.sv-head p { margin: 0; font-size: 14px; color: var(--sv-muted); }
+.sv-q { margin: 0; padding: 0; border: 0; min-width: 0; }
+.sv-q legend, .sv-legend { display: block; margin-bottom: 10px; font-size: 15px; font-weight: 800; color: var(--sv-ink); }
+.sv-legend small { font-weight: 600; color: var(--sv-muted); }
+.sv-faces { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.sv-faces label { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 2px 6px; border-radius: 16px; cursor: pointer;
+  border: 2px solid var(--sv-line); transition: transform .3s var(--sv-ease), border-color .3s var(--sv-ease), background-color .3s var(--sv-ease); }
+.sv-face { font-size: 30px; line-height: 1; filter: grayscale(.6); transition: filter .3s var(--sv-ease), transform .3s var(--sv-ease); }
+.sv-t { font-size: 11px; font-weight: 700; color: var(--sv-muted); text-align: center; line-height: 1.2; word-break: keep-all; }
+.sv-faces label:hover { transform: translateY(-2px); }
+.sv-faces label:hover .sv-face { filter: none; }
+.sv-faces label:has(input:checked) { border-color: var(--sv-accent); background: var(--sv-accent-soft); }
+.sv-faces label:has(input:checked) .sv-face { filter: none; transform: scale(1.15); }
+.sv-faces label:has(input:checked) .sv-t { color: var(--sv-ink); }
+.sv input[type=radio] { position: absolute; opacity: 0; pointer-events: none; }
+.sv-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.sv-chips span { display: inline-block; padding: 9px 16px; border-radius: 999px; border: 2px solid var(--sv-line); font-size: 14px; font-weight: 700; color: var(--sv-ink-2); cursor: pointer;
+  transition: background-color .3s var(--sv-ease), border-color .3s var(--sv-ease), color .3s var(--sv-ease); }
+.sv-chips label:has(input:checked) span { background: var(--sv-ink); border-color: var(--sv-ink); color: #FFFFFF; }
+.sv input:focus-visible + .sv-face, .sv input:focus-visible + span { outline: 3px solid var(--sv-accent); outline-offset: 3px; border-radius: 12px; }
+.sv-note textarea { width: 100%; box-sizing: border-box; resize: vertical; min-height: 64px; padding: 12px 14px; border-radius: 16px; border: 2px solid var(--sv-line);
+  font: inherit; font-size: 14px; color: var(--sv-ink); background: #FFFFFF; }
+.sv-note textarea:focus { outline: none; border-color: var(--sv-accent); }
+.sv-err { margin: -6px 0 0; min-height: 1.2em; font-size: 13px; font-weight: 700; color: var(--sv-accent); }
+.sv-actions { display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+.sv-later, .sv-send { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 20px; border-radius: 999px; font: inherit;
+  font-size: 15px; font-weight: 800; cursor: pointer; text-decoration: none; transition: transform .3s var(--sv-ease), background-color .3s var(--sv-ease); }
+.sv-later { border: 2px solid var(--sv-line); background: #FFFFFF; color: var(--sv-ink-2); }
+.sv-send { border: 0; background: var(--sv-accent); color: #FFFFFF; }
+.sv-later:hover, .sv-send:hover { transform: translateY(-2px); }
+.sv-thanks { align-items: center; text-align: center; padding: 36px 26px 26px; }
+.sv-big { font-size: 54px; line-height: 1; }
+.sv-thanks h2 { margin: 0; font-size: 24px; font-weight: 800; color: var(--sv-ink); }
+.sv-thanks p { margin: 0; color: var(--sv-muted); font-size: 15px; }
+.sv-thanks .sv-actions { justify-content: center; }
+@media (max-width: 480px) {
+  .sv-card { padding: 24px 18px 18px; gap: 16px; }
+  .sv-head h2 { font-size: 19px; }
+  .sv-face { font-size: 26px; }
+  .sv-t { font-size: 10px; }
+  .sv-actions { flex-direction: column-reverse; }
+  .sv-later, .sv-send { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) { .sv.is-in .sv-card { animation: none; } }
+@media print { .sv { display: none !important; } }

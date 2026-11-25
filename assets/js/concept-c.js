@@ -82,3 +82,68 @@
     document.querySelectorAll('.mg').forEach(m => m.classList.toggle('is-hidden', f.dataset.f !== 'all' && m.dataset.kind !== f.dataset.f));
   }));
 })();
+
+/* Lesson flow board: a dotted road through the numbered tokens in step order, a U-turn between rows,
+   START before 01 and a goal flag after 06. Redrawn from the token positions on resize. */
+(() => {
+  const ol = document.querySelector('.flow .steps'); if (!ol) return;
+  const NS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(NS, 'svg'); svg.setAttribute('class', 'flow-path'); svg.setAttribute('aria-hidden', 'true');
+  ol.prepend(svg);
+  const draw = () => {
+    const box = ol.getBoundingClientRect();
+    const t = [...ol.querySelectorAll('.token')].map(el => {
+      const r = el.getBoundingClientRect();
+      return { cx: r.left - box.left + r.width / 2, cy: r.top - box.top + r.height / 2, r: r.width / 2 };
+    });
+    if (t.length < 2) return;
+    let d = `M${t[0].cx} ${t[0].cy}`;
+    for (let i = 1; i < t.length; i++) {
+      const a = t[i - 1], b = t[i];
+      if (Math.abs(b.cx - a.cx) < 4 && Math.abs(b.cy - a.cy) > 4 && t.some(o => Math.abs(o.cy - a.cy) < 4 && o !== a)) {
+        // same column, next row (desktop U-turn on the outside edge)
+        const right = a.cx > box.width / 2, out = (right ? 1 : -1) * Math.max(a.r + 34, 70);
+        d += ` C${a.cx + out} ${a.cy} ${b.cx + out} ${b.cy} ${b.cx} ${b.cy}`;
+      } else d += ` L${b.cx} ${b.cy}`;
+    }
+    const f = t[t.length - 1], s0 = t[0];
+    const vertical = Math.abs(t[1].cx - s0.cx) < 4;
+    const flag = vertical ? { x: f.cx, y: f.cy + f.r + 18 } : { x: f.cx - f.r - 46, y: f.cy };
+    d += ` L${flag.x} ${flag.y}`;
+    const start = vertical ? { x: s0.cx, y: s0.cy - s0.r - 6 } : { x: s0.cx - s0.r - 58, y: s0.cy };
+    svg.setAttribute('viewBox', `0 0 ${box.width} ${box.height + 60}`);
+    svg.style.height = (box.height + 60) + 'px';
+    const road = `M${start.x} ${start.y} L${s0.cx} ${s0.cy}` + d.replace(/^M[^LC]*/, ' ');
+    svg.innerHTML = `<path class="road" d="${road}"/>`
+      + (vertical ? '' : `<text class="fp-label" x="${start.x - 6}" y="${start.y - 14}" text-anchor="start">START</text>`)
+      + `<path class="fp-flag-pole" d="M${flag.x} ${flag.y} V${flag.y - 46}"/><path class="fp-flag" d="M${flag.x} ${flag.y - 46} l30 9 -30 11Z"/>`;
+  };
+  draw();
+  addEventListener('resize', draw);
+  document.fonts && document.fonts.ready.then(draw);
+  new ResizeObserver(draw).observe(ol);
+})();
+
+/* Hero friends: lean toward the pointer (desktop) and cheer when tapped (site.js plays the word). */
+(() => {
+  const art = document.querySelector('.hero-art'); if (!art) return;
+  const chars = [...art.querySelectorAll('.stk-char.char')];
+  if (matchMedia('(hover: hover)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    let raf = 0;
+    addEventListener('pointermove', e => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => chars.forEach(c => {
+        const r = c.getBoundingClientRect(), cx = r.left + r.width / 2;
+        const dx = Math.max(-1, Math.min(1, (e.clientX - cx) / (innerWidth * .5)));
+        c.style.transform = `skewX(${(-dx * 3).toFixed(2)}deg) rotate(${(dx * 4).toFixed(2)}deg)`;
+      }));
+    });
+  }
+  chars.forEach(c => {
+    const hit = c.querySelector('.char-hit'); if (!hit) return;
+    hit.addEventListener('click', () => {
+      c.classList.remove('is-cheer'); void c.offsetWidth; c.classList.add('is-cheer');
+      clearTimeout(c._t); c._t = setTimeout(() => c.classList.remove('is-cheer'), 1400);
+    });
+  });
+})();
