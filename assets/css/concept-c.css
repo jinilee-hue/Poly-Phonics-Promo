@@ -738,6 +738,33 @@ p { margin: 0; }
   .dice-cube, .ic-dot .ic, .brand-mark.logo-die { animation: none !important; }
 }
 
+/* G-Learning: the other six games, shown but locked (play in class) — user 2026-11-25 */
+.more-games { margin-top: clamp(34px, 4vw, 48px); }
+.mg-title { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 10px; margin-bottom: 16px; font-family: var(--f-disp); font-size: clamp(20px, 2vw, 24px); color: var(--c-navy); }
+.mg-title b { font-weight: inherit; color: var(--c-orange); -webkit-text-stroke: 1px var(--c-navy); paint-order: stroke fill; }
+.mg-title small { font-family: var(--f-kr); font-size: 14px; font-weight: 700; color: var(--c-muted); }
+.mg-title-ic { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--c-navy); color: var(--c-white); }
+.mg-title-ic .ic { width: 18px; height: 18px; }
+.mg-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+.mg { position: relative; display: flex; flex-direction: column; border: var(--bd); border-radius: 18px; background: var(--c-white); box-shadow: var(--hard-xs); overflow: hidden; }
+.mg.is-hidden { display: none; }
+.mg-shot { position: relative; display: block; border-bottom: var(--bd); }
+.mg-shot img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; filter: saturate(.65) brightness(.9); }
+.mg-lock { position: absolute; right: 8px; top: 8px; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--c-navy); color: var(--c-white); border: 2px solid var(--c-white); }
+.mg-lock .ic { width: 15px; height: 15px; }
+.mg-body { display: flex; flex-direction: column; gap: 2px; padding: 10px 12px 12px; }
+.mg-body b { font-family: var(--f-en); font-weight: 700; font-size: 15px; color: var(--c-navy); letter-spacing: 0; line-height: 1.2; }
+.mg-body small { font-size: 12px; font-weight: 700; color: var(--c-muted); }
+.mg-who { align-self: flex-start; margin-top: 6px; display: inline-flex; align-items: center; gap: 4px; padding: 2px 9px 2px 7px; border-radius: 999px; border: 2px solid var(--c-navy); font-size: 12px; font-weight: 800; }
+.mg-who .ic { width: 13px; height: 13px; stroke-width: 2.4; }
+.mg-who.solo { background: var(--c-white); color: var(--c-blue); }
+.mg-who.duo { background: var(--c-orange); color: var(--c-white); }
+@media (max-width: 1080px) { .mg-list { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 767px) {
+  .mg-list { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 2px 4px 8px; margin: 0 -4px; }
+  .mg { flex: 0 0 42%; scroll-snap-align: start; }
+}
+
 @media print {
   @page { size: A4 landscape; margin: 0; }
   html, body { -webkit-print-color-adjust: exact; print-color-adjust: exact; overflow: visible; }

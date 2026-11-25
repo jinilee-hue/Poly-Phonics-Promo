@@ -75,3 +75,10 @@
     if (shown) { shown.classList.remove('pop'); void shown.offsetWidth; shown.classList.add('pop'); shown.closest('.units-scroll')?.scrollTo({ left: 0 }); }
   }));
 })();
+
+/* G-Learning filter chips also filter the locked "more games" strip (site.js only handles the playable cards). */
+(() => {
+  document.querySelectorAll('.filter[data-f]').forEach(f => f.addEventListener('click', () => {
+    document.querySelectorAll('.mg').forEach(m => m.classList.toggle('is-hidden', f.dataset.f !== 'all' && m.dataset.kind !== f.dataset.f));
+  }));
+})();
