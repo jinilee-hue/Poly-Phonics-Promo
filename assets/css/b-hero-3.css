@@ -1,0 +1,140 @@
+/* 시안 B · 첫 화면 H3 「캐릭터 포스터」 — loaded after concept-b.css; only the hero changes.
+   Movie-poster key visual: the Classmate Friends large in front, Phonics Land receding behind them
+   (far layers softened = depth of field), letter stones floating around the cast like confetti. */
+:root {
+  --h3-mtn-1: #C9DBF3;
+  --h3-mtn-2: #BCD8EC;
+  --h3-tuft: #5DBB86;
+  --h3-flower-1: #FFFFFF;
+  --h3-flower-2: #FFE07A;
+  --h3-haze: rgba(255, 255, 255, .30);
+  --h3-glow: rgba(255, 255, 255, .55);
+  --h3-sh-0: rgba(28, 49, 90, .34);
+  --h3-sh-1: rgba(28, 49, 90, 0);
+  --h3-char-drop: rgba(28, 49, 90, .24);
+}
+
+.hero.h3 { background: linear-gradient(180deg, var(--sky-1) 0%, var(--sky-2) 42%, var(--sky-3) 66%); }
+
+/* ---------- sky ---------- */
+.h3 .sun { top: 9%; right: 7%; }
+.h3-cl1 { width: 9%; top: 8%; left: 47%; opacity: .95; }
+.h3-cl2 { width: 7%; top: 24%; right: 22%; opacity: .9; animation-duration: 21s; animation-delay: -7s; }
+.h3-cl3 { width: 5.5%; top: 31%; left: 51%; opacity: .7; animation-duration: 25s; animation-delay: -4s; }
+.h3-birds { top: 15%; left: 60%; width: 58px; }
+
+/* ---------- world: far → near ---------- */
+.h3-world { position: absolute; inset: 0; pointer-events: none; }
+.h3-world > svg:not(.h3-village) { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.h3-far { filter: blur(2px) saturate(.78); }
+.h3-far .mtn-1 { fill: var(--h3-mtn-1); }
+.h3-far .mtn-2 { fill: var(--h3-mtn-2); }
+.h3-far .h-far, .h3-mid .h-mid, .h3-near .h-near { /* fills come from concept-b (.h-far / .h-mid / .h-near) */ }
+.h3-mid { filter: blur(.9px) saturate(.9); }
+.h3-haze { position: absolute; left: 0; right: 0; top: 56%; height: 26%; background: linear-gradient(180deg, transparent 0%, var(--h3-haze) 45%, transparent 100%); }
+.h3-near .road { fill: url(#roadFill3); stroke: none; }
+.h3-near .tufts path { fill: var(--h3-tuft); }
+.h3-near .flowers circle:nth-child(odd) { fill: var(--h3-flower-1); }
+.h3-near .flowers circle:nth-child(even) { fill: var(--h3-flower-2); }
+#h3shadow .sh-0 { stop-color: var(--h3-sh-0); }
+#h3shadow .sh-1 { stop-color: var(--h3-sh-1); }
+
+/* village on the far hill between the copy and the cast: the road starts inside its yard (yard centre = road start 585,612 / 1440×900) */
+.h3-village { position: absolute; overflow: visible; filter: blur(1.1px) saturate(.85); }
+.h3-village .yard { fill: var(--road-far); }
+.h3-village .yard-in { fill: var(--road); opacity: .7; }
+.h3-village .wall { fill: var(--c-white); }
+.h3-village .h1 .roof { fill: var(--c-coral); }
+.h3-village .h2 .roof { fill: var(--c-blue); }
+.h3-village .h3 .roof { fill: var(--c-orange); }
+.h3-village .door { fill: var(--c-navy); opacity: .8; }
+.h3-village .win { fill: var(--c-yellow); }
+.h3-village .flag { fill: var(--c-yellow); stroke: var(--c-navy); stroke-width: 2; stroke-linejoin: round; }
+.h3-village .tree rect { fill: var(--c-navy); opacity: .55; }
+.h3-village .tree circle { fill: var(--hill-near); }
+.v-desk { left: 34.8%; width: 10.4%; top: calc(68% - 4.04vw); }
+.w-mob { display: none; }
+
+/* soft light behind the cast so they lift off the scenery */
+.h3-glow { position: absolute; right: 0; bottom: 4%; width: min(58vw, 1040px); aspect-ratio: 1.35; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(closest-side, var(--h3-glow), transparent 100%); z-index: 3; }
+
+/* ---------- the cast ---------- */
+.h3-cast { position: absolute; z-index: 4; left: auto; right: 1.4vw; bottom: 2.4%; width: min(54vw, 980px); aspect-ratio: 1000 / 676;
+  container-type: inline-size; transform-origin: 50% 100%; }
+.h3-cast.bop { animation: bop .7s var(--spring); }
+.ch { position: absolute; margin: 0; }
+.ch img { position: relative; z-index: 1; width: 100%; height: auto; transform-origin: 50% 100%;
+  filter: drop-shadow(0 18px 18px var(--h3-char-drop)); animation: h3bob 4.6s ease-in-out infinite; }
+.ch-bobo { left: 0; bottom: 6%; width: 37.1%; z-index: 1; }
+.ch-nunu { left: 57.2%; bottom: 5%; width: 42.8%; z-index: 1; }
+.ch-tata { left: 30.3%; bottom: 0; width: 39.4%; z-index: 2; }
+.ch-bobo img { animation-duration: 5.2s; animation-delay: -1.6s; --sw: -1.2deg; }
+.ch-nunu img { animation-duration: 5.8s; animation-delay: -3.1s; --sw: 1deg; }
+.ch-tata img { animation-duration: 4.2s; --sw: 1.4deg; }
+.ch-shadow { position: absolute; z-index: 0; left: 12%; right: 12%; bottom: -2%; height: 8%; border-radius: 50%;
+  background: radial-gradient(closest-side, var(--h3-sh-0), var(--h3-sh-1)); animation: h3shadow 4.6s ease-in-out infinite; }
+.ch-bobo .ch-shadow { animation-duration: 5.2s; animation-delay: -1.6s; }
+.ch-nunu .ch-shadow { animation-duration: 5.8s; animation-delay: -3.1s; }
+.ch-tata .ch-shadow { animation-duration: 4.2s; }
+
+/* letter stones floating around the cast like confetti, at different depths */
+.bub { position: absolute; display: grid; place-items: center; aspect-ratio: 1; background: var(--stone); color: var(--c-blue);
+  font-family: var(--f-en); font-weight: 700; line-height: 1; letter-spacing: 0;
+  border-radius: 46% 54% 48% 52% / 56% 58% 42% 44%; box-shadow: inset 0 -5px 0 var(--stone-edge), 0 14px 18px -10px var(--shade);
+  animation: h3float 6s ease-in-out infinite; pointer-events: none; }
+.b-a { left: 88%; top: -3%; width: 9.4cqw; font-size: 5.6cqw; color: var(--c-orange); z-index: 3; --r: 8deg; animation-delay: -1s; }
+.b-s { left: 21%; top: -3%; width: 6.4cqw; font-size: 3.8cqw; z-index: 0; filter: blur(1.1px); opacity: .92; --r: -8deg; animation-duration: 7.5s; animation-delay: -2s; }
+.b-t { left: 57%; top: -11%; width: 4.8cqw; font-size: 2.9cqw; z-index: 0; filter: blur(1.8px); opacity: .85; --r: 6deg; animation-duration: 8s; animation-delay: -5s; }
+.b-p { position: absolute; z-index: 2; left: 37.6%; top: 71.6%; width: clamp(20px, 1.9vw, 34px); font-size: clamp(12px, 1.15vw, 20px);
+  filter: blur(1.4px); opacity: .9; --r: 0deg; animation-duration: 9s; }
+
+/* the big M m stone = the /m/ button, sitting on the road in front */
+.h3-m { position: absolute; z-index: 5; left: 38.9%; top: 85.6%; width: clamp(100px, 9.6vw, 152px); height: clamp(86px, 8.3vw, 130px);
+  font-size: clamp(44px, 4.3vw, 68px); transform: translate(-50%, -50%) rotate(-4deg); transition: transform .5s var(--ease);
+  box-shadow: inset 0 -9px 0 var(--stone-edge), 0 24px 26px -14px var(--shade); }
+.h3-m:hover { transform: translate(-50%, -54%) rotate(-2deg) scale(1.05); }
+.h3-m.is-playing { animation: ripple 1s var(--ease); }
+
+/* ---------- copy: top-left, over the open sky ---------- */
+.h3-copy { position: absolute; z-index: 6; top: clamp(100px, 14vh, 150px); left: max(var(--gutter), calc((100% - 1360px) / 2));
+  width: clamp(420px, 44vw, 640px); text-align: left; }
+.h3 .hero-title { font-size: clamp(38px, 4.2vw, 64px); line-height: 1.16; }
+.h3 .hero-lead { margin: 18px 0 0; max-width: 470px; }
+.h3 .hero-cta { justify-content: flex-start; margin-top: 26px; }
+
+@keyframes h3bob { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-1.6%) rotate(var(--sw, 1deg)); } }
+@keyframes h3shadow { 0%, 100% { transform: scaleX(1); opacity: 1; } 50% { transform: scaleX(.9); opacity: .78; } }
+@keyframes h3float { 0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); } 50% { transform: translateY(-12px) rotate(calc(var(--r, 0deg) * -1)); } }
+
+/* ---------- tablet portrait / phone: copy on top, the cast below it (still big) ---------- */
+@media (max-width: 900px) {
+  .hero.h3 { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
+  .h3-copy { position: relative; top: auto; left: auto; width: auto; max-width: 640px; margin: 0 auto; padding: 96px var(--gutter) 0; text-align: center; }
+  .h3 .hero-lead { margin: 14px auto 0; }
+  .h3 .hero-cta { justify-content: center; }
+  .h3-cast { position: relative; order: 2; right: auto; bottom: auto; width: 116vw; margin: auto 0 1.5vh -8vw; }
+  .h3-copy { order: 1; }
+  .w-desk { display: none; }
+  .w-mob { display: block; }
+  .v-mob { left: 62.3%; width: 26%; top: calc(59.95% - 10.1vw); }
+  .h3-glow { right: -20vw; bottom: 0; width: 140vw; }
+  .h3-cl1 { width: 22%; top: 8%; left: 2%; }
+  .h3-cl2 { width: 16%; top: 45%; right: 2%; }
+  .h3-cl3, .h3-birds { display: none; }
+  .b-p { left: 66%; top: 64%; }
+  .b-a { left: 74%; top: -2%; }
+  .b-s { left: 16%; top: 2%; }
+  .b-t { left: 50%; top: -6%; }
+  .h3-m { left: 15%; top: auto; bottom: calc(78.4vw + 1.5vh + 6px); transform: translate(-50%, 0) rotate(-4deg); width: 80px; height: 68px; font-size: 36px; }
+  .h3-m:hover { transform: translate(-50%, -4%) rotate(-2deg) scale(1.05); }
+}
+@media (max-width: 767px) {
+  .h3-copy { padding-top: 90px; }
+  .h3 .hero-title { font-size: clamp(32px, 8.6vw, 42px); }
+  .h3 .hero-lead { font-size: 14.5px; }
+}
+
+@media print {
+  .h3-cast .ch img, .bub, .ch-shadow { animation: none !important; }
+}
