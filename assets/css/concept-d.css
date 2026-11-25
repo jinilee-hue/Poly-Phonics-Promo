@@ -705,3 +705,6 @@ p { margin: 0; }
   .try .group + .group { margin-top: 40px; }
   .card, .card:hover { transform: none; }
 }
+
+/* hero eyebrow removed (user 2026-11-25): keep the title off the nav on desktop */
+@media (min-width: 768px) { .hero { padding-top: 148px; } }
