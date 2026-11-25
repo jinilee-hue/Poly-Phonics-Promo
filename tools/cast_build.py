@@ -1,6 +1,6 @@
 """Per-concept character casts from the Phonics Land sheets (cutouts made with tools/cutout.py into FAM).
-A = Sound Seed Explorers, D = Little Big House (fur texture); B and C keep Classmate Friends (user 2026-11-25).
-Pocket Friends (cast-pocket) was tried on B and dropped; it stays in CAST so it can be rebuilt.
+A = Sound Seed Explorers; B, C and D keep Classmate Friends (user 2026-11-25).
+Pocket Friends (B) and Little Big House (C, D) were tried and dropped; they stay in CAST so they can be rebuilt.
 Roles keep the old file roles so layouts stay: blue (was Bobo), orange (was Tata), yellow (was Nunu), *-face, group.
 usage: uv run --with numpy --with scipy --with pillow python tools/cast_build.py FAM_DIR"""
 import sys, os

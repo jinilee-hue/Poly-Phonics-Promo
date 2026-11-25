@@ -241,7 +241,7 @@ p { margin: 0; }
 
 .hero-in { width: min(1300px, 100%); margin: 0 auto; padding: 0 var(--gutter); display: grid; grid-template-columns: 1.08fr .92fr; gap: clamp(24px, 4vw, 64px); align-items: center; position: relative; z-index: 1; }
 .hero-copy { position: relative; }
-.hero-title .nowrap { white-space: nowrap; }
+.hero-title .nowrap, .h2 .nowrap { white-space: nowrap; }
 .hero-title { font-size: clamp(42px, 5.1vw, 76px); line-height: 1.12; margin-top: 4px; }
 .hero-title .ct { text-shadow: none; }
 .hero-lead { margin-top: 22px; font-size: clamp(16px, 1.4vw, 18px); max-width: 520px; line-height: 1.75; }
@@ -310,9 +310,9 @@ p { margin: 0; }
 .equation { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 30px; flex-wrap: wrap; }
 .equation .op { font-family: var(--f-en); font-weight: 700; font-size: 28px; color: var(--muted); }
 .eq-word { font-family: var(--f-en); font-weight: 700; font-size: 50px; color: var(--navy); text-shadow: 0 2px 0 var(--navy-lo), 0 4px 0 var(--navy-lo), 0 12px 12px var(--drop); letter-spacing: 0; padding: 0 4px; }
-.plaques { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 104px; }
+.plaques { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 170px; }
 .plaque { position: relative; }
-.peek { position: absolute; left: 50%; top: -92px; width: 150px; transform: translateX(-50%) rotate(-3deg); z-index: 0; filter: drop-shadow(0 6px 6px var(--drop-soft)); transition: transform .6s var(--spring); }
+.peek { position: absolute; left: 50%; top: -158px; width: 160px; transform: translateX(-50%) rotate(-3deg); z-index: 0; filter: drop-shadow(0 6px 6px var(--drop-soft)); transition: transform .6s var(--spring); }
 .plaque:nth-child(2) .peek { transform: translateX(-50%) rotate(3deg); }
 .plaque:hover .peek { transform: translateX(-50%) translateY(-14px) rotate(0); }
 .plaque-body { position: relative; z-index: 1; padding: 34px 30px 32px; border-radius: 40px 44px 38px 42px; height: 100%; }
@@ -619,7 +619,7 @@ p { margin: 0; }
   .hero-in { grid-template-columns: 1fr; }
   .hero-copy { order: -1; }
   .diorama { max-width: 600px; margin: 0 auto; }
-  .plaques { grid-template-columns: 1fr; gap: 110px; max-width: 520px; margin-left: auto; margin-right: auto; }
+  .plaques { grid-template-columns: 1fr; gap: 170px; max-width: 520px; margin-left: auto; margin-right: auto; }
   .faq-grid { grid-template-columns: 1fr; }
   .faq-head { position: static; }
   .faq-stage { display: none; }

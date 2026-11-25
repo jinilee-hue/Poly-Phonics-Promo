@@ -5,8 +5,8 @@
 **시안 단계(2026-11-25)**: `index.html` → `concepts.html`(시안 비교)로 이동. 시안 = `concept-a.html`(3D 클레이 월드) · `concept-b.html`(모험 지도) · `concept-c.html`(팝 스티커) · `concept-d.html`(실제 화면 쇼케이스).
 모두 `assets/js/site.js`(소리·그림 찾기·영상·거르기·공유) 공용 + 시안별 css/js. 썸네일 `assets/img/concepts/` ← `~/.cache/agent-scratch/promo/thumbs.py`.
 빠진 시안: 처음 A(크림 무대)·처음 D(명조 잡지형) → `_archive/`.
-캐릭터(Phonics Land 시트, `tools/cast_build.py` → `assets/img/cast-*`): A = Sound Seed Explorers, D = Little Big House,
-B·C = Classmate Friends(보보·타타·누누, 그대로). B 첫 화면 후보: `b-heroes.html`(현재안 · H1 풍성한 마을 · H2 떠 있는 섬 · H3 캐릭터 포스터). 아래 표는 처음 A 기준 콘텐츠 출처(모든 시안 공통).
+캐릭터(Phonics Land 시트, `tools/cast_build.py` → `assets/img/cast-*`): A = Sound Seed Explorers,
+B·C·D = Classmate Friends(보보·타타·누누, 그대로). B 첫 화면 후보: `b-heroes.html`(현재안 · H1 풍성한 마을 · H2 떠 있는 섬 · H3 캐릭터 포스터). 아래 표는 처음 A 기준 콘텐츠 출처(모든 시안 공통).
 
 | 섹션 | 내용 · 출처 |
 |---|---|
