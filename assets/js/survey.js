@@ -28,13 +28,20 @@
         <legend>아이가 재미있어 했나요?</legend>
         <div class="sv-faces" role="radiogroup">
           ${[['1', '전혀요'], ['2', '별로'], ['3', '보통'], ['4', '좋아했어요'], ['5', '아주 좋아했어요']]
-            .map(([v, t]) => `<label class="f${v}"><input type="radio" name="fun" value="${v}" required><span class="sv-face" aria-hidden="true"><img src="assets/img/emoji3d/fun-${v}.webp?v=eyes1" alt="">${v === '2' || v === '3' || v === '4' ? `<img class="sv-lid" src="assets/img/emoji3d/fun-${v}-lid.webp?v=eyes1" alt="">` : ''}${v === '5' ? `<img class="sv-heart hl" src="assets/img/emoji3d/fun-5-heartL.webp?v=eyes1" alt=""><img class="sv-heart hr" src="assets/img/emoji3d/fun-5-heartR.webp?v=eyes1" alt="">` : ''}</span><span class="sv-t">${t}</span></label>`).join('')}
+            .map(([v, t]) => `<label class="f${v}"><input type="radio" name="fun" value="${v}" required><span class="sv-face" aria-hidden="true"><img src="assets/img/emoji3d/fun-${v}.webp?v=eyes3" alt="">${v === '2' || v === '3' || v === '4' ? `<img class="sv-lid" src="assets/img/emoji3d/fun-${v}-lid.webp?v=eyes3" alt="">` : ''}${v === '5' ? `<img class="sv-heart hl" src="assets/img/emoji3d/fun-5-heartL.webp?v=eyes3" alt=""><img class="sv-heart hr" src="assets/img/emoji3d/fun-5-heartR.webp?v=eyes3" alt="">` : ''}</span><span class="sv-t">${t}</span></label>`).join('')}
         </div>
       </fieldset>
       <fieldset class="sv-q">
         <legend>난이도는 어땠나요?</legend>
-        <div class="sv-chips sv-level">
-          ${['쉬웠어요', '적당했어요', '어려웠어요'].map((t, i) => `<label class="lv${i + 1}"><input type="radio" name="level" value="${t}"><span><i class="sv-meter" aria-hidden="true"><b></b><b></b><b></b></i>${t}</span></label>`).join('')}
+        <!-- difficulty: drag Bobo along the track (or tap a label) — user 2026-11-25 -->
+        <div class="sv-slide">
+          <div class="sv-track" aria-hidden="true">
+            <span class="sv-fill"></span><i class="sv-dot d1"></i><i class="sv-dot d2"></i><i class="sv-dot d3"></i>
+            <span class="sv-knob"><img src="assets/img/concept-c/bobo-face.webp" alt=""><i class="sv-sweat"></i><b class="sv-hint">끌어 보세요</b></span>
+          </div>
+          <div class="sv-stops" role="radiogroup">
+            ${['쉬웠어요', '적당했어요', '어려웠어요'].map((t, i) => `<label class="lv${i + 1}"><input type="radio" name="level" value="${t}"><span>${t}</span></label>`).join('')}
+          </div>
         </div>
       </fieldset>
       <label class="sv-q sv-note">
@@ -58,6 +65,18 @@
     </div>`;
   document.body.appendChild(dlg);
   const form = dlg.querySelector('form'), thanks = dlg.querySelector('.sv-thanks');
+  /* difficulty slider: drag or tap anywhere on the track; it snaps to 쉬웠어요 / 적당했어요 / 어려웠어요 */
+  const slide = dlg.querySelector('.sv-slide'), track = slide.querySelector('.sv-track');
+  const levels = [...slide.querySelectorAll('input[name=level]')];
+  const ratio = e => { const r = track.getBoundingClientRect(); return Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)); };
+  let dragging = false;
+  track.addEventListener('pointerdown', e => { dragging = true; track.setPointerCapture(e.pointerId); slide.classList.add('is-drag'); slide.style.setProperty('--drag', ratio(e)); });
+  track.addEventListener('pointermove', e => { if (dragging) slide.style.setProperty('--drag', ratio(e)); });
+  const drop = e => {
+    if (!dragging) return; dragging = false; slide.classList.remove('is-drag'); slide.style.removeProperty('--drag');
+    const k = Math.round(ratio(e) * 2); levels[k].checked = true; levels[k].dispatchEvent(new Event('change', { bubbles: true }));
+  };
+  track.addEventListener('pointerup', drop); track.addEventListener('pointercancel', drop);
   const err = dlg.querySelector('#svErr');
   let current = null, onClose = null;
   const queue = [];
@@ -65,7 +84,7 @@
   function open(item, after) {
     if (dlg.open) { queue.push([item, after]); return; }
     current = item; onClose = after || null;
-    form.reset(); err.textContent = '';
+    form.reset(); err.textContent = ''; slide.classList.remove('is-drag'); slide.style.removeProperty('--drag');
     form.hidden = false; thanks.hidden = true;
     dlg.querySelector('#svItem').textContent = item.title;
     dlg.querySelector('#svKind').textContent = item.type === 'video' ? '노래 · 영상' : '게임';

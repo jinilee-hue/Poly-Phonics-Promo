@@ -7,6 +7,8 @@
   --sv-accent: var(--c-blue, var(--blue, #1B64E8));
   --sv-accent-soft: var(--c-blue-100, var(--blue-pale, #E2ECFF));
   --sv-warm: var(--c-yellow, var(--yellow, #FFD23F));
+  --sv-easy: var(--c-teal, var(--teal, #14A3A8));
+  --sv-hard: var(--c-orange, var(--orange, #FF8A1F));
   --sv-card: #FFFFFF;
   --sv-line: rgba(28, 49, 90, .14);
   --sv-dim: rgba(17, 29, 56, .55);
@@ -47,7 +49,7 @@
 .sv-faces .f4 .sv-face { animation-delay: -1.8s; }
 .sv-faces .f5 .sv-face { animation-delay: -2.4s; }
 @keyframes svFloat { 0%, 100% { translate: 0 0; } 50% { translate: 0 -3px; } }
-.sv-t { font-size: 13px; font-weight: 700; color: var(--sv-muted); text-align: center; line-height: 1.25; word-break: keep-all; }
+.sv-t { display: flex; align-items: center; justify-content: center; min-height: 2.5em; font-size: 15.5px; font-weight: 800; color: var(--sv-ink-2); text-align: center; line-height: 1.25; word-break: keep-all; }   /* bigger labels (user 2026-11-25); two-line room keeps the boxes level */
 .sv-faces label:hover { transform: translateY(-2px); }
 /* faces: the whole figure moves from its base (no separate head — that opened gaps at the collar); eyes blink, hearts beat */
 .sv-face { position: relative; transform-origin: 50% 100%; }
@@ -80,20 +82,44 @@
 .sv-chips span { display: inline-block; padding: 11px 20px; border-radius: 999px; border: 2px solid var(--sv-line); font-size: 16px; font-weight: 700; color: var(--sv-ink-2); cursor: pointer;
   transition: background-color .3s var(--sv-ease), border-color .3s var(--sv-ease), color .3s var(--sv-ease), transform .3s var(--sv-ease); }
 .sv-chips label:has(input:checked) span { background: var(--sv-ink); border-color: var(--sv-ink); color: #FFFFFF; }
-/* difficulty: three cards with a 1–3 bar meter (easy → hard), the bars pop up when picked */
-.sv-level { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.sv-level span { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 14px 6px 12px; border-radius: 18px; text-align: center; }
-.sv-meter { display: inline-flex; align-items: flex-end; gap: 4px; height: 26px; }
-.sv-meter b { display: block; width: 9px; border-radius: 3px; background: var(--sv-line); transform-origin: 50% 100%; transition: background-color .3s var(--sv-ease); }
-.sv-meter b:nth-child(1) { height: 10px; }
-.sv-meter b:nth-child(2) { height: 18px; }
-.sv-meter b:nth-child(3) { height: 26px; }
-.lv1 .sv-meter b:nth-child(1), .lv2 .sv-meter b:nth-child(-n+2), .lv3 .sv-meter b { background: var(--sv-accent); }
-.sv-level label:has(input:checked) .sv-meter b { background: rgba(255, 255, 255, .3); animation: svBar .55s var(--sv-spring) both; }
-.sv-level .lv1:has(input:checked) .sv-meter b:nth-child(1), .sv-level .lv2:has(input:checked) .sv-meter b:nth-child(-n+2), .sv-level .lv3:has(input:checked) .sv-meter b { background: var(--sv-warm); }
-.sv-level label:has(input:checked) .sv-meter b:nth-child(2) { animation-delay: .08s; }
-.sv-level label:has(input:checked) .sv-meter b:nth-child(3) { animation-delay: .16s; }
-@keyframes svBar { from { scale: 1 .15; } to { scale: 1 1; } }
+/* difficulty: a track with Bobo as the knob — drag or tap; easy → hard turns teal → yellow → orange, Bobo sweats at 어려웠어요 */
+.sv-slide { --p: .5; --f: 0; --c: var(--sv-line); position: relative; padding: 8px 6px 0; user-select: none; -webkit-user-select: none; }
+.sv-slide:has(.lv1 input:checked) { --p: 0; --f: 0; --c: var(--sv-easy); }
+.sv-slide:has(.lv2 input:checked) { --p: .5; --f: .5; --c: var(--sv-warm); }
+.sv-slide:has(.lv3 input:checked) { --p: 1; --f: 1; --c: var(--sv-hard); }
+.sv-slide.is-drag { --p: var(--drag); --f: var(--drag); --c: var(--sv-accent); }   /* no fill until a choice: the waiting knob in the middle is not 적당했어요 */
+.sv-track { position: relative; height: 64px; margin: 0 40px; cursor: pointer; touch-action: none; }
+.sv-track::before { content: ""; position: absolute; left: -10px; right: -10px; top: 50%; height: 14px; margin-top: -7px; border-radius: 999px; background: var(--sv-accent-soft); }
+.sv-fill { position: absolute; left: -10px; top: 50%; height: 14px; margin-top: -7px; width: calc(var(--f) * 100% + 20px); border-radius: 999px; background: var(--c);
+  transition: width .45s var(--sv-spring), background-color .3s var(--sv-ease); }
+.sv-dot { position: absolute; top: 50%; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; background: #FFFFFF; border: 2px solid var(--sv-line); }
+.sv-dot.d1 { left: 0; } .sv-dot.d2 { left: 50%; } .sv-dot.d3 { left: 100%; }
+.sv-knob { position: absolute; top: 50%; left: calc(var(--p) * 100%); width: 58px; height: 58px; translate: -50% -50%; border-radius: 50%; background: #FFFFFF;
+  border: 3px solid var(--sv-ink); box-shadow: 0 4px 0 var(--sv-line); display: grid; place-items: center; cursor: grab;
+  transition: left .45s var(--sv-spring), rotate .4s var(--sv-spring), scale .3s var(--sv-spring); }
+.sv-slide.is-drag .sv-knob { transition: none; cursor: grabbing; scale: 1.12; }
+.sv-knob img { width: 46px; height: 46px; object-fit: contain; pointer-events: none; }
+/* before a choice: Bobo waits in the middle and wiggles to say "drag me" */
+.sv-slide:not(:has(input:checked)):not(.is-drag) .sv-knob { opacity: .9; animation: svWiggle 2.4s ease-in-out infinite; }
+@keyframes svWiggle { 0%, 60%, 100% { translate: -50% -50%; } 70% { translate: calc(-50% - 7px) -50%; } 80% { translate: calc(-50% + 7px) -50%; } 90% { translate: -50% -50%; } }
+.sv-hint { position: absolute; bottom: calc(100% + 6px); left: 50%; translate: -50% 0; padding: 3px 9px; border-radius: 999px; background: var(--sv-ink); color: #FFFFFF;
+  font-size: 12px; font-weight: 800; white-space: nowrap; transition: opacity .3s var(--sv-ease); }
+.sv-slide:has(input:checked) .sv-hint, .sv-slide.is-drag .sv-hint { opacity: 0; }
+/* Bobo's reaction per level */
+.sv-slide:has(.lv1 input:checked) .sv-knob { rotate: -10deg; animation: svEasy 1.6s ease-in-out infinite; }
+.sv-slide:has(.lv3 input:checked) .sv-knob { rotate: 10deg; animation: svHard .5s ease-in-out infinite; }
+@keyframes svEasy { 0%, 100% { translate: -50% -50%; } 50% { translate: -50% calc(-50% - 6px); } }
+@keyframes svHard { 0%, 100% { translate: -50% -50%; } 25% { translate: calc(-50% - 2px) -50%; } 75% { translate: calc(-50% + 2px) -50%; } }
+.sv-sweat { position: absolute; top: -2px; right: -6px; width: 14px; height: 18px; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; background: var(--sv-accent);
+  border: 2px solid #FFFFFF; opacity: 0; scale: .3; transform-origin: 50% 0; transition: opacity .25s var(--sv-ease), scale .35s var(--sv-spring); }
+.sv-slide:has(.lv3 input:checked) .sv-sweat { opacity: 1; scale: 1; animation: svDrip 1.2s ease-in infinite; }
+@keyframes svDrip { 0%, 40% { translate: 0 0; } 100% { translate: 0 6px; } }
+.sv-stops { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 6px; }
+.sv-stops label { display: flex; cursor: pointer; }
+.sv-stops label:nth-child(1) { justify-content: flex-start; } .sv-stops label:nth-child(2) { justify-content: center; } .sv-stops label:nth-child(3) { justify-content: flex-end; }
+.sv-stops span { padding: 7px 12px; border-radius: 999px; font-size: 15.5px; font-weight: 800; color: var(--sv-muted); transition: background-color .3s var(--sv-ease), color .3s var(--sv-ease); }
+.sv-stops label:hover span { color: var(--sv-ink); }
+.sv-stops label:has(input:checked) span { background: var(--sv-ink); color: #FFFFFF; }
 .sv input:focus-visible + .sv-face, .sv input:focus-visible + span { outline: 3px solid var(--sv-accent); outline-offset: 3px; border-radius: 12px; }
 .sv-note textarea { width: 100%; box-sizing: border-box; resize: vertical; min-height: 76px; padding: 14px 16px; border-radius: 18px; border: 2px solid var(--sv-line);
   font: inherit; font-size: 16px; line-height: 1.5; color: var(--sv-ink); background: #FFFFFF; }
@@ -122,12 +148,12 @@
   .sv-faces label { grid-column: span 2; padding: 8px 4px 8px; border-radius: 14px; }
   .sv-faces label:nth-child(4) { grid-column: 2 / span 2; }
   .sv-faces label:nth-child(5) { grid-column: 4 / span 2; }
-  .sv-t { font-size: 11.5px; }
+  .sv-t { font-size: 13.5px; }
   .sv-chips span { padding: 10px 16px; font-size: 15px; }
-  .sv-level { gap: 7px; }
-  .sv-level span { padding: 12px 4px 10px; }
+  .sv-track { margin: 0 36px; }
+  .sv-stops span { font-size: 14px; padding: 6px 8px; }
   .sv-actions { flex-direction: column-reverse; }
   .sv-later, .sv-send { width: 100%; }
 }
-@media (prefers-reduced-motion: reduce) { .sv.is-in .sv-card, .sv-face, .sv-lid, .sv-heart, .sv-big, .sv-meter b { animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { .sv.is-in .sv-card, .sv-face, .sv-lid, .sv-heart, .sv-big, .sv-knob, .sv-sweat { animation: none !important; } }
 @media print { .sv { display: none !important; } }

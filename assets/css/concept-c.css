@@ -1059,6 +1059,10 @@ button.g:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--c-n
 .sv .sv-chips span { border: var(--bd); background: var(--c-white); color: var(--c-navy); font-weight: 800; box-shadow: var(--hard-xs); }
 .sv .sv-chips label:hover span { transform: translate(1px, 1px); box-shadow: 2px 2px 0 var(--c-navy); }
 .sv .sv-chips label:has(input:checked) span { background: var(--c-navy); border-color: var(--c-navy); color: var(--c-yellow); }
+.sv .sv-track::before { border: 2px solid var(--c-navy); }
+.sv .sv-fill { border: 2px solid var(--c-navy); }
+.sv .sv-knob { border: var(--bd); box-shadow: var(--hard-xs); }
+.sv .sv-stops label:has(input:checked) span { background: var(--c-navy); color: var(--c-yellow); }
 .sv .sv-note textarea { border-width: var(--bw); }
 .sv .sv-note textarea:focus { border-color: var(--c-navy); box-shadow: var(--hard-xs); }
 .sv .sv-later { border: var(--bd); color: var(--c-navy); box-shadow: var(--hard-xs); }
