@@ -90,6 +90,7 @@
   const NS = 'http://www.w3.org/2000/svg';
   const svg = document.createElementNS(NS, 'svg'); svg.setAttribute('class', 'flow-path'); svg.setAttribute('aria-hidden', 'true');
   ol.prepend(svg);
+  const top = svg.cloneNode(); top.classList.add('flow-top'); ol.append(top);   // flag above the cards
   const draw = () => {
     const box = ol.getBoundingClientRect();
     const t = [...ol.querySelectorAll('.token')].map(el => {
@@ -108,15 +109,41 @@
     }
     const f = t[t.length - 1], s0 = t[0];
     const vertical = Math.abs(t[1].cx - s0.cx) < 4;
-    const flag = vertical ? { x: f.cx, y: f.cy + f.r + 18 } : { x: f.cx - f.r - 46, y: f.cy };
+    // finish: a chunky checkered goal flag (sticker style) where the road ends
+    const lastLi = [...ol.children].filter(n => n.tagName === 'LI').pop().getBoundingClientRect();
+    const flag = vertical ? { x: f.cx, y: lastLi.bottom - box.top + 96 } : { x: f.cx - f.r - 54, y: f.cy + 22 };
+    const dir = vertical ? 1 : -1;                                // desktop: flag points left, away from the cards
     d += ` L${flag.x} ${flag.y}`;
-    const start = vertical ? { x: s0.cx, y: s0.cy - s0.r - 6 } : { x: s0.cx - s0.r - 58, y: s0.cy };
-    svg.setAttribute('viewBox', `0 0 ${box.width} ${box.height + 60}`);
-    svg.style.height = (box.height + 60) + 'px';
+    // start: a START sticker badge with an arrow pointing down the road
+    const start = vertical ? { x: s0.cx, y: s0.cy - s0.r - 58 } : { x: s0.cx - s0.r - 120, y: s0.cy };
+    const pad = 90;
+    svg.setAttribute('viewBox', `0 ${-pad} ${box.width} ${box.height + pad * 2}`);
+    svg.style.top = (-pad) + 'px'; svg.style.height = (box.height + pad * 2) + 'px';
     const road = `M${start.x} ${start.y} L${s0.cx} ${s0.cy}` + d.replace(/^M[^LC]*/, ' ');
-    svg.innerHTML = `<path class="road" d="${road}"/>`
-      + (vertical ? '' : `<text class="fp-label" x="${start.x - 6}" y="${start.y - 14}" text-anchor="start">START</text>`)
-      + `<path class="fp-flag-pole" d="M${flag.x} ${flag.y} V${flag.y - 46}"/><path class="fp-flag" d="M${flag.x} ${flag.y - 46} l30 9 -30 11Z"/>`;
+    const P = vertical ? 62 : 40, W = 72, H = 48, sq = 12;      // pole height, flag size, checker size
+    const fx = dir > 0 ? flag.x + 2 : flag.x - 2 - W, fy = flag.y - P - 40;
+    let checks = '';
+    for (let r = 0; r < H / sq; r++) for (let c = 0; c < W / sq; c++) if ((r + c) % 2)
+      checks += `<rect x="${fx + c * sq}" y="${fy + r * sq}" width="${sq}" height="${sq}"/>`;
+    const cloth = dir > 0 ? `M${fx} ${fy} h${W} c-6 ${H / 2} -6 ${H / 2} 0 ${H} h-${W}Z` : `M${fx + W} ${fy} h-${W} c6 ${H / 2} 6 ${H / 2} 0 ${H} h${W}Z`;
+    const tagX = vertical ? flag.x - 12 : flag.x - 42, tagY = vertical ? flag.y + 14 : flag.y + 8;
+    const flagSvg = `<g class="fp-goal">
+        <ellipse class="fp-goal-shadow" cx="${flag.x}" cy="${flag.y + 4}" rx="28" ry="8"/>
+        <path class="fp-flag-pole" d="M${flag.x} ${flag.y} V${fy - 4}"/>
+        <circle class="fp-pole-cap" cx="${flag.x}" cy="${fy - 6}" r="6"/>
+        <g class="fp-flag-wave" style="transform-origin: ${dir > 0 ? '0' : '100%'} 50%"><path class="fp-flag" d="${cloth}"/>
+          <g class="fp-checks">${checks}</g><path class="fp-flag-line" d="${cloth}"/></g>
+        <g class="fp-goal-tag"><rect x="${tagX}" y="${tagY}" width="84" height="32" rx="16"/><text x="${tagX + 42}" y="${tagY + 22}" text-anchor="middle">GOAL!</text></g>
+      </g>`;
+    const ax = vertical ? start.x : start.x + 70, ay = vertical ? start.y + 30 : start.y;   // arrow tip on the road
+    const arrow = vertical ? `M${ax - 10} ${ay - 12} L${ax} ${ay} L${ax + 10} ${ay - 12}` : `M${ax - 12} ${ay - 10} L${ax} ${ay} L${ax - 12} ${ay + 10}`;
+    const bx = vertical ? start.x - 46 : start.x - 46, by = vertical ? start.y - 46 : start.y - 19;
+    const startSvg = `<g class="fp-start"><rect class="fp-start-badge" x="${bx}" y="${by}" width="92" height="38" rx="19"/>
+        <text x="${bx + 46}" y="${by + 26}" text-anchor="middle">START</text>
+        <path class="fp-arrow" d="${arrow}"/></g>`;
+    svg.innerHTML = `<path class="road" d="${road}"/>` + startSvg;
+    top.setAttribute('viewBox', svg.getAttribute('viewBox')); top.style.top = svg.style.top; top.style.height = svg.style.height;
+    top.innerHTML = flagSvg;
   };
   draw();
   addEventListener('resize', draw);

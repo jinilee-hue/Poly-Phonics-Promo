@@ -544,19 +544,36 @@ p { margin: 0; }
 .qa p { padding: 0 22px 22px; font-size: 16px; line-height: 1.8; color: var(--c-ink-2); font-weight: 500; }
 
 /* ---------- cta ---------- */
-.cta { background: var(--c-yellow); border-top: var(--bd); overflow: hidden; padding: clamp(70px, 9vw, 120px) 0 0; }
+.cta { background: var(--c-yellow); border-top: var(--bd); overflow: hidden; padding: clamp(30px, 3.5vw, 52px) 0 0; }
 .cta-in { display: grid; grid-template-columns: 1.1fr 1fr; gap: 24px; align-items: end; }
-.cta-copy { padding-bottom: clamp(70px, 9vw, 120px); }
+.cta-copy { padding-bottom: clamp(70px, 9vw, 120px); align-self: center; }
 .cta-copy > p { margin-top: 18px; font-size: 17px; font-weight: 600; color: var(--c-navy); }
 .cta-art { position: relative; height: clamp(320px, 38vw, 500px); }
-.cta-burst { position: absolute; left: 50%; top: -9cqw; width: 64%; aspect-ratio: 1; height: auto; translate: -50% 0; fill: var(--c-white); stroke: var(--c-navy); stroke-width: 5; stroke-linejoin: round; filter: drop-shadow(7px 7px 0 var(--c-navy)); animation: spin 50s linear infinite; }   /* flat hard shadow like the other stickers (user 2026-11-25) */
+.cta-burst { position: absolute; left: 50%; top: -5cqw; width: 64%; aspect-ratio: 1; height: auto; translate: -50% 0; fill: var(--c-white); stroke: var(--c-navy); stroke-width: 5; stroke-linejoin: round; filter: drop-shadow(7px 7px 0 var(--c-navy)); animation: spin 50s linear infinite; }   /* flat hard shadow like the other stickers (user 2026-11-25) */
 .cta-art { container-type: inline-size; }
-.cta-burst-txt { position: absolute; left: 50%; top: 12cqw; translate: -50% -50%; rotate: -8deg; text-align: center; font-family: var(--f-en); font-weight: 700; font-size: clamp(36px, 10.5cqw, 66px); line-height: .95; color: var(--c-navy); letter-spacing: 0; }
+.cta-burst-txt { position: absolute; left: 50%; top: 18cqw; translate: -50% -50%; rotate: -8deg; text-align: center; font-family: var(--f-en); font-weight: 700; font-size: clamp(36px, 10.5cqw, 66px); line-height: .95; color: var(--c-navy); letter-spacing: 0; }
+/* decorations around the burst: sparkles, little letter dice, confetti dots (user 2026-11-25) */
+.cta-art .spk { z-index: 0; }
+.cs1 { left: 6%; top: 4%; width: 6cqw; height: 6cqw; }
+.cs2 { right: 6%; top: 30%; width: 4.5cqw; height: 4.5cqw; fill: var(--c-white); animation-delay: -1.2s; }
+.cs3 { left: 14%; top: 46%; width: 3.6cqw; height: 3.6cqw; fill: var(--c-white); animation-delay: -.6s; }
+.cs4 { right: 18%; top: 2%; width: 3.4cqw; height: 3.4cqw; animation-delay: -1.8s; }
+.cta-art .spk.cs1, .cta-art .spk.cs4 { fill: var(--c-orange); }
+.cta-art .lt { position: absolute; z-index: 0; animation: bob 5s ease-in-out infinite; }
+.cta-art .lt.cd1 { --s: 11cqw; left: 2%; top: 20%; rotate: -12deg; background: var(--c-blue); color: var(--c-white); }
+.cta-art .lt.cd2 { --s: 9cqw; right: 2%; top: 8%; rotate: 10deg; animation-delay: -2s; }
+.cta-art .lt.cd3 { --s: 7.5cqw; right: 10%; top: 44%; rotate: -6deg; background: var(--c-orange); color: var(--c-white); animation-delay: -3.4s; }
+.cta-art .lt.dice { --rest: rotateX(-16deg) rotateY(22deg); }
+.cta-art .lt.dice .dice-cube { animation: diceSway 4.5s ease-in-out infinite; }
+.cta-dots { position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background-image: radial-gradient(circle, var(--c-navy) 0 3px, transparent 3.5px), radial-gradient(circle, var(--c-white) 0 4px, transparent 4.5px), radial-gradient(circle, var(--c-orange) 0 3px, transparent 3.5px);
+  background-size: 100% 100%; background-repeat: no-repeat;
+  background-position: 22% 14%, 84% 58%, 10% 64%; }
 .cta-burst-txt b { color: var(--c-orange); font-size: 1.22em; -webkit-text-stroke: .07em var(--c-navy); paint-order: stroke fill; text-shadow: .06em .06em 0 var(--c-navy); }
 .cc { position: absolute; bottom: -6%; filter: drop-shadow(0 18px 22px rgba(17, 29, 56, .28)) drop-shadow(0 4px 6px rgba(17, 29, 56, .18)); transition: transform .5s var(--spring); animation: hop 2.5s ease-in-out infinite; }
-.cc-bobo { left: 2%; width: 33%; rotate: -4deg; bottom: 6%; animation-delay: -.3s; }
-.cc-nunu { right: -1%; width: 38%; rotate: 4deg; bottom: 4%; animation-delay: -1.1s; }
-.cc-tata { left: 26%; width: 46%; rotate: 2deg; z-index: 1; bottom: 4%; animation-delay: -1.9s; }
+.cc-bobo { left: 2%; width: 33%; rotate: -4deg; bottom: 2%; animation-delay: -.3s; }
+.cc-nunu { right: -1%; width: 38%; rotate: 4deg; bottom: 1%; animation-delay: -1.1s; }
+.cc-tata { left: 28%; width: 42%; rotate: 2deg; z-index: 1; bottom: -2%; animation-delay: -1.9s; }
 .cta-art:hover .cc { transform: translateY(-8%); }
 .cc.stand { animation-name: sway; animation-duration: 3.2s; }
 @keyframes sway { 0%, 100% { translate: 0 0; } 50% { translate: 0 -6px; } }   /* standing friends bob gently while Tata jumps */
@@ -785,7 +802,7 @@ p { margin: 0; }
 .mg { position: relative; display: flex; flex-direction: column; border: var(--bd); border-radius: 18px; background: var(--c-white); box-shadow: var(--hard-xs); overflow: hidden; }
 .mg.is-hidden { display: none; }
 .mg-shot { position: relative; display: block; border-bottom: var(--bd); }
-.mg-shot img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; filter: saturate(.65) brightness(.9); }
+.mg-shot img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
 .mg-lock { position: absolute; right: 8px; top: 8px; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--c-navy); color: var(--c-white); border: 2px solid var(--c-white); }
 .mg-lock .ic { width: 15px; height: 15px; }
 .mg-body { display: flex; flex-direction: column; gap: 2px; padding: 10px 12px 12px; }
@@ -803,7 +820,7 @@ p { margin: 0; }
 
 /* ===== lesson flow as a board-game path (user 2026-11-25): numbered tokens on a dotted road, small stickers under them.
    Desktop snake: 01 02 03 → U-turn → 04 05 06 runs back right-to-left; ≤1080 a vertical road with tokens on the left. ===== */
-.steps.board { gap: 34px 48px; padding: 8px 46px 0; }
+.steps.board { gap: 34px 48px; padding: 8px 46px 0 118px; }
 .steps.board > li:nth-of-type(4) { grid-column: 3; grid-row: 2; }
 .steps.board > li:nth-of-type(5) { grid-column: 2; grid-row: 2; }
 .steps.board > li:nth-of-type(6) { grid-column: 1; grid-row: 2; }
@@ -822,11 +839,25 @@ p { margin: 0; }
 .steps.board > li:nth-of-type(odd) .step { rotate: -1.2deg; }
 .steps.board > li:nth-of-type(even) .step { rotate: 1.2deg; }
 .flow-path path.road { stroke-width: 6; stroke-dasharray: .1 15; }
-.flow-path .fp-label { font-family: var(--f-en); font-weight: 700; font-size: 15px; fill: var(--c-navy); letter-spacing: .06em; }
-.flow-path .fp-flag-pole { stroke: var(--c-navy); stroke-width: 4; stroke-linecap: round; fill: none; }
-.flow-path .fp-flag { fill: var(--c-orange); stroke: var(--c-navy); stroke-width: 3; stroke-linejoin: round; }
+.flow-path { overflow: visible; }
+.flow-path.flow-top { z-index: 3; }
+.flow-path .fp-start-badge { fill: var(--c-yellow); stroke: var(--c-navy); stroke-width: 3; filter: drop-shadow(3px 3px 0 var(--c-navy)); }
+.flow-path .fp-start text, .flow-path .fp-goal-tag text { font-family: var(--f-en); font-weight: 700; font-size: 16px; fill: var(--c-navy); letter-spacing: .06em; }
+.flow-path .fp-arrow { fill: none; stroke: var(--c-navy); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; animation: fpNudge 1.6s ease-in-out infinite; }
+@keyframes fpNudge { 0%, 100% { translate: 0 0; } 50% { translate: 5px 0; } }
+.flow-path .fp-flag-pole { stroke: var(--c-navy); stroke-width: 6; stroke-linecap: round; fill: none; }
+.flow-path .fp-pole-cap { fill: var(--c-yellow); stroke: var(--c-navy); stroke-width: 3; }
+.flow-path .fp-flag { fill: var(--c-white); }
+.flow-path .fp-checks rect { fill: var(--c-navy); }
+.flow-path .fp-flag-line { fill: none; stroke: var(--c-navy); stroke-width: 3.5; stroke-linejoin: round; }
+.flow-path .fp-flag-wave { transform-box: fill-box; animation: fpWave 2.2s ease-in-out infinite; filter: drop-shadow(3px 3px 0 var(--c-navy)); }
+@keyframes fpWave { 0%, 100% { transform: skewY(0deg) scaleX(1); } 50% { transform: skewY(-5deg) scaleX(.92); } }
+.flow-path .fp-goal-shadow { fill: var(--c-navy-a25); }
+.flow-path .fp-goal-tag rect { fill: var(--c-orange); stroke: var(--c-navy); stroke-width: 3; filter: drop-shadow(2px 2px 0 var(--c-navy)); }
+.flow-path .fp-goal-tag text { fill: var(--c-white); font-size: 17px; }
+@media (prefers-reduced-motion: reduce) { .flow-path .fp-arrow, .flow-path .fp-flag-wave { animation: none; } }
 @media (max-width: 1080px) {
-  .steps.board { grid-template-columns: 1fr; max-width: 640px; margin: 0 auto; gap: 26px; padding: 0 0 0 4px; }
+  .steps.board { grid-template-columns: 1fr; max-width: 640px; margin: 0 auto; gap: 26px; padding: 0 0 150px 4px; }
   .steps.board > li:nth-child(n) { grid-column: auto; grid-row: auto; }
   .steps.board .station { flex-direction: row; align-items: flex-start; gap: 22px; }
   .steps.board .step-no.token { width: 78px; height: 78px; font-size: 36px; }
