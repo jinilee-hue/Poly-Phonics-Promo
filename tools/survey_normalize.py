@@ -9,7 +9,7 @@ OUT = 600; TW, TY = 660, 450
 FACES = {  # n: (width, centre, eye_y, base, overlays)
     1: (610, 500, 419, 'fun-1', []),
     2: (686, 479, 405, 'fun-2-base', ['fun-2-sweat']),
-    3: (792, 495, 469, 'fun-3', ['fun-3-lid', 'fun-3-grin']),
+    3: (660, 500, 450, 'fun-3-plain', ['fun-3-lid', 'fun-3-smile']),   # new 보통 (user 2026-11-25) comes pre-sized
     4: (637, 449, 388, 'fun-4-base', ['fun-4-lid', 'fun-4-thumb']),
     5: (649, 499, 396, 'fun-5', ['fun-5-heartL', 'fun-5-heartR']),
 }

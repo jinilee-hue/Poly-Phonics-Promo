@@ -58,11 +58,12 @@
 .sv-bead { animation: svBead 1.9s ease-in infinite; }   /* 별로: cold sweat keeps running down the temple (user 2026-11-25) */
 .sv-faces .f2:hover .sv-bead, .sv-faces .f2:has(input:checked) .sv-bead { animation-duration: 1.1s; }
 /* 보통: a 씨익 grin flashes now and then; picked or hovered, it stays */
-.sv-grin { opacity: 0; animation: svGrin 3.4s ease-in-out infinite; }
-@keyframes svGrin { 0%, 38%, 86%, 100% { opacity: 0; } 46%, 78% { opacity: 1; } }
-.sv-faces .f3:hover .sv-grin, .sv-faces .f3:has(input:checked) .sv-grin { animation: none; opacity: 1; }
+.sv-smile { opacity: 0; transform-origin: 50% 56%; animation: svSmile 3.6s ease-in-out infinite; }   /* 보통: plain face breaks into a smile (user 2026-11-25) */
+@keyframes svSmile { 0%, 40%, 90%, 100% { opacity: 0; scale: .8 1; } 50%, 80% { opacity: 1; scale: 1 1; } }
+.sv-faces .f3:hover .sv-smile, .sv-faces .f3:has(input:checked) .sv-smile { animation: svSmileOn .35s ease-out forwards; }
+@keyframes svSmileOn { from { opacity: 0; scale: .8 1; } to { opacity: 1; scale: 1 1; } }
 @keyframes svBead { 0% { translate: 0 -2%; opacity: 0; } 15% { translate: 0 0; opacity: 1; } 70% { translate: 0 8%; opacity: 1; } 100% { translate: 0 13%; opacity: 0; } }
-.sv-faces .f3 .sv-lid { animation-delay: -1.7s; } .sv-faces .f4 .sv-lid { animation-delay: -3.1s; }
+.sv-faces .f4 .sv-lid { animation-delay: -3.1s; }
 @keyframes svBlink { 0%, 92%, 95.6%, 100% { opacity: 0; } 92.2%, 95.4% { opacity: 1; } }   /* snap shut and open — a cross-fade reads as glasses */
 .sv-thumb { transform-origin: 77.1% 80.5%; animation: svThumb 1.6s ease-in-out infinite; }   /* 좋아했어요: the thumbs-up hand wags up and down from the elbow (user 2026-11-25) */
 @keyframes svThumb { 0%, 100% { rotate: 0deg; } 25% { rotate: -11deg; } 50% { rotate: 2deg; } 75% { rotate: -7deg; } }
@@ -75,7 +76,6 @@
 .sv-faces .f1:hover .sv-face, .sv-faces .f1:has(input:checked) .sv-face { animation: svNo 1.4s ease-in-out infinite; }      /* 전혀요: shakes, no no */
 .sv-faces .f2:hover .sv-face, .sv-faces .f2:has(input:checked) .sv-face { animation: svSigh 2.6s ease-in-out infinite; }    /* 별로: slumps with a sigh */
 .sv-faces .f3:hover .sv-face, .sv-faces .f3:has(input:checked) .sv-face { animation: svTilt 2.2s ease-in-out infinite; }    /* 보통: a gentle lean */
-.sv-faces .f3:hover .sv-lid, .sv-faces .f3:has(input:checked) .sv-lid { animation-duration: 2.2s; }
 .sv-faces .f4:hover .sv-face, .sv-faces .f4:has(input:checked) .sv-face { animation: svBounce .8s ease-in-out infinite; }   /* 좋아했어요: hops */
 .sv-faces .f5:hover .sv-face, .sv-faces .f5:has(input:checked) .sv-face { animation: svJoy 1s ease-in-out infinite; }       /* 아주 좋아했어요: hops and sways, hearts race */
 .sv-faces .f5:hover .sv-heart, .sv-faces .f5:has(input:checked) .sv-heart { animation-duration: .7s; }
@@ -174,5 +174,5 @@
   .sv-actions { flex-direction: column-reverse; }
   .sv-later, .sv-send { width: 100%; }
 }
-@media (prefers-reduced-motion: reduce) { .sv.is-in .sv-card, .sv-face, .sv-lid, .sv-heart, .sv-thumb, .sv-bead, .sv-grin, .sv-big, .sv-knob, .sv-sweat, .sv-hint::after { animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { .sv.is-in .sv-card, .sv-face, .sv-lid, .sv-heart, .sv-thumb, .sv-bead, .sv-smile, .sv-big, .sv-knob, .sv-sweat, .sv-hint::after { animation: none !important; } }
 @media print { .sv { display: none !important; } }

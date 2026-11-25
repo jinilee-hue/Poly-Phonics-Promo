@@ -1,7 +1,8 @@
 """Extra survey-face layers (all on the source canvas of each face, coordinates on a 1000 px basis):
   별로  fun-2-base.webp  the face with its two sweat drops painted out (fitted skin)
         fun-2-sweat.webp the two drops alone — CSS runs them down the temple over and over
-  보통  fun-3-grin.webp  a wider '씨익' grin over the gentle smile (old smile painted out under it) — CSS flashes it
+  보통  fun-3-plain.webp the face with a short flat mouth (its smile painted out)
+        fun-3-smile.webp the source's own smile — CSS turns plain → smile
 usage: uv run --with numpy --with pillow --with opencv-python-headless python tools/survey_extras.py"""
 import os
 import numpy as np, cv2
@@ -37,26 +38,22 @@ sweat = np.zeros_like(a); sweat[..., :3] = rgb; sweat[..., 3] = np.where(drop, a
 Image.fromarray(base.astype(np.uint8)).save(f'{D}/fun-2-base.webp', 'WEBP', quality=90, method=6)
 Image.fromarray(sweat.astype(np.uint8)).save(f'{D}/fun-2-sweat.webp', 'WEBP', quality=90, method=6)
 
-# ---- 보통: 씨익 grin ----
+# ---- 보통: plain → smile (user 2026-11-25: the source already smiles, so start from a plain face) ----
 a, s = load(3); H, W = a.shape[:2]; rgb = a[..., :3]; al = a[..., 3]
 R, G, B = rgb[..., 0], rgb[..., 1], rgb[..., 2]
-mbox = np.zeros((H, W), bool); mbox[int(585 * s):int(670 * s), int(355 * s):int(640 * s)] = True
-line = mbox & (R < 200) & (G < 90)                       # the dark smile line
-line = cv2.dilate(line.astype(np.uint8), np.ones((3, 3), np.uint8), iterations=int(5 * s)).astype(bool) & mbox
-patch = np.zeros((H, W), bool); patch[int(540 * s):int(690 * s), int(320 * s):int(680 * s)] = True
-ring = patch & ~line & (R > 180) & (G > 80) & (B < 120)
-line = cv2.dilate(line.astype(np.uint8), np.ones((3, 3), np.uint8), iterations=int(3 * s)).astype(bool)
-painted = cv2.inpaint(rgb.astype(np.uint8), line.astype(np.uint8) * 255, int(12 * s), cv2.INPAINT_TELEA).astype(float)
+mbox = np.zeros((H, W), bool); mbox[int(512 * s):int(600 * s), int(390 * s):int(605 * s)] = True
+line = mbox & (R < 190) & (G < 95) & (al > 200)                     # the smile line on the source
+line = cv2.dilate(line.astype(np.uint8), np.ones((3, 3), np.uint8), iterations=max(2, int(6 * s))).astype(bool)
+plain_rgb = cv2.inpaint(rgb.astype(np.uint8), line.astype(np.uint8) * 255, int(14 * s) or 3, cv2.INPAINT_TELEA).astype(float)
 S4 = 4; big = np.zeros((H * S4, W * S4), np.uint8)
-P = lambda x, y: [x * s * S4, y * s * S4]
-pts = [P(352 + 296 * t, 598 + 70 * (1 - (2 * t - 1) ** 2) - 12 * t) for t in np.linspace(0, 1, 80)]   # wide U, right corner a touch higher
-cv2.polylines(big, [np.array(pts, np.int32)], False, 255, thickness=int(10 * s * S4), lineType=cv2.LINE_AA)
-for (x0, y0, x1, y1) in [(352, 598, 336, 582), (648, 586, 666, 566)]:        # corners curl up — 씨익
-    cv2.line(big, (int(x0 * s * S4), int(y0 * s * S4)), (int(x1 * s * S4), int(y1 * s * S4)), 255, int(9 * s * S4), cv2.LINE_AA)
+P = lambda x, y: (int(x * s * S4), int(y * s * S4))
+cv2.line(big, P(450, 566), P(550, 566), 255, max(2, int(7 * s * S4)), cv2.LINE_AA)   # a short, flat mouth
 ink = cv2.resize(big, (W, H), interpolation=cv2.INTER_AREA).astype(float) / 255
-grin = np.zeros_like(a)
-grin[..., :3] = painted * (1 - ink[..., None]) + np.array([92, 34, 12]) * ink[..., None]
-feather = cv2.GaussianBlur(patch.astype(np.float32), (0, 0), 6 * s)
-grin[..., 3] = np.clip(np.maximum(feather * (line | (ink > .02) | cv2.dilate(line.astype(np.uint8), np.ones((3, 3), np.uint8), iterations=int(6 * s)).astype(bool)), ink), 0, 1) * 255
-Image.fromarray(np.clip(grin, 0, 255).astype(np.uint8)).save(f'{D}/fun-3-grin.webp', 'WEBP', quality=90, method=6)
+plain = a.copy(); plain[..., :3] = plain_rgb * (1 - ink[..., None]) + np.array([92, 34, 12]) * ink[..., None]
+Image.fromarray(np.clip(plain, 0, 255).astype(np.uint8)).save(f'{D}/fun-3-plain.webp', 'WEBP', quality=92, method=6)
+# the smile overlay: the source's own mouth area, feathered, so it lands exactly where the plain mouth was
+patch = np.zeros((H, W), np.float32); patch[int(505 * s):int(605 * s), int(380 * s):int(620 * s)] = 1
+patch = cv2.GaussianBlur(patch, (0, 0), 7 * s)
+smile = a.copy(); smile[..., 3] = al * np.clip(patch * 1.25, 0, 1)
+Image.fromarray(np.clip(smile, 0, 255).astype(np.uint8)).save(f'{D}/fun-3-smile.webp', 'WEBP', quality=92, method=6)
 print('ok')
