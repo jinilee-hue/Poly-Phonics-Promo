@@ -9,7 +9,7 @@ async def main():
         b=await p.chromium.launch(executable_path=CH, args=['--use-angle=metal','--enable-gpu-rasterization','--ignore-gpu-blocklist'])
         pg=await b.new_page(viewport={'width':SIZE,'height':SIZE})
         errs=[]; pg.on('pageerror',lambda e: errs.append(str(e))); pg.on('console',lambda m: errs.append(m.text) if m.type=='error' else None)
-        await pg.goto(f'http://127.0.0.1:5292/index.html?size={SIZE}&frames={FRAMES}',wait_until='networkidle')
+        await pg.goto(f'http://127.0.0.1:5292/index.html?size={SIZE}&frames={FRAMES}&ink=%23FFC400',wait_until='networkidle')
         await pg.wait_for_function('window.ready===true', timeout=15000)
         frames=[]
         for i in range(FRAMES):

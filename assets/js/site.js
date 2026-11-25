@@ -5,10 +5,11 @@
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---------- official lesson-pack audio ---------- */
+  const AUDIO_V = '20261125';   // bump when a sound file is replaced (browsers keep old mp3s otherwise)
   const cache = {};
   let current = null;
   function say(name, el) {
-    const a = cache[name] || (cache[name] = new Audio(`assets/audio/${name}.mp3`));
+    const a = cache[name] || (cache[name] = new Audio(`assets/audio/${name}.mp3?v=${AUDIO_V}`));
     if (current && current !== a) { current.pause(); current.currentTime = 0; }
     pauseVideo();
     a.currentTime = 0;

@@ -34,7 +34,16 @@ function faceTex(letter) {
 }
 const geo = new RoundedBoxGeometry(1.6, 1.6, 1.6, 8, .34);
 const plain = new THREE.MeshStandardMaterial({ color: BASE, roughness: .42, metalness: 0 });
-const front = new THREE.MeshStandardMaterial({ map: faceTex(LETTER), roughness: .42, metalness: 0 });
+// letter glow: the P keeps its full colour even on the shaded face (emissive = letter only)
+function letterTex(letter) {
+  const c = document.createElement('canvas'); c.width = c.height = 512; const g = c.getContext('2d');
+  g.fillStyle = '#000'; g.fillRect(0, 0, 512, 512);
+  g.font = '700 330px Fredoka, "Arial Rounded MT Bold", Arial'; g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.fillStyle = INK; g.fillText(letter, 256, 275);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+}
+const front = new THREE.MeshStandardMaterial({ map: faceTex(LETTER), roughness: .42, metalness: 0,
+  emissive: 0xffffff, emissiveMap: letterTex(LETTER), emissiveIntensity: .55 });
 // RoundedBoxGeometry keeps BoxGeometry groups: +x, -x, +y, -y, +z, -z
 const cube = new THREE.Mesh(geo, [plain, plain, plain, plain, front, plain]);
 scene.add(cube);
@@ -50,7 +59,7 @@ window.frame = i => {
   renderer.render(scene, cam);
   return renderer.domElement.toDataURL('image/png');
 };
-document.fonts.load('700 100px Fredoka').finally(() => { front.map = faceTex(LETTER); front.needsUpdate = true; window.ready = true; });
+document.fonts.load('700 100px Fredoka').finally(() => { front.map = faceTex(LETTER); front.emissiveMap = letterTex(LETTER); front.needsUpdate = true; window.ready = true; });
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&display=swap">
 </body></html>
