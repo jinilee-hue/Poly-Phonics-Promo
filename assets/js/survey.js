@@ -28,16 +28,19 @@
         <legend>아이가 재미있어 했나요?</legend>
         <div class="sv-faces" role="radiogroup">
           ${[['1', '전혀요'], ['2', '별로'], ['3', '보통'], ['4', '좋아했어요'], ['5', '아주 좋아했어요']]
-            .map(([v, t]) => `<label class="f${v}"><input type="radio" name="fun" value="${v}" required><span class="sv-face" aria-hidden="true"><img src="assets/img/emoji3d/fun-${v}.webp?v=eyes3" alt="">${v === '2' || v === '3' || v === '4' ? `<img class="sv-lid" src="assets/img/emoji3d/fun-${v}-lid.webp?v=eyes3" alt="">` : ''}${v === '5' ? `<img class="sv-heart hl" src="assets/img/emoji3d/fun-5-heartL.webp?v=eyes3" alt=""><img class="sv-heart hr" src="assets/img/emoji3d/fun-5-heartR.webp?v=eyes3" alt="">` : ''}</span><span class="sv-t">${t}</span></label>`).join('')}
+            .map(([v, t]) => `<label class="f${v}"><input type="radio" name="fun" value="${v}" required><span class="sv-face" aria-hidden="true"><img src="assets/img/emoji3d/face-${v}.webp?v=body1" alt="">${v === '2' ? `<img class="sv-bead" src="assets/img/emoji3d/face-2-sweat.webp?v=body1" alt="">` : ''}${v === '3' ? `<img class="sv-grin" src="assets/img/emoji3d/face-3-grin.webp?v=body1" alt="">` : ''}${v === '4' ? `<img class="sv-thumb" src="assets/img/emoji3d/face-4-thumb.webp?v=body1" alt="">` : ''}${v === '3' || v === '4' ? `<img class="sv-lid" src="assets/img/emoji3d/face-${v}-lid.webp?v=body1" alt="">` : ''}${v === '5' ? `<img class="sv-heart hl" src="assets/img/emoji3d/face-5-heartL.webp?v=body1" alt=""><img class="sv-heart hr" src="assets/img/emoji3d/face-5-heartR.webp?v=body1" alt="">` : ''}</span><span class="sv-t">${t}</span></label>`).join('')}
         </div>
       </fieldset>
       <fieldset class="sv-q">
         <legend>난이도는 어땠나요?</legend>
-        <!-- difficulty: drag Bobo along the track (or tap a label) — user 2026-11-25 -->
+        <!-- difficulty: drag Bobo up the hill — flat 쉬웠어요, halfway 적당했어요, the top 어려웠어요 (no flag, user 2026-11-25); the climbed part colours in (user 2026-11-25) -->
         <div class="sv-slide">
-          <div class="sv-track" aria-hidden="true">
-            <span class="sv-fill"></span><i class="sv-dot d1"></i><i class="sv-dot d2"></i><i class="sv-dot d3"></i>
-            <span class="sv-knob"><img src="assets/img/concept-c/bobo-face.webp" alt=""><i class="sv-sweat"></i><b class="sv-hint">끌어 보세요</b></span>
+          <div class="sv-hill" aria-hidden="true">
+            <svg class="sv-ground" viewBox="0 0 100 100" preserveAspectRatio="none"><path class="g-base" d="M0 100 L0.0 92.0 L5.0 91.06 L10.0 89.34 L15.0 87.12 L20.0 84.49 L25.0 81.5 L30.0 78.2 L35.0 74.61 L40.0 70.75 L45.0 66.64 L50.0 62.3 L55.0 57.74 L60.0 52.96 L65.0 47.98 L70.0 42.8 L75.0 37.44 L80.0 31.89 L85.0 26.17 L90.0 20.28 L95.0 14.22 L100.0 8.0 L100 100 Z"/><path class="g-line" d="M0.0 92.0 L5.0 91.06 L10.0 89.34 L15.0 87.12 L20.0 84.49 L25.0 81.5 L30.0 78.2 L35.0 74.61 L40.0 70.75 L45.0 66.64 L50.0 62.3 L55.0 57.74 L60.0 52.96 L65.0 47.98 L70.0 42.8 L75.0 37.44 L80.0 31.89 L85.0 26.17 L90.0 20.28 L95.0 14.22 L100.0 8.0" vector-effect="non-scaling-stroke"/></svg>
+            <div class="sv-climb"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><defs><linearGradient id="svHillGrad" x1="0" x2="1" y1="0" y2="0"><stop offset="0" class="hg1"/><stop offset=".5" class="hg2"/><stop offset="1" class="hg3"/></linearGradient></defs><path d="M0 100 L0.0 92.0 L5.0 91.06 L10.0 89.34 L15.0 87.12 L20.0 84.49 L25.0 81.5 L30.0 78.2 L35.0 74.61 L40.0 70.75 L45.0 66.64 L50.0 62.3 L55.0 57.74 L60.0 52.96 L65.0 47.98 L70.0 42.8 L75.0 37.44 L80.0 31.89 L85.0 26.17 L90.0 20.28 L95.0 14.22 L100.0 8.0 L100 100 Z" fill="url(#svHillGrad)"/><path class="g-line" d="M0.0 92.0 L5.0 91.06 L10.0 89.34 L15.0 87.12 L20.0 84.49 L25.0 81.5 L30.0 78.2 L35.0 74.61 L40.0 70.75 L45.0 66.64 L50.0 62.3 L55.0 57.74 L60.0 52.96 L65.0 47.98 L70.0 42.8 L75.0 37.44 L80.0 31.89 L85.0 26.17 L90.0 20.28 L95.0 14.22 L100.0 8.0" vector-effect="non-scaling-stroke"/></svg></div>
+            <i class="sv-stop s1"></i><i class="sv-stop s2"></i><i class="sv-stop s3"></i>
+            <span class="sv-knob"><img src="assets/img/concept-c/bobo.webp" alt=""><i class="sv-sweat"></i></span>
+            <b class="sv-hint">끌어서 올려 보세요</b>
           </div>
           <div class="sv-stops" role="radiogroup">
             ${['쉬웠어요', '적당했어요', '어려웠어요'].map((t, i) => `<label class="lv${i + 1}"><input type="radio" name="level" value="${t}"><span>${t}</span></label>`).join('')}
@@ -66,14 +69,15 @@
   document.body.appendChild(dlg);
   const form = dlg.querySelector('form'), thanks = dlg.querySelector('.sv-thanks');
   /* difficulty slider: drag or tap anywhere on the track; it snaps to 쉬웠어요 / 적당했어요 / 어려웠어요 */
-  const slide = dlg.querySelector('.sv-slide'), track = slide.querySelector('.sv-track');
+  const slide = dlg.querySelector('.sv-slide'), track = slide.querySelector('.sv-hill');
   const levels = [...slide.querySelectorAll('input[name=level]')];
   const ratio = e => { const r = track.getBoundingClientRect(); return Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)); };
   let dragging = false;
-  track.addEventListener('pointerdown', e => { dragging = true; track.setPointerCapture(e.pointerId); slide.classList.add('is-drag'); slide.style.setProperty('--drag', ratio(e)); });
-  track.addEventListener('pointermove', e => { if (dragging) slide.style.setProperty('--drag', ratio(e)); });
+  const follow = e => { const r = ratio(e); slide.style.setProperty('--drag', r); slide.style.setProperty('--dragy', 8 + 84 * Math.pow(r, 1.5)); };   // Bobo rides the hill surface
+  track.addEventListener('pointerdown', e => { dragging = true; track.setPointerCapture(e.pointerId); slide.classList.add('is-drag'); follow(e); });
+  track.addEventListener('pointermove', e => { if (dragging) follow(e); });
   const drop = e => {
-    if (!dragging) return; dragging = false; slide.classList.remove('is-drag'); slide.style.removeProperty('--drag');
+    if (!dragging) return; dragging = false; slide.classList.remove('is-drag'); slide.style.removeProperty('--drag'); slide.style.removeProperty('--dragy');
     const k = Math.round(ratio(e) * 2); levels[k].checked = true; levels[k].dispatchEvent(new Event('change', { bubbles: true }));
   };
   track.addEventListener('pointerup', drop); track.addEventListener('pointercancel', drop);
@@ -84,7 +88,7 @@
   function open(item, after) {
     if (dlg.open) { queue.push([item, after]); return; }
     current = item; onClose = after || null;
-    form.reset(); err.textContent = ''; slide.classList.remove('is-drag'); slide.style.removeProperty('--drag');
+    form.reset(); err.textContent = ''; slide.classList.remove('is-drag'); slide.style.removeProperty('--drag'); slide.style.removeProperty('--dragy');
     form.hidden = false; thanks.hidden = true;
     dlg.querySelector('#svItem').textContent = item.title;
     dlg.querySelector('#svKind').textContent = item.type === 'video' ? '노래 · 영상' : '게임';

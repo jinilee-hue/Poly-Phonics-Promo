@@ -877,7 +877,7 @@ button.g:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--c-n
 /* ---------- print: A4 landscape, hero as cover ---------- */
 /* footer · 입학 문의 + POLY 홈페이지 (official site poly-english.com) — two buttons only (user 2026-11-25) */
 .foot-in { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 22px 48px; align-items: start; }
-.foot-brand { display: flex; flex-direction: column; gap: 12px; }
+.foot-brand { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; align-self: center; }   /* copyright sits right of the logo (user 2026-11-25) */
 .foot-note { opacity: .85; }
 .foot-ask { justify-self: end; align-self: center; }
 .foot-links { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
@@ -887,7 +887,8 @@ button.g:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--c-n
 .foot-links a:hover { background: color-mix(in srgb, currentColor 18%, transparent); transform: translateY(-2px); }
 .foot .fi { width: 17px; height: 17px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .foot .fi.fx { width: 14px; height: 14px; opacity: .75; }
-.foot .copy { grid-column: 1 / -1; margin-left: 0; padding-top: 18px; border-top: 1px solid color-mix(in srgb, currentColor 16%, transparent); }
+.foot .copy { margin: 0; padding-left: 20px; border-left: 1px solid color-mix(in srgb, currentColor 30%, transparent); line-height: 1.4; }
+@media (max-width: 600px) { .foot .copy { flex-basis: 100%; padding-left: 0; border-left: 0; } }   /* phones: it drops under the logo */
 @media (max-width: 767px) {
   .foot-in { grid-template-columns: 1fr; }
   .foot-ask { justify-self: start; }
@@ -1037,21 +1038,25 @@ button.g:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--c-n
   .steps.board .step::before { top: 22px; }
 }
 
-/* survey popup in C's sticker style: blue title band, tilted tag, sticker chips, Tata peeking over the top.
+/* survey popup in C's sticker style: blue title band with Nunu cheering inside it, tilted tag, sticker chips.
    Variables sit on .sv (not :root) — survey.css loads after this file and its :root would win. */
 .sv { --sv-border: var(--bd); --sv-shadow: 10px 10px 0 var(--c-navy); --sv-radius: 28px; --sv-line: var(--c-navy-a25);
-  max-height: calc(100dvh - 140px); translate: 0 26px; }
-.sv::before { content: ""; position: absolute; z-index: -1; top: -92px; right: 74px; width: 124px; height: 154px; pointer-events: none;
-  background: url("../img/concept-c/tata-jump.webp") center top / 124px auto no-repeat; animation: svPeek 2.8s ease-in-out infinite; }
-@keyframes svPeek { 0%, 100% { translate: 0 0; rotate: 0deg; } 50% { translate: 0 -7px; rotate: 3deg; } }
-.sv .sv-card { --pt: 30px; --px: 30px; max-height: calc(100dvh - 140px); padding: var(--pt) var(--px) 26px; }
-.sv .sv-head { margin: calc(-1 * var(--pt)) calc(-1 * var(--px)) 0; padding: 26px calc(var(--px) + 44px) 24px var(--px); background: var(--c-blue);
+  max-height: calc(100dvh - 32px); }
+
+.sv .sv-card { --pt: 30px; --px: 30px; max-height: calc(100dvh - 32px); padding: var(--pt) var(--px) 26px; }
+.sv .sv-head { flex: none; position: relative; overflow: hidden;   /* flex: none — with overflow hidden the scrolling card would squash it */
+  margin: calc(-1 * var(--pt)) calc(-1 * var(--px)) 0; padding: 26px 200px 24px var(--px); background: var(--c-blue);
   border-bottom: var(--bd); border-radius: calc(var(--sv-radius) - 3px) calc(var(--sv-radius) - 3px) 0 0; }
 .sv .sv-kind { padding: 5px 14px; border: var(--bd); box-shadow: var(--hard-xs); rotate: -3deg; font-size: 14px; }
+.sv .sv-head::after { content: ""; position: absolute; right: 14px; bottom: -46px; width: 184px; height: 208px; pointer-events: none;
+  background: url("../img/concept-c/nunu-jump.webp") center top / contain no-repeat; filter: drop-shadow(0 6px 0 var(--c-navy-a25));
+  transform-origin: 50% 100%; animation: svCheer 2.6s ease-in-out infinite; }
+@keyframes svCheer { 0%, 100% { translate: 0 0; rotate: 0deg; } 30% { translate: 0 -8px; rotate: -3deg; } 60% { translate: 0 0; rotate: 2deg; } }
+.sv .sv-head .sv-kind, .sv .sv-head h2, .sv .sv-head p { position: relative; z-index: 1; }
 .sv .sv-head h2 { margin: 14px 0 8px; font-family: var(--f-disp); font-weight: 400; font-size: 31px; line-height: 1.25; letter-spacing: -0.01em; color: var(--c-white); text-shadow: 3px 3px 0 var(--c-navy); }
 .sv .sv-head h2 b { font-family: var(--f-en); font-weight: 700; color: var(--c-yellow); letter-spacing: 0; }
 .sv .sv-head p { color: var(--c-white-a80); font-weight: 600; }
-.sv .sv-x { top: 18px; right: 18px; background: var(--c-white); color: var(--c-navy); border: var(--bd); box-shadow: var(--hard-xs); transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
+.sv .sv-x { z-index: 3; top: 18px; right: 18px; background: var(--c-white); color: var(--c-navy); border: var(--bd); box-shadow: var(--hard-xs); transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
 .sv .sv-x:hover { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--c-navy); }
 .sv .sv-faces label { border-width: var(--bw); background: var(--c-white); }
 .sv .sv-faces label:hover { border-color: var(--c-navy); }
@@ -1059,10 +1064,8 @@ button.g:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--c-n
 .sv .sv-chips span { border: var(--bd); background: var(--c-white); color: var(--c-navy); font-weight: 800; box-shadow: var(--hard-xs); }
 .sv .sv-chips label:hover span { transform: translate(1px, 1px); box-shadow: 2px 2px 0 var(--c-navy); }
 .sv .sv-chips label:has(input:checked) span { background: var(--c-navy); border-color: var(--c-navy); color: var(--c-yellow); }
-.sv .sv-track::before { border: 2px solid var(--c-navy); }
-.sv .sv-fill { border: 2px solid var(--c-navy); }
-.sv .sv-knob { border: var(--bd); box-shadow: var(--hard-xs); }
-.sv .sv-stops label:has(input:checked) span { background: var(--c-navy); color: var(--c-yellow); }
+.sv .sv-stops span { border: var(--bd); box-shadow: var(--hard-xs); }
+.sv .sv-stops label:hover span { transform: translate(1px, 1px); box-shadow: 2px 2px 0 var(--c-navy); }
 .sv .sv-note textarea { border-width: var(--bw); }
 .sv .sv-note textarea:focus { border-color: var(--c-navy); box-shadow: var(--hard-xs); }
 .sv .sv-later { border: var(--bd); color: var(--c-navy); box-shadow: var(--hard-xs); }
@@ -1076,9 +1079,10 @@ button.g:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--c-n
 @media (max-width: 480px) {
   .sv .sv-card { --pt: 26px; --px: 18px; }
   .sv .sv-head h2 { font-size: 25px; }
-  .sv::before { right: 60px; top: -80px; width: 104px; background-size: 104px auto; }
+  .sv .sv-head { padding-right: 112px; }
+  .sv .sv-head::after { right: 4px; bottom: -34px; width: 116px; height: 132px; }
 }
-@media (prefers-reduced-motion: reduce) { .sv::before { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .sv .sv-head::after { animation: none; } }
 @media print {
   @page { size: A4 landscape; margin: 0; }
   html, body { -webkit-print-color-adjust: exact; print-color-adjust: exact; overflow: visible; }

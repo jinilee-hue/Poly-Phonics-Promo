@@ -55,11 +55,21 @@
 .sv-face { position: relative; transform-origin: 50% 100%; }
 .sv-face img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .sv-lid { opacity: 0; animation: svBlink 4.4s infinite; }
+.sv-bead { animation: svBead 1.9s ease-in infinite; }   /* 별로: cold sweat keeps running down the temple (user 2026-11-25) */
+.sv-faces .f2:hover .sv-bead, .sv-faces .f2:has(input:checked) .sv-bead { animation-duration: 1.1s; }
+/* 보통: a 씨익 grin flashes now and then; picked or hovered, it stays */
+.sv-grin { opacity: 0; animation: svGrin 3.4s ease-in-out infinite; }
+@keyframes svGrin { 0%, 38%, 86%, 100% { opacity: 0; } 46%, 78% { opacity: 1; } }
+.sv-faces .f3:hover .sv-grin, .sv-faces .f3:has(input:checked) .sv-grin { animation: none; opacity: 1; }
+@keyframes svBead { 0% { translate: 0 -2%; opacity: 0; } 15% { translate: 0 0; opacity: 1; } 70% { translate: 0 8%; opacity: 1; } 100% { translate: 0 13%; opacity: 0; } }
 .sv-faces .f3 .sv-lid { animation-delay: -1.7s; } .sv-faces .f4 .sv-lid { animation-delay: -3.1s; }
 @keyframes svBlink { 0%, 92%, 95.6%, 100% { opacity: 0; } 92.2%, 95.4% { opacity: 1; } }   /* snap shut and open — a cross-fade reads as glasses */
-.sv-heart { transform-origin: var(--hc); animation: svBeat 1.4s ease-in-out infinite; }
-.sv-heart.hl { --hc: 38% 37.5%; } .sv-heart.hr { --hc: 63.3% 37.9%; animation-delay: -.12s; }
-@keyframes svBeat { 0%, 40%, 100% { scale: 1; } 12% { scale: 1.16; } 26% { scale: 1.06; } }
+.sv-thumb { transform-origin: 77.1% 80.5%; animation: svThumb 1.6s ease-in-out infinite; }   /* 좋아했어요: the thumbs-up hand wags up and down from the elbow (user 2026-11-25) */
+@keyframes svThumb { 0%, 100% { rotate: 0deg; } 25% { rotate: -11deg; } 50% { rotate: 2deg; } 75% { rotate: -7deg; } }
+.sv-faces .f4:hover .sv-thumb, .sv-faces .f4:has(input:checked) .sv-thumb { animation-duration: .7s; }
+.sv-heart { transform-origin: var(--hc); animation: svBoing 1.1s infinite; }   /* 띠용띠용: springy grow/shrink, never below the base hearts (user 2026-11-25) */
+.sv-heart.hl { --hc: 37.6% 45%; } .sv-heart.hr { --hc: 63% 45%; animation-delay: -.12s; }   /* pink hearts with a white rim (tools/survey_hearts.py) */
+@keyframes svBoing { 0%, 100% { scale: 1; animation-timing-function: cubic-bezier(.2, .9, .3, 1.4); } 22% { scale: 1.42; animation-timing-function: ease-in; } 40% { scale: 1.04; animation-timing-function: cubic-bezier(.2, .9, .3, 1.4); } 56% { scale: 1.28; animation-timing-function: ease-in; } 72% { scale: 1; } }
 /* picked or hovered: each face acts out its feeling */
 .sv-faces label:hover .sv-face, .sv-faces label:has(input:checked) .sv-face { scale: 1.06; }
 .sv-faces .f1:hover .sv-face, .sv-faces .f1:has(input:checked) .sv-face { animation: svNo 1.4s ease-in-out infinite; }      /* 전혀요: shakes, no no */
@@ -68,7 +78,7 @@
 .sv-faces .f3:hover .sv-lid, .sv-faces .f3:has(input:checked) .sv-lid { animation-duration: 2.2s; }
 .sv-faces .f4:hover .sv-face, .sv-faces .f4:has(input:checked) .sv-face { animation: svBounce .8s ease-in-out infinite; }   /* 좋아했어요: hops */
 .sv-faces .f5:hover .sv-face, .sv-faces .f5:has(input:checked) .sv-face { animation: svJoy 1s ease-in-out infinite; }       /* 아주 좋아했어요: hops and sways, hearts race */
-.sv-faces .f5:hover .sv-heart, .sv-faces .f5:has(input:checked) .sv-heart { animation-duration: .5s; }
+.sv-faces .f5:hover .sv-heart, .sv-faces .f5:has(input:checked) .sv-heart { animation-duration: .7s; }
 @keyframes svNo { 0%, 60%, 100% { rotate: 0deg; } 10% { rotate: -4deg; } 22% { rotate: 4deg; } 34% { rotate: -3deg; } 46% { rotate: 2deg; } }
 @keyframes svSigh { 0%, 100% { rotate: 0deg; scale: 1.06 1.06; } 45%, 70% { rotate: -3deg; scale: 1.09 1.01; } }
 @keyframes svTilt { 0%, 100% { rotate: 0deg; } 35%, 65% { rotate: 3.5deg; } }
@@ -82,44 +92,51 @@
 .sv-chips span { display: inline-block; padding: 11px 20px; border-radius: 999px; border: 2px solid var(--sv-line); font-size: 16px; font-weight: 700; color: var(--sv-ink-2); cursor: pointer;
   transition: background-color .3s var(--sv-ease), border-color .3s var(--sv-ease), color .3s var(--sv-ease), transform .3s var(--sv-ease); }
 .sv-chips label:has(input:checked) span { background: var(--sv-ink); border-color: var(--sv-ink); color: #FFFFFF; }
-/* difficulty: a track with Bobo as the knob — drag or tap; easy → hard turns teal → yellow → orange, Bobo sweats at 어려웠어요 */
-.sv-slide { --p: .5; --f: 0; --c: var(--sv-line); position: relative; padding: 8px 6px 0; user-select: none; -webkit-user-select: none; }
-.sv-slide:has(.lv1 input:checked) { --p: 0; --f: 0; --c: var(--sv-easy); }
-.sv-slide:has(.lv2 input:checked) { --p: .5; --f: .5; --c: var(--sv-warm); }
-.sv-slide:has(.lv3 input:checked) { --p: 1; --f: 1; --c: var(--sv-hard); }
-.sv-slide.is-drag { --p: var(--drag); --f: var(--drag); --c: var(--sv-accent); }   /* no fill until a choice: the waiting knob in the middle is not 적당했어요 */
-.sv-track { position: relative; height: 64px; margin: 0 40px; cursor: pointer; touch-action: none; }
-.sv-track::before { content: ""; position: absolute; left: -10px; right: -10px; top: 50%; height: 14px; margin-top: -7px; border-radius: 999px; background: var(--sv-accent-soft); }
-.sv-fill { position: absolute; left: -10px; top: 50%; height: 14px; margin-top: -7px; width: calc(var(--f) * 100% + 20px); border-radius: 999px; background: var(--c);
-  transition: width .45s var(--sv-spring), background-color .3s var(--sv-ease); }
-.sv-dot { position: absolute; top: 50%; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; background: #FFFFFF; border: 2px solid var(--sv-line); }
-.sv-dot.d1 { left: 0; } .sv-dot.d2 { left: 50%; } .sv-dot.d3 { left: 100%; }
-.sv-knob { position: absolute; top: 50%; left: calc(var(--p) * 100%); width: 58px; height: 58px; translate: -50% -50%; border-radius: 50%; background: #FFFFFF;
-  border: 3px solid var(--sv-ink); box-shadow: 0 4px 0 var(--sv-line); display: grid; place-items: center; cursor: grab;
-  transition: left .45s var(--sv-spring), rotate .4s var(--sv-spring), scale .3s var(--sv-spring); }
-.sv-slide.is-drag .sv-knob { transition: none; cursor: grabbing; scale: 1.12; }
-.sv-knob img { width: 46px; height: 46px; object-fit: contain; pointer-events: none; }
-/* before a choice: Bobo waits in the middle and wiggles to say "drag me" */
-.sv-slide:not(:has(input:checked)):not(.is-drag) .sv-knob { opacity: .9; animation: svWiggle 2.4s ease-in-out infinite; }
-@keyframes svWiggle { 0%, 60%, 100% { translate: -50% -50%; } 70% { translate: calc(-50% - 7px) -50%; } 80% { translate: calc(-50% + 7px) -50%; } 90% { translate: -50% -50%; } }
-.sv-hint { position: absolute; bottom: calc(100% + 6px); left: 50%; translate: -50% 0; padding: 3px 9px; border-radius: 999px; background: var(--sv-ink); color: #FFFFFF;
-  font-size: 12px; font-weight: 800; white-space: nowrap; transition: opacity .3s var(--sv-ease); }
+/* difficulty: Bobo climbs a hill — drag (or tap the hill / a label); the climbed part colours in teal → yellow → orange */
+.sv-slide { --p: 0; --y: 8; --f: 0; position: relative; padding: 34px 0 0; user-select: none; -webkit-user-select: none; }
+.sv-slide:has(.lv1 input:checked) { --p: 0; --y: 8; --f: .08; }
+.sv-slide:has(.lv2 input:checked) { --p: .5; --y: 37.7; --f: .5; }
+.sv-slide:has(.lv3 input:checked) { --p: 1; --y: 92; --f: 1; }
+.sv-slide.is-drag { --p: var(--drag); --y: var(--dragy); --f: var(--drag); }
+.sv-hill { position: relative; height: 118px; margin: 0 40px 0 34px; cursor: pointer; touch-action: none; }
+.sv-ground, .sv-climb, .sv-climb svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.g-base { fill: var(--sv-accent-soft); }
+.g-line { fill: none; stroke: var(--sv-ink); stroke-width: 3; stroke-linejoin: round; }
+.sv-climb { clip-path: inset(-20% calc((1 - var(--f)) * 100%) -2px -2px); transition: clip-path .5s var(--sv-spring); }
+.sv-slide.is-drag .sv-climb, .sv-slide.is-drag .sv-knob { transition: none; }
+.hg1 { stop-color: var(--sv-easy); } .hg2 { stop-color: var(--sv-warm); } .hg3 { stop-color: var(--sv-hard); }
+.sv-stop { position: absolute; width: 16px; height: 16px; margin: 0 0 -8px -8px; border-radius: 50%; background: #FFFFFF; border: 3px solid var(--sv-ink); z-index: 1; }
+.sv-stop.s1 { left: 0; bottom: 8%; } .sv-stop.s2 { left: 50%; bottom: 37.7%; } .sv-stop.s3 { left: 100%; bottom: 92%; }
+/* Bobo stands on the hill surface */
+.sv-knob { position: absolute; left: calc(var(--p) * 100%); bottom: calc(var(--y) * 1%); width: 52px; height: 76px; translate: -50% 4px; z-index: 2; cursor: grab;
+  transform-origin: 50% 100%; transition: left .5s var(--sv-spring), bottom .5s var(--sv-spring); }
+.sv-knob img { width: 100%; height: 100%; object-fit: contain; object-position: bottom; pointer-events: none; filter: drop-shadow(0 4px 3px rgba(17, 29, 56, .25)); }
+.sv-slide.is-drag .sv-knob { cursor: grabbing; rotate: 8deg; }
+.sv-slide:not(:has(input:checked)):not(.is-drag) .sv-knob { animation: svHop 1.8s ease-in-out infinite; }
+@keyframes svHop { 0%, 55%, 100% { translate: -50% 4px; } 70% { translate: -50% -10px; } 85% { translate: -50% 4px; } }
+.sv-hint { position: absolute; left: 30px; bottom: calc(8% + 70px); padding: 5px 12px; border-radius: 999px; background: var(--sv-ink); color: #FFFFFF; font-size: 13px; font-weight: 800;
+  white-space: nowrap; pointer-events: none; transition: opacity .3s var(--sv-ease); }
+.sv-hint::after { content: " →"; display: inline-block; animation: svNudge 1.2s ease-in-out infinite; }
+@keyframes svNudge { 0%, 100% { translate: 0; } 50% { translate: 4px; } }
 .sv-slide:has(input:checked) .sv-hint, .sv-slide.is-drag .sv-hint { opacity: 0; }
-/* Bobo's reaction per level */
-.sv-slide:has(.lv1 input:checked) .sv-knob { rotate: -10deg; animation: svEasy 1.6s ease-in-out infinite; }
-.sv-slide:has(.lv3 input:checked) .sv-knob { rotate: 10deg; animation: svHard .5s ease-in-out infinite; }
-@keyframes svEasy { 0%, 100% { translate: -50% -50%; } 50% { translate: -50% calc(-50% - 6px); } }
-@keyframes svHard { 0%, 100% { translate: -50% -50%; } 25% { translate: calc(-50% - 2px) -50%; } 75% { translate: calc(-50% + 2px) -50%; } }
-.sv-sweat { position: absolute; top: -2px; right: -6px; width: 14px; height: 18px; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; background: var(--sv-accent);
-  border: 2px solid #FFFFFF; opacity: 0; scale: .3; transform-origin: 50% 0; transition: opacity .25s var(--sv-ease), scale .35s var(--sv-spring); }
+/* Bobo's reaction: easy = a happy hop, hard = shaky legs and a sweat drop at the top */
+.sv-slide:has(.lv1 input:checked):not(.is-drag) .sv-knob { animation: svHop 1.4s ease-in-out infinite; }
+.sv-slide:has(.lv3 input:checked):not(.is-drag) .sv-knob { animation: svShaky .45s ease-in-out infinite; }
+@keyframes svShaky { 0%, 100% { rotate: 0deg; } 25% { rotate: -4deg; } 75% { rotate: 4deg; } }
+.sv-sweat { position: absolute; top: 6px; right: -4px; width: 13px; height: 17px; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; background: var(--sv-accent);
+  border: 2px solid #FFFFFF; opacity: 0; scale: .3; transition: opacity .25s var(--sv-ease), scale .35s var(--sv-spring); }
 .sv-slide:has(.lv3 input:checked) .sv-sweat { opacity: 1; scale: 1; animation: svDrip 1.2s ease-in infinite; }
-@keyframes svDrip { 0%, 40% { translate: 0 0; } 100% { translate: 0 6px; } }
-.sv-stops { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 6px; }
+@keyframes svDrip { 0%, 40% { translate: 0 0; } 100% { translate: 0 7px; } }
+/* labels under the three stops */
+.sv-stops { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 14px; }
 .sv-stops label { display: flex; cursor: pointer; }
 .sv-stops label:nth-child(1) { justify-content: flex-start; } .sv-stops label:nth-child(2) { justify-content: center; } .sv-stops label:nth-child(3) { justify-content: flex-end; }
-.sv-stops span { padding: 7px 12px; border-radius: 999px; font-size: 15.5px; font-weight: 800; color: var(--sv-muted); transition: background-color .3s var(--sv-ease), color .3s var(--sv-ease); }
-.sv-stops label:hover span { color: var(--sv-ink); }
-.sv-stops label:has(input:checked) span { background: var(--sv-ink); color: #FFFFFF; }
+.sv-stops span { padding: 9px 16px; border-radius: 999px; border: 2px solid var(--sv-line); background: #FFFFFF; font-size: 16px; font-weight: 800; color: var(--sv-ink-2);
+  transition: background-color .3s var(--sv-ease), color .3s var(--sv-ease), border-color .3s var(--sv-ease), transform .3s var(--sv-ease); }
+.sv-stops label:hover span { border-color: var(--sv-ink); }
+.sv-stops .lv1:has(input:checked) span { background: var(--sv-easy); border-color: var(--sv-ink); color: #FFFFFF; }
+.sv-stops .lv2:has(input:checked) span { background: var(--sv-warm); border-color: var(--sv-ink); color: var(--sv-ink); }
+.sv-stops .lv3:has(input:checked) span { background: var(--sv-hard); border-color: var(--sv-ink); color: #FFFFFF; }
 .sv input:focus-visible + .sv-face, .sv input:focus-visible + span { outline: 3px solid var(--sv-accent); outline-offset: 3px; border-radius: 12px; }
 .sv-note textarea { width: 100%; box-sizing: border-box; resize: vertical; min-height: 76px; padding: 14px 16px; border-radius: 18px; border: 2px solid var(--sv-line);
   font: inherit; font-size: 16px; line-height: 1.5; color: var(--sv-ink); background: #FFFFFF; }
@@ -150,10 +167,12 @@
   .sv-faces label:nth-child(5) { grid-column: 4 / span 2; }
   .sv-t { font-size: 13.5px; }
   .sv-chips span { padding: 10px 16px; font-size: 15px; }
-  .sv-track { margin: 0 36px; }
-  .sv-stops span { font-size: 14px; padding: 6px 8px; }
+  .sv-hill { height: 96px; margin: 0 34px 0 30px; }
+  .sv-knob { width: 44px; height: 64px; }
+  .sv-hint { bottom: calc(8% + 58px); }
+  .sv-stops span { font-size: 14px; padding: 7px 10px; }
   .sv-actions { flex-direction: column-reverse; }
   .sv-later, .sv-send { width: 100%; }
 }
-@media (prefers-reduced-motion: reduce) { .sv.is-in .sv-card, .sv-face, .sv-lid, .sv-heart, .sv-big, .sv-knob, .sv-sweat { animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { .sv.is-in .sv-card, .sv-face, .sv-lid, .sv-heart, .sv-thumb, .sv-bead, .sv-grin, .sv-big, .sv-knob, .sv-sweat, .sv-hint::after { animation: none !important; } }
 @media print { .sv { display: none !important; } }

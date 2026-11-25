@@ -38,7 +38,7 @@ for n in range(1, 6):
     for i in range(1, k + 1):
         ys, xs2 = np.where(lab == i)
         if len(ys) > 40: eyes.append((xs2.min(), xs2.max(), ys.min(), ys.max()))
-    if n in (2, 3, 4) and len(eyes) >= 2:
+    if n in (3, 4) and len(eyes) >= 2:   # 별로 has no blink (its eyes look aside)
         eyes = sorted(eyes, key=lambda e: -(e[1] - e[0]) * (e[3] - e[2]))[:2]
         lid = np.zeros_like(a)
         for (ex0, ex1, ey0, ey1) in eyes:
@@ -75,7 +75,7 @@ for n in range(1, 6):
             for c, v in enumerate((70, 38, 22)): lid[..., c] = lid[..., c] * (1 - lash) + v * lash
             lid[..., 3] = np.maximum(lid[..., 3], lash * 255)
         save(lid, f'fun-{n}-lid.webp'); info[n]['lid'] = True
-    if n == 5:   # heart eyes: red-pink blobs, one layer each
+    if False and n == 5:   # heart eyes now come from tools/survey_hearts.py
         heart = head & (R > 190) & (G < 130) & (B > 60) & (B < 170)
         heart = nd.binary_closing(heart, iterations=2)
         lab, k = nd.label(heart); sizes = nd.sum(heart, lab, range(1, k + 1))
