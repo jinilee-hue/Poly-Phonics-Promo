@@ -80,7 +80,7 @@
   ];
   const box = $('#sortCards'), msg = $('#sortMsg'), count = $('#sortCount b');
   const found = new Set();
-  SORT.forEach((it, i) => {
+  if (box) SORT.forEach((it, i) => {   // C shows the chants on its tablet instead of the sort game
     const b = document.createElement('button');
     b.type = 'button'; b.className = 'scard';
     b.setAttribute('aria-label', `${it.w} 듣기`);
@@ -122,13 +122,14 @@
   }
 
   /* ---------- video playlist ---------- */
+  const VIDEO_V = '20261125b';   // bump when a video file is replaced (chants swapped 2026-11-25)
   const video = $('#video'), screen = $('.screen'), playBtn = $('#screenPlay'), titleEl = $('#screenTitle');
   function pauseVideo() { if (video && !video.paused) video.pause(); }
   function load(btn, autoplay) {
     $$('.pl').forEach(b => b.classList.toggle('is-on', b === btn));
     const src = btn.dataset.src;
-    video.poster = `assets/video/${src}.jpg`;
-    video.src = `assets/video/${src}.mp4`;
+    video.poster = `assets/video/${src}.jpg?v=${VIDEO_V}`;
+    video.src = `assets/video/${src}.mp4?v=${VIDEO_V}`;
     titleEl.textContent = btn.dataset.title;
     screen.classList.remove('is-playing');
     if (autoplay) { if (current) current.pause(); video.play().catch(() => {}); }
@@ -138,7 +139,8 @@
   video.addEventListener('play', () => { video.controls = true; screen.classList.add('is-playing'); });
   video.addEventListener('ended', () => {
     const list = $$('.pl'), i = list.findIndex(b => b.classList.contains('is-on'));
-    if (i > 0 && i < list.length - 1) load(list[i + 1], true);   // chants 1→4 run on, like "All together"
+    const chant = b => b && /^l1-chant-/.test(b.dataset.src);
+    if (chant(list[i]) && chant(list[i + 1])) load(list[i + 1], true);   // chants 1→4 run on, like "All together"; songs stop
     else screen.classList.remove('is-playing');
   });
   $$('[data-chant]').forEach(b => b.addEventListener('click', () => {

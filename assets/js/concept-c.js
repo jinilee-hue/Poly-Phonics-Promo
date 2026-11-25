@@ -115,7 +115,7 @@
     const dir = vertical ? 1 : -1;                                // desktop: flag points left, away from the cards
     d += ` L${flag.x} ${flag.y}`;
     // start: a START sticker badge with an arrow pointing down the road
-    const start = vertical ? { x: Math.max(s0.cx, 50), y: s0.cy - s0.r - 34 } : { x: s0.cx - s0.r - 120, y: s0.cy };
+    const start = vertical ? { x: Math.max(s0.cx, 50), y: s0.cy - s0.r - 34 } : { x: s0.cx - s0.r - 96, y: s0.cy };
     const pad = 90;
     svg.setAttribute('viewBox', `0 ${-pad} ${box.width} ${box.height + pad * 2}`);
     svg.style.top = (-pad) + 'px'; svg.style.height = (box.height + pad * 2) + 'px';
@@ -137,7 +137,7 @@
       </g>`;
     const bx = start.x - 46, by = vertical ? start.y - 46 : start.y - 19;
     // solid arrow from the START badge to the 01 token
-    const l0 = vertical ? { x: start.x, y: by + 38 + 6 } : { x: bx + 92 + 6, y: start.y };
+    const l0 = vertical ? { x: s0.cx, y: by + 38 + 6 } : { x: bx + 92 + 6, y: start.y };   // phones: straight down, in line with the dotted road (user 2026-11-25)
     const l1 = vertical ? { x: s0.cx, y: s0.cy - s0.r - 8 } : { x: s0.cx - s0.r - 8, y: s0.cy };
     const head = vertical ? `M${l1.x - 9} ${l1.y - 11} L${l1.x} ${l1.y} L${l1.x + 9} ${l1.y - 11}` : `M${l1.x - 11} ${l1.y - 9} L${l1.x} ${l1.y} L${l1.x - 11} ${l1.y + 9}`;
     const arrow = `M${l0.x} ${l0.y} L${l1.x} ${l1.y} ${head}`;
@@ -193,20 +193,35 @@
     pages.forEach((p, k) => { p.classList.toggle('is-on', k === cur); p.classList.toggle('is-before', k < cur); p.inert = k !== cur; });
     steps.forEach((b, k) => k === cur ? b.setAttribute('aria-current', 'step') : b.removeAttribute('aria-current'));
     dots.forEach((d, k) => d.classList.toggle('is-on', k === cur));
-    title.textContent = pages[cur].dataset.title;
+    title.innerHTML = `<b lang="en">${pages[cur].dataset.en}</b><span>${pages[cur].dataset.ko}</span>`;
     now.textContent = cur + 1;
     prev.disabled = cur === 0;
     nextText.textContent = cur === last ? '처음으로' : '다음';
     next.classList.remove('is-cue');
+    stopAll();
   }
   next.addEventListener('click', () => go(cur === last ? 0 : cur + 1));
   prev.addEventListener('click', () => go(cur - 1));
   steps.forEach(b => b.addEventListener('click', () => go(+b.dataset.go)));
-  // nudge the parent on once a screen is done: the sound was heard / all four /m/ pictures found
-  const cue = k => { if (cur === k) next.classList.add('is-cue'); };
-  screen.querySelector('.ts-sound .big-tile').addEventListener('click', () => setTimeout(() => cue(0), 900));
-  const msg = document.getElementById('sortMsg');
-  new MutationObserver(() => { if (msg.classList.contains('win')) cue(1); }).observe(msg, { attributes: true, attributeFilter: ['class'] });
+  // each screen is a real Lesson 1 chant: tap to play it inside the tablet; at the end, the survey for that chant + a nudge to the next screen
+  const vids = pages.map(p => p.querySelector('.ts-vid'));
+  const main = document.getElementById('video');
+  const stopAll = except => vids.forEach(v => { if (v && v !== except && !v.paused) v.pause(); });
+  pages.forEach((p, k) => {
+    const v = vids[k], btn = p.querySelector('.ts-play'); if (!v || !btn) return;
+    btn.addEventListener('click', () => {
+      if (!v.getAttribute('src')) v.src = v.dataset.src;
+      v.controls = true; p.classList.add('is-playing');
+      stopAll(v); if (main && !main.paused) main.pause();
+      v.play().catch(() => {});
+    });
+    v.addEventListener('ended', () => {
+      p.classList.remove('is-playing'); v.controls = false; v.currentTime = 0;
+      if (cur === k && k < last) next.classList.add('is-cue');
+      if (window.PolySurvey) window.PolySurvey.open({ id: v.dataset.id, title: v.dataset.title, type: 'video' });
+    });
+  });
+  if (main) main.addEventListener('play', () => stopAll());
   // swipe like a real tablet
   let sx = 0, sy = 0;
   screen.addEventListener('touchstart', e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
@@ -215,4 +230,13 @@
     if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) go(cur + (dx < 0 ? 1 : -1));
   }, { passive: true });
   go(0);
+})();
+
+/* mobile menu: mark the section you are in (the desktop nav already knows it) */
+(() => {
+  const btn = document.querySelector('.nav-menu'), sheet = document.getElementById('sheet'); if (!btn || !sheet) return;
+  btn.addEventListener('click', () => {
+    const on = document.querySelector('.nav-links a.is-on'), href = on && on.getAttribute('href');
+    sheet.querySelectorAll('.sheet-list a').forEach(a => a.classList.toggle('is-on', a.getAttribute('href') === href));
+  });
 })();

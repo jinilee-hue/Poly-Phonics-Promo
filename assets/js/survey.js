@@ -1,7 +1,7 @@
 /* After every game or video, a short survey pops up — one per item, the same form for all (user 2026-11-25).
    Games open in a new tab: the survey shows when the parent comes back to this page.
    Videos: the survey shows when a video ends (each chant separately; the next one waits until the survey closes).
-   Faces are Tata expressions (assets/img/emoji3d/fun-1..5.webp), each with its own motion in survey.css.
+   Faces are Tata expressions split into head / body / eyelid / heart layers (tools/survey_faces.py) so survey.css can move them like a real face.
    Answers are NOT sent anywhere yet ("화면만 먼저"): they stay in this browser (localStorage 'polySurvey.v1').
    Loaded after site.js on every concept page. */
 (() => {
@@ -27,7 +27,7 @@
         <legend>아이가 재미있어 했나요?</legend>
         <div class="sv-faces" role="radiogroup">
           ${[['1', '전혀요'], ['2', '별로'], ['3', '보통'], ['4', '좋아했어요'], ['5', '아주 좋아했어요']]
-            .map(([v, t]) => `<label class="f${v}"><input type="radio" name="fun" value="${v}" required><img class="sv-face" src="assets/img/emoji3d/fun-${v}.webp?v=tata" width="72" height="72" alt="" aria-hidden="true"><span class="sv-t">${t}</span></label>`).join('')}
+            .map(([v, t]) => `<label class="f${v}"><input type="radio" name="fun" value="${v}" required><span class="sv-face" aria-hidden="true"><span class="sv-hd"><img src="assets/img/emoji3d/fun-${v}-head.webp?v=layers1" alt="">${v === '2' || v === '3' || v === '4' ? `<img class="sv-lid" src="assets/img/emoji3d/fun-${v}-lid.webp?v=layers1" alt="">` : ''}${v === '5' ? `<img class="sv-heart hl" src="assets/img/emoji3d/fun-5-heartL.webp?v=layers1" alt=""><img class="sv-heart hr" src="assets/img/emoji3d/fun-5-heartR.webp?v=layers1" alt="">` : ''}</span><img class="sv-body" src="assets/img/emoji3d/fun-${v}-body.webp?v=layers1" alt=""></span><span class="sv-t">${t}</span></label>`).join('')}
         </div>
       </fieldset>
       <fieldset class="sv-q">
