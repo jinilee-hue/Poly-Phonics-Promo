@@ -1,0 +1,56 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>html,body{margin:0;background:transparent}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"./three/build/three.module.min.js"}}</script>
+</head><body>
+<script type="module">
+import * as THREE from 'three';
+import { RoundedBoxGeometry } from './three/addons/geometries/RoundedBoxGeometry.js';
+const P = new URLSearchParams(location.search);
+const SIZE = +(P.get('size') || 216), FRAMES = +(P.get('frames') || 24);
+const BASE = P.get('base') || '#2A6CF0', INK = P.get('ink') || '#FFD23F', LETTER = P.get('letter') || 'P';
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1); renderer.setSize(SIZE, SIZE);
+renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.NoToneMapping;
+document.body.appendChild(renderer.domElement);
+const scene = new THREE.Scene();
+const cam = new THREE.PerspectiveCamera(22, 1, .1, 50); cam.position.set(0, 0, 7.2); cam.lookAt(0, 0, 0);
+scene.add(new THREE.HemisphereLight(0xffffff, 0x8fa6d8, 1.6));
+const key = new THREE.DirectionalLight(0xffffff, 2.2); key.position.set(-2.5, 3.5, 4); scene.add(key);
+const rim = new THREE.DirectionalLight(0xbfd4ff, .8); rim.position.set(3, -1, -2); scene.add(rim);
+
+// face texture: the letter pressed into the face (dark inner edge top-left, light edge bottom-right)
+function faceTex(letter) {
+  const c = document.createElement('canvas'); c.width = c.height = 512; const g = c.getContext('2d');
+  g.fillStyle = BASE; g.fillRect(0, 0, 512, 512);
+  if (letter) {
+    g.font = '700 330px Fredoka, "Arial Rounded MT Bold", Arial'; g.textAlign = 'center'; g.textBaseline = 'middle';
+    const y = 275;
+    g.fillStyle = 'rgba(10,30,90,.55)'; g.fillText(letter, 256 - 7, y - 7);
+    g.fillStyle = 'rgba(255,255,255,.55)'; g.fillText(letter, 256 + 5, y + 6);
+    g.fillStyle = INK; g.fillText(letter, 256, y);
+  }
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t;
+}
+const geo = new RoundedBoxGeometry(1.6, 1.6, 1.6, 8, .34);
+const plain = new THREE.MeshStandardMaterial({ color: BASE, roughness: .42, metalness: 0 });
+const front = new THREE.MeshStandardMaterial({ map: faceTex(LETTER), roughness: .42, metalness: 0 });
+// RoundedBoxGeometry keeps BoxGeometry groups: +x, -x, +y, -y, +z, -z
+const cube = new THREE.Mesh(geo, [plain, plain, plain, plain, front, plain]);
+scene.add(cube);
+const rest = new THREE.Quaternion().setFromEuler(new THREE.Euler(THREE.MathUtils.degToRad(16), THREE.MathUtils.degToRad(-24), 0, 'XYZ'));
+const axis = new THREE.Vector3(1, 1.15, .25).normalize();
+const easeOutBack = t => { const c1 = 1.3, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); };
+window.frame = i => {
+  const t = i / FRAMES, e = easeOutBack(t);
+  const spin = new THREE.Quaternion().setFromAxisAngle(axis, e * Math.PI * 2);
+  cube.quaternion.copy(rest).multiply(spin);
+  const hop = Math.sin(Math.min(1, t * 1.25) * Math.PI) * .22;   // little jump while it rolls
+  cube.position.y = hop;
+  renderer.render(scene, cam);
+  return renderer.domElement.toDataURL('image/png');
+};
+document.fonts.load('700 100px Fredoka').finally(() => { front.map = faceTex(LETTER); front.needsUpdate = true; window.ready = true; });
+</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&display=swap">
+</body></html>

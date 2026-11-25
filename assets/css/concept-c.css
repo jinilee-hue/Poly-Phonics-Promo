@@ -172,7 +172,7 @@ p { margin: 0; }
 .hero-in { position: relative; width: min(1320px, 100%); margin: 0 auto; padding: 0 var(--gutter); display: grid; grid-template-columns: 1fr 1.05fr; gap: clamp(24px, 4vw, 64px); align-items: center; }
 .hero-title { font-family: var(--f-disp); font-weight: 400; font-size: clamp(54px, 7.4vw, 104px); line-height: 1.08; letter-spacing: -0.01em; color: var(--c-white); text-shadow: 5px 5px 0 var(--c-navy); }
 .hero-title mark { position: relative; background: none; color: var(--c-navy); text-shadow: none; padding: 0 .08em; z-index: 0; white-space: nowrap; }
-.hero-title mark::before { content: ""; position: absolute; inset: .08em -.04em .02em; z-index: -1; background: var(--c-yellow); border: var(--bd); border-radius: .16em; box-shadow: 5px 5px 0 var(--c-navy); rotate: -5deg; }
+.hero-title mark::before { content: ""; position: absolute; inset: .02em -.04em .08em; z-index: -1; background: var(--c-yellow); border: var(--bd); border-radius: .16em; box-shadow: 5px 5px 0 var(--c-navy); rotate: -5deg; }
 .hero-lead { margin-top: 26px; font-size: clamp(16px, 1.4vw, 19px); line-height: 1.75; color: var(--c-white); opacity: .92; max-width: 520px; font-weight: 500; }
 .cta-row { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
 /* hero CTAs bigger now that the fact chips are gone (user 2026-11-25) */
@@ -274,12 +274,12 @@ p { margin: 0; }
 .why-card h3 { font-family: var(--f-disp); font-weight: 400; font-size: 25px; color: var(--c-navy); margin-bottom: 6px; }
 .why-card p { font-size: 16px; color: var(--c-ink-2); font-weight: 500; }
 /* full-body jump stickers that stick out of the card (user 2026-11-25) */
-.why-cards { gap: 54px; padding-top: 36px; }
-.why-card { position: relative; padding-left: 186px; min-height: 124px; overflow: visible; }
-.why-card .face.body { position: absolute; left: 4px; bottom: -2px; width: auto; height: 168px; object-fit: contain; rotate: -6deg; z-index: 1;
+.why-cards { gap: 38px; padding-top: 36px; }
+.why-card { position: relative; padding-left: 206px; min-height: 124px; overflow: visible; }
+.why-card .face.body { position: absolute; left: 26px; bottom: -2px; width: auto; height: 168px; object-fit: contain; rotate: -6deg; z-index: 1;
   transition: transform .5s cubic-bezier(.34, 1.56, .64, 1); }
-.why-card:nth-child(2) .face.body { rotate: 5deg; left: 0; }
-.why-card:nth-child(3) .face.body { rotate: -3deg; left: -4px; }
+.why-card:nth-child(2) .face.body { rotate: 5deg; left: 24px; }
+.why-card:nth-child(3) .face.body { rotate: -3deg; left: 24px; }
 .why-card:hover .face.body { transform: translateY(-8px); }
 
 /* ---------- curriculum ---------- */
@@ -575,9 +575,9 @@ p { margin: 0; }
   .hero-facts b { font-size: 15px; }
   .why-card, .why-card:nth-child(n) { rotate: 0deg; margin-left: 0; padding: 18px; gap: 14px; }
   .face { width: 80px; height: 80px; }
-  .why-cards { gap: 46px; }
-  .why-card, .why-card:nth-child(n) { padding-left: 128px; min-height: 118px; }
-  .why-card .face.body { height: 132px; left: 0; }
+  .why-cards { gap: 28px; }
+  .why-card, .why-card:nth-child(n) { padding-left: 142px; min-height: 118px; }
+  .why-card .face.body, .why-card:nth-child(n) .face.body { height: 122px; left: 10px; }
   .why-card h3 { font-size: 21px; }
   .eq .lt { --s: 46px; }
   .eq-word { font-size: 40px; }
@@ -643,6 +643,70 @@ p { margin: 0; }
 @media (max-width: 767px) {
   .foot-in { grid-template-columns: 1fr; }
   .foot-ask { justify-self: start; }
+}
+
+/* ===== 3D dice: logo mark + hero letter tiles (built by concept-c.js) — user 2026-11-25 ===== */
+.dice { --rest: rotateX(-16deg) rotateY(-22deg); width: var(--s, 40px) !important; height: var(--s, 40px) !important;
+  display: block; padding: 0 !important; background: none !important; border: 0 !important; box-shadow: none !important;
+  perspective: calc(var(--s, 40px) * 7); font-size: calc(var(--s, 40px) * .6); }
+.dice-cube { position: relative; display: block; width: 100%; height: 100%; transform-style: preserve-3d; transform: var(--rest); }
+.dc-face, .dc-core { position: absolute; inset: 0; backface-visibility: hidden; outline: 1px solid transparent; }   /* transparent outline = smoother 3D edges in Chrome */
+.dc-face { display: grid; place-items: center; border-radius: 24%; border: var(--bw) solid var(--c-navy);
+  background: radial-gradient(120% 120% at 30% 20%, color-mix(in srgb, var(--dc) 72%, white), var(--dc) 55%, color-mix(in srgb, var(--dc) 86%, black));
+  color: var(--di); font-family: var(--f-en); font-weight: 700; line-height: 1; letter-spacing: 0;
+  /* letter pressed into the face */
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, .28), 0 1px 0 rgba(255, 255, 255, .5); }
+.dc-core { border-radius: 14%; background: color-mix(in srgb, var(--dc) 70%, var(--c-navy)); backface-visibility: visible; inset: 6%; }
+.dc-front  { transform: translateZ(calc(var(--s) / 2)); }
+.dc-back   { transform: rotateY(180deg) translateZ(calc(var(--s) / 2)); }
+.dc-right  { transform: rotateY(90deg) translateZ(calc(var(--s) / 2)); filter: brightness(.82); }
+.dc-left   { transform: rotateY(-90deg) translateZ(calc(var(--s) / 2)); filter: brightness(.82); }
+.dc-top    { transform: rotateX(90deg) translateZ(calc(var(--s) / 2)); filter: brightness(1.1); }
+.dc-bottom { transform: rotateX(-90deg) translateZ(calc(var(--s) / 2)); filter: brightness(.7); }
+.dc-cx { transform: none; } .dc-cy { transform: rotateY(90deg); } .dc-cz { transform: rotateX(90deg); }
+@keyframes diceRoll { 0% { transform: var(--rest); } 100% { transform: rotateX(344deg) rotateY(338deg); } }
+@keyframes diceSway { 0%, 100% { transform: var(--rest); } 50% { transform: rotateX(-10deg) rotateY(-34deg); } }
+
+/* logo: a real rounded 3D die (three.js render, tools/logo-die), 24-frame roll on load and on hover / focus */
+.brand-mark.logo-die { --w: 60px; width: var(--w); height: var(--w); margin: -8px -4px -8px -2px; padding: 0; border: 0; border-radius: 0; rotate: 0deg;
+  background: url("../img/concept-c/logo-die.webp") 0 0 / calc(var(--w) * 24) var(--w) no-repeat; font-size: 0;
+  animation: dieRoll .95s steps(24) .35s 1; }
+.brand:hover .brand-mark.logo-die, .brand:focus-visible .brand-mark.logo-die { animation: dieRoll2 .95s steps(24) 1; }
+.brand:active .brand-mark.logo-die { scale: .92; }
+@keyframes dieRoll { from { background-position-x: 0; } to { background-position-x: calc(var(--w) * -24); } }
+@keyframes dieRoll2 { from { background-position-x: 0; } to { background-position-x: calc(var(--w) * -24); } }
+.brand-word { font-size: 25px; }
+.brand { gap: 12px; }
+.brand:hover .brand-word b { color: var(--c-orange); transition: color .3s var(--ease); }
+
+/* hero tiles: same dice, auto-roll one after another, roll on hover / tap */
+.hero-art .lt.dice { --rest: rotateX(-18deg) rotateY(24deg); cursor: pointer; }
+.hero-art .lt.dice .dice-cube { animation: diceTurn 8s cubic-bezier(.34, 1.4, .5, 1) infinite; animation-delay: var(--rd, 0s); }
+.lt-m1.dice { --rd: .4s; } .lt-m2.dice { --rd: 2s; } .lt-a.dice { --rd: 3.6s; } .lt-s.dice { --rd: 5.2s; } .lt-t.dice { --rd: 6.8s; }
+@keyframes diceTurn { 0% { transform: var(--rest); } 12% { transform: rotateX(342deg) rotateY(384deg); } 100% { transform: rotateX(342deg) rotateY(384deg); } }
+.hero-art .lt.dice:hover .dice-cube, .hero-art .lt.dice.is-rolling .dice-cube { animation: diceRoll .9s cubic-bezier(.34, 1.4, .5, 1); }
+
+/* 체험하기 arrow circles: pulse ring + nudge invite a click; on hover the arrow shoots out and comes back */
+.nav-cta .ic-dot, .hero .btn-yellow .ic-dot { position: relative; overflow: visible; }
+.nav-cta .ic-dot .ic, .hero .btn-yellow .ic-dot .ic { animation: arrowNudge 2.2s ease-in-out infinite; }
+.nav-cta .ic-dot::after, .hero .btn-yellow .ic-dot::after { content: ""; position: absolute; inset: -2px; border-radius: 50%;
+  border: 2.5px solid currentColor; opacity: 0; animation: ringPulse 2.2s ease-out infinite; pointer-events: none; }
+.hero .btn-yellow .ic-dot::after { border-color: var(--c-navy); }
+.nav-cta .ic-dot::after { border-color: var(--c-yellow); }
+.nav-cta:hover .ic-dot, .hero .btn-yellow:hover .ic-dot { overflow: hidden; }
+.nav-cta:hover .ic-dot .ic, .hero .btn-yellow:hover .ic-dot .ic { animation: arrowLoop .6s cubic-bezier(.5, 0, .2, 1) infinite; }
+.nav-cta:hover .ic-dot::after, .hero .btn-yellow:hover .ic-dot::after { animation: none; opacity: 0; }
+@keyframes arrowNudge { 0%, 55%, 100% { transform: translateX(0); } 65% { transform: translateX(5px); } 75% { transform: translateX(0); } 85% { transform: translateX(3px); } }
+@keyframes ringPulse { 0%, 40% { transform: scale(1); opacity: 0; } 45% { opacity: .7; } 100% { transform: scale(1.75); opacity: 0; } }
+@keyframes arrowLoop { 0% { transform: translateX(0); } 45% { transform: translateX(160%); } 46% { transform: translateX(-160%); } 100% { transform: translateX(0); } }
+
+@media (max-width: 767px) {
+  .brand-mark.logo-die { --w: 52px; }
+  .brand-word { font-size: 21px; }
+  .brand { gap: 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dice-cube, .ic-dot .ic, .ic-dot::after, .brand-mark.logo-die { animation: none !important; }
 }
 
 @media print {

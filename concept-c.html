@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Fredoka:wght@500;600;700&display=swap">
-<link rel="stylesheet" href="assets/css/concept-c.css">
+<link rel="stylesheet" href="assets/css/concept-c.css?v=de4e40e3">
 </head>
 <body>
 
@@ -47,7 +47,7 @@
 <!-- nav -->
 <header class="nav" id="nav">
   <a class="brand" href="#top" aria-label="POLY Phonics 처음으로">
-    <span class="brand-mark" aria-hidden="true">P</span>
+    <span class="brand-mark logo-die" aria-hidden="true"></span>
     <span class="brand-word"><b>POLY</b> Phonics</span>
   </a>
   <nav class="nav-links" aria-label="페이지 목차">
@@ -88,11 +88,11 @@
 
     <div class="hero-art reveal" style="--i:2">
       <div class="rays" aria-hidden="true"></div>
-      <span class="lt lt-m1" aria-hidden="true">M</span>
-      <span class="lt lt-m2" aria-hidden="true">m</span>
-      <span class="lt lt-a" aria-hidden="true">A</span>
-      <span class="lt lt-s" aria-hidden="true">s</span>
-      <span class="lt lt-t" aria-hidden="true">T</span>
+      <span class="lt lt-m1" data-dice="M a s t p m" aria-hidden="true">M</span>
+      <span class="lt lt-m2" data-dice="m i o u e a" aria-hidden="true">m</span>
+      <span class="lt lt-a" data-dice="A e i o u a" aria-hidden="true">A</span>
+      <span class="lt lt-s" data-dice="s t p n m s" aria-hidden="true">s</span>
+      <span class="lt lt-t" data-dice="T p n c d t" aria-hidden="true">T</span>
       <svg class="spk sp1" aria-hidden="true"><use href="#spark"/></svg>
       <svg class="spk sp2" aria-hidden="true"><use href="#spark"/></svg>
       <svg class="spk sp3" aria-hidden="true"><use href="#spark"/></svg>
@@ -489,7 +489,7 @@
   </svg>
   <div class="wrap foot-in">
     <div class="foot-brand">
-      <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">P</span><span class="brand-word"><b>POLY</b> Phonics</span></a>
+      <a class="brand" href="#top"><span class="brand-mark logo-die" aria-hidden="true"></span><span class="brand-word"><b>POLY</b> Phonics</span></a>
       <p class="foot-note">From Phonics to Reading K 기반 · 체험 콘텐츠: Constella 정규 수업 · G&#8209;Learning · Phonics POND</p>
     </div>
     <nav class="foot-ask" aria-label="입학 문의와 홈페이지">
@@ -504,6 +504,7 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="assets/js/site.js" defer></script>
+<script src="assets/js/site.js?v=9f7f0e73" defer></script>
+<script src="assets/js/concept-c.js?v=2533df21" defer></script>
 </body>
 </html>
