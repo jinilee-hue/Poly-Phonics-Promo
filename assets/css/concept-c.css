@@ -217,17 +217,23 @@ p { margin: 0; }
    Tata bounces bigger; they lean toward the pointer and cheer (big jump + word + ^^ eyes) when tapped. (user 2026-11-25) */
 @property --sw { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
 .stk-char.char { transform-origin: 50% 100%; rotate: calc(var(--rot, 0deg) + var(--sw)); transition: transform .6s var(--spring); }
-.sc-bobo.char { animation: charHop 2.4s ease-in-out infinite -.4s, swayBobo 3.6s ease-in-out infinite; }
-.sc-tata.char { animation: charHopBig 2.4s ease-in-out infinite -2s, swayTata 4.8s ease-in-out infinite; }
-.sc-nunu.char { animation: charHop 2.4s ease-in-out infinite -1.2s, wiggleNunu 5.2s ease-in-out infinite; }
-@keyframes charHop {
-  0%, 100% { translate: 0 0; scale: 1 1; } 10% { translate: 0 0; scale: 1.04 .95; }
-  32% { translate: 0 -18px; scale: .97 1.04; } 46% { translate: 0 -1px; scale: 1.05 .94; } 54% { translate: 0 -4px; scale: 1 1; }
-  64% { translate: 0 -12px; scale: .98 1.02; } 76% { translate: 0 0; scale: 1.03 .97; } 86% { scale: 1 1; } }
-@keyframes charHopBig {
-  0%, 100% { translate: 0 0; scale: 1 1; } 10% { translate: 0 0; scale: 1.06 .92; }
-  30% { translate: 0 -30px; scale: .95 1.06; } 46% { translate: 0 -1px; scale: 1.07 .92; } 56% { translate: 0 -6px; scale: 1 1; }
-  66% { translate: 0 -16px; scale: .98 1.03; } 78% { translate: 0 0; scale: 1.04 .96; } 88% { scale: 1 1; } }
+/* each friend has its own rhythm (different length + rest time) so they never bounce in step */
+.sc-bobo.char { animation: hopBobo 3.7s ease-in-out infinite -2.8s, swayBobo 5.3s ease-in-out infinite; }
+.sc-tata.char { animation: hopTata 2.9s ease-in-out infinite -1.2s, swayTata 6.1s ease-in-out infinite -2s; }
+.sc-nunu.char { animation: hopNunu 4.6s ease-in-out infinite -4.2s, wiggleNunu 7.3s ease-in-out infinite -1s; }
+/* Bobo: one small hop, then rests */
+@keyframes hopBobo {
+  0%, 52%, 100% { translate: 0 0; scale: 1 1; } 58% { scale: 1.02 .98; }
+  68% { translate: 0 -14px; scale: .99 1.015; } 78% { translate: 0 0; scale: 1.02 .98; } 86% { scale: 1 1; } }
+/* Tata: the bouncy one — a double hop */
+@keyframes hopTata {
+  0%, 100% { translate: 0 0; scale: 1 1; } 8% { scale: 1.03 .97; }
+  24% { translate: 0 -22px; scale: .985 1.02; } 38% { translate: 0 0; scale: 1.025 .975; } 46% { scale: 1 1; }
+  56% { translate: 0 -10px; } 66% { translate: 0 0; scale: 1.015 .985; } 74%, 99% { translate: 0 0; scale: 1 1; } }
+/* Nunu: slow breathing, an occasional little bounce */
+@keyframes hopNunu {
+  0%, 100% { translate: 0 0; scale: 1 1; } 20% { scale: 1.012 .99; } 40% { scale: 1 1; }
+  70% { translate: 0 0; scale: 1.02 .98; } 78% { translate: 0 -12px; scale: .99 1.012; } 88% { translate: 0 0; scale: 1.015 .985; } 94% { scale: 1 1; } }
 @keyframes swayBobo { 0%, 100% { --sw: -3deg; } 50% { --sw: 3deg; } }
 @keyframes swayTata { 0%, 100% { --sw: 0deg; } 25% { --sw: -2.5deg; } 75% { --sw: 2.5deg; } }
 @keyframes wiggleNunu { 0%, 60%, 100% { --sw: 0deg; } 66% { --sw: -5deg; } 72% { --sw: 4deg; } 78% { --sw: -3deg; } 84% { --sw: 1deg; } }
@@ -265,7 +271,10 @@ p { margin: 0; }
 .gs-bobo { left: 3%; width: 36%; }
 .gs-nunu { right: 0; width: 40%; bottom: 3%; }
 .gs-tata { left: 31%; width: 38%; bottom: -1%; z-index: 1; }
-.gs-bobo { animation-delay: -.4s; } .gs-nunu { animation-delay: -1.2s; } .gs-tata { animation-delay: -2s; }
+.gs-bobo { animation: shBobo 3.7s ease-in-out infinite -2.8s; } .gs-tata { animation: shTata 2.9s ease-in-out infinite -1.2s; } .gs-nunu { animation: shNunu 4.6s ease-in-out infinite -4.2s; }
+@keyframes shBobo { 0%, 58%, 78%, 100% { transform: scale(1); opacity: 1; } 68% { transform: scale(.84); opacity: .65; } }
+@keyframes shTata { 0%, 8%, 38%, 66%, 100% { transform: scale(1); opacity: 1; } 24% { transform: scale(.76); opacity: .55; } 56% { transform: scale(.88); opacity: .75; } }
+@keyframes shNunu { 0%, 70%, 88%, 100% { transform: scale(1); opacity: 1; } 78% { transform: scale(.86); opacity: .7; } }
 @keyframes shadowHop { 0%, 100% { transform: scale(1); opacity: 1; } 32% { transform: scale(.78); opacity: .55; } 48% { transform: scale(.98); opacity: .95; } 64% { transform: scale(.85); opacity: .7; } }
 @media (prefers-reduced-motion: reduce) { .ground-shadow { animation: none; } }
 .bubble {
@@ -841,9 +850,11 @@ p { margin: 0; }
 .flow-path path.road { stroke-width: 6; stroke-dasharray: .1 15; }
 .flow-path { overflow: visible; }
 .flow-path.flow-top { z-index: 3; }
-.flow-path .fp-start-badge { fill: var(--c-yellow); stroke: var(--c-navy); stroke-width: 3; filter: drop-shadow(3px 3px 0 var(--c-navy)); }
+/* only the road is dotted: the START arrow, flag pole and flag outline are solid lines (user 2026-11-25) */
+.flow-path .fp-arrow, .flow-path .fp-flag-pole, .flow-path .fp-flag-line, .flow-path .fp-flag { stroke-dasharray: none; }
+.flow-path .fp-start-badge { fill: var(--c-white); stroke: var(--c-navy); stroke-width: 3; filter: drop-shadow(3px 3px 0 var(--c-navy)); }
 .flow-path .fp-start text, .flow-path .fp-goal-tag text { font-family: var(--f-en); font-weight: 700; font-size: 16px; fill: var(--c-navy); letter-spacing: .06em; }
-.flow-path .fp-arrow { fill: none; stroke: var(--c-navy); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; animation: fpNudge 1.6s ease-in-out infinite; }
+.flow-path .fp-arrow { fill: none; stroke: var(--c-navy); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
 @keyframes fpNudge { 0%, 100% { translate: 0 0; } 50% { translate: 5px 0; } }
 .flow-path .fp-flag-pole { stroke: var(--c-navy); stroke-width: 6; stroke-linecap: round; fill: none; }
 .flow-path .fp-pole-cap { fill: var(--c-yellow); stroke: var(--c-navy); stroke-width: 3; }
@@ -857,7 +868,7 @@ p { margin: 0; }
 .flow-path .fp-goal-tag text { fill: var(--c-white); font-size: 17px; }
 @media (prefers-reduced-motion: reduce) { .flow-path .fp-arrow, .flow-path .fp-flag-wave { animation: none; } }
 @media (max-width: 1080px) {
-  .steps.board { grid-template-columns: 1fr; max-width: 640px; margin: 0 auto; gap: 26px; padding: 0 0 150px 4px; }
+  .steps.board { grid-template-columns: 1fr; max-width: 640px; margin: 0 auto; gap: 26px; padding: 100px 0 150px 4px; }   /* room for START above 01 */
   .steps.board > li:nth-child(n) { grid-column: auto; grid-row: auto; }
   .steps.board .station { flex-direction: row; align-items: flex-start; gap: 22px; }
   .steps.board .step-no.token { width: 78px; height: 78px; font-size: 36px; }

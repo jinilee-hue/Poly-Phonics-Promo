@@ -115,11 +115,11 @@
     const dir = vertical ? 1 : -1;                                // desktop: flag points left, away from the cards
     d += ` L${flag.x} ${flag.y}`;
     // start: a START sticker badge with an arrow pointing down the road
-    const start = vertical ? { x: s0.cx, y: s0.cy - s0.r - 58 } : { x: s0.cx - s0.r - 120, y: s0.cy };
+    const start = vertical ? { x: Math.max(s0.cx, 50), y: s0.cy - s0.r - 34 } : { x: s0.cx - s0.r - 120, y: s0.cy };
     const pad = 90;
     svg.setAttribute('viewBox', `0 ${-pad} ${box.width} ${box.height + pad * 2}`);
     svg.style.top = (-pad) + 'px'; svg.style.height = (box.height + pad * 2) + 'px';
-    const road = `M${start.x} ${start.y} L${s0.cx} ${s0.cy}` + d.replace(/^M[^LC]*/, ' ');
+    const road = `M${s0.cx} ${s0.cy}` + d.replace(/^M[^LC]*/, ' ');   // dotted road starts at 01; START→01 is a solid arrow
     const P = vertical ? 62 : 40, W = 72, H = 48, sq = 12;      // pole height, flag size, checker size
     const fx = dir > 0 ? flag.x + 2 : flag.x - 2 - W, fy = flag.y - P - 40;
     let checks = '';
@@ -135,9 +135,12 @@
           <g class="fp-checks">${checks}</g><path class="fp-flag-line" d="${cloth}"/></g>
         <g class="fp-goal-tag"><rect x="${tagX}" y="${tagY}" width="84" height="32" rx="16"/><text x="${tagX + 42}" y="${tagY + 22}" text-anchor="middle">GOAL!</text></g>
       </g>`;
-    const ax = vertical ? start.x : start.x + 70, ay = vertical ? start.y + 30 : start.y;   // arrow tip on the road
-    const arrow = vertical ? `M${ax - 10} ${ay - 12} L${ax} ${ay} L${ax + 10} ${ay - 12}` : `M${ax - 12} ${ay - 10} L${ax} ${ay} L${ax - 12} ${ay + 10}`;
-    const bx = vertical ? start.x - 46 : start.x - 46, by = vertical ? start.y - 46 : start.y - 19;
+    const bx = start.x - 46, by = vertical ? start.y - 46 : start.y - 19;
+    // solid arrow from the START badge to the 01 token
+    const l0 = vertical ? { x: start.x, y: by + 38 + 6 } : { x: bx + 92 + 6, y: start.y };
+    const l1 = vertical ? { x: s0.cx, y: s0.cy - s0.r - 8 } : { x: s0.cx - s0.r - 8, y: s0.cy };
+    const head = vertical ? `M${l1.x - 9} ${l1.y - 11} L${l1.x} ${l1.y} L${l1.x + 9} ${l1.y - 11}` : `M${l1.x - 11} ${l1.y - 9} L${l1.x} ${l1.y} L${l1.x - 11} ${l1.y + 9}`;
+    const arrow = `M${l0.x} ${l0.y} L${l1.x} ${l1.y} ${head}`;
     const startSvg = `<g class="fp-start"><rect class="fp-start-badge" x="${bx}" y="${by}" width="92" height="38" rx="19"/>
         <text x="${bx + 46}" y="${by + 26}" text-anchor="middle">START</text>
         <path class="fp-arrow" d="${arrow}"/></g>`;
