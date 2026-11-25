@@ -67,6 +67,20 @@
 .sv-chips span { display: inline-block; padding: 11px 20px; border-radius: 999px; border: 2px solid var(--sv-line); font-size: 16px; font-weight: 700; color: var(--sv-ink-2); cursor: pointer;
   transition: background-color .3s var(--sv-ease), border-color .3s var(--sv-ease), color .3s var(--sv-ease), transform .3s var(--sv-ease); }
 .sv-chips label:has(input:checked) span { background: var(--sv-ink); border-color: var(--sv-ink); color: #FFFFFF; }
+/* difficulty: three cards with a 1–3 bar meter (easy → hard), the bars pop up when picked */
+.sv-level { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.sv-level span { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 14px 6px 12px; border-radius: 18px; text-align: center; }
+.sv-meter { display: inline-flex; align-items: flex-end; gap: 4px; height: 26px; }
+.sv-meter b { display: block; width: 9px; border-radius: 3px; background: var(--sv-line); transform-origin: 50% 100%; transition: background-color .3s var(--sv-ease); }
+.sv-meter b:nth-child(1) { height: 10px; }
+.sv-meter b:nth-child(2) { height: 18px; }
+.sv-meter b:nth-child(3) { height: 26px; }
+.lv1 .sv-meter b:nth-child(1), .lv2 .sv-meter b:nth-child(-n+2), .lv3 .sv-meter b { background: var(--sv-accent); }
+.sv-level label:has(input:checked) .sv-meter b { background: rgba(255, 255, 255, .3); animation: svBar .55s var(--sv-spring) both; }
+.sv-level .lv1:has(input:checked) .sv-meter b:nth-child(1), .sv-level .lv2:has(input:checked) .sv-meter b:nth-child(-n+2), .sv-level .lv3:has(input:checked) .sv-meter b { background: var(--sv-warm); }
+.sv-level label:has(input:checked) .sv-meter b:nth-child(2) { animation-delay: .08s; }
+.sv-level label:has(input:checked) .sv-meter b:nth-child(3) { animation-delay: .16s; }
+@keyframes svBar { from { scale: 1 .15; } to { scale: 1 1; } }
 .sv input:focus-visible + .sv-face, .sv input:focus-visible + span { outline: 3px solid var(--sv-accent); outline-offset: 3px; border-radius: 12px; }
 .sv-note textarea { width: 100%; box-sizing: border-box; resize: vertical; min-height: 76px; padding: 14px 16px; border-radius: 18px; border: 2px solid var(--sv-line);
   font: inherit; font-size: 16px; line-height: 1.5; color: var(--sv-ink); background: #FFFFFF; }
@@ -96,8 +110,10 @@
   .sv-face { width: 40px; height: 40px; }
   .sv-t { font-size: 11.5px; }
   .sv-chips span { padding: 10px 16px; font-size: 15px; }
+  .sv-level { gap: 7px; }
+  .sv-level span { padding: 12px 4px 10px; }
   .sv-actions { flex-direction: column-reverse; }
   .sv-later, .sv-send { width: 100%; }
 }
-@media (prefers-reduced-motion: reduce) { .sv.is-in .sv-card, .sv-face, .sv-big { animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { .sv.is-in .sv-card, .sv-face, .sv-big, .sv-meter b { animation: none !important; } }
 @media print { .sv { display: none !important; } }

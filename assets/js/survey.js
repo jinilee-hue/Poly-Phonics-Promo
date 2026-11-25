@@ -1,7 +1,7 @@
 /* After every game or video, a short survey pops up — one per item, the same form for all (user 2026-11-25).
    Games open in a new tab: the survey shows when the parent comes back to this page.
    Videos: the survey shows when a video ends (each chant separately; the next one waits until the survey closes).
-   Faces are Fluent Emoji 3D (Microsoft, MIT — assets/img/emoji3d/SOURCE.txt), each with its own motion in survey.css.
+   Faces are Tata expressions (assets/img/emoji3d/fun-1..5.webp), each with its own motion in survey.css.
    Answers are NOT sent anywhere yet ("화면만 먼저"): they stay in this browser (localStorage 'polySurvey.v1').
    Loaded after site.js on every concept page. */
 (() => {
@@ -27,13 +27,13 @@
         <legend>아이가 재미있어 했나요?</legend>
         <div class="sv-faces" role="radiogroup">
           ${[['1', '전혀요'], ['2', '별로'], ['3', '보통'], ['4', '좋아했어요'], ['5', '아주 좋아했어요']]
-            .map(([v, t]) => `<label class="f${v}"><input type="radio" name="fun" value="${v}" required><img class="sv-face" src="assets/img/emoji3d/fun-${v}.webp" width="72" height="72" alt="" aria-hidden="true"><span class="sv-t">${t}</span></label>`).join('')}
+            .map(([v, t]) => `<label class="f${v}"><input type="radio" name="fun" value="${v}" required><img class="sv-face" src="assets/img/emoji3d/fun-${v}.webp?v=tata" width="72" height="72" alt="" aria-hidden="true"><span class="sv-t">${t}</span></label>`).join('')}
         </div>
       </fieldset>
       <fieldset class="sv-q">
         <legend>난이도는 어땠나요?</legend>
-        <div class="sv-chips">
-          ${['쉬웠어요', '적당했어요', '어려웠어요'].map(t => `<label><input type="radio" name="level" value="${t}"><span>${t}</span></label>`).join('')}
+        <div class="sv-chips sv-level">
+          ${['쉬웠어요', '적당했어요', '어려웠어요'].map((t, i) => `<label class="lv${i + 1}"><input type="radio" name="level" value="${t}"><span><i class="sv-meter" aria-hidden="true"><b></b><b></b><b></b></i>${t}</span></label>`).join('')}
         </div>
       </fieldset>
       <label class="sv-q sv-note">
