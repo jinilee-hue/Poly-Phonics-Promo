@@ -401,19 +401,31 @@ p { margin: 0; }
 .step p { font-size: 15.5px; color: var(--c-ink-2); font-weight: 500; }
 .step-ex { margin-top: auto; display: inline-flex; align-items: center; gap: 7px; padding-top: 12px; border-top: 2px dashed var(--c-navy-a25); font-size: 13.5px; font-weight: 700; color: var(--c-navy); }
 .step-ex .ic { width: 17px; height: 17px; color: var(--c-blue); }
-.path { margin-top: clamp(44px, 6vw, 68px); background: var(--c-navy); color: var(--c-white); padding: clamp(22px, 3vw, 34px); box-shadow: 8px 8px 0 var(--c-yellow), 8px 8px 0 var(--bw) var(--c-navy); }
-.path-title { margin-bottom: 18px; }
-.path-row { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: .55fr 1fr 1.6fr 1.1fr; gap: 16px; }
-.path-row li { position: relative; display: flex; flex-direction: column; gap: 12px; padding: 16px 18px; border-radius: 18px; border: 2px solid var(--c-white-a20); background: var(--c-white-a12); }
-.path-row li:not(:last-child)::after { content: ""; position: absolute; right: -13px; top: 50%; width: 10px; height: 10px; margin-top: -5px; border-top: 3px solid var(--c-yellow); border-right: 3px solid var(--c-yellow); transform: rotate(45deg); }
-.path-k { font-size: 13px; font-weight: 800; color: var(--c-yellow); }
-.path-v { font-size: 18px; font-weight: 800; }
-.path-v.en { font-family: var(--f-en); font-weight: 600; font-size: 22px; letter-spacing: 0; }
-.path-v b { color: var(--c-yellow); }
 
 /* ---------- taste ---------- */
 .taste { background: var(--c-orange); border-top: var(--bd); }
 .taste .lead { color: var(--c-white); }
+/* 소리 → 단어 → 문장 → 이야기: the reading road, merged into 1분 맛보기 (user 2026-11-25) */
+.grow { list-style: none; padding: 0; margin: calc(-1 * clamp(10px, 2vw, 22px)) auto clamp(30px, 4vw, 46px); display: flex; justify-content: center; gap: 46px; }
+.grow li { position: relative; display: inline-flex; align-items: center; gap: 10px; padding: 8px 22px 8px 8px; border: var(--bd); border-radius: 999px;
+  background: var(--c-white); box-shadow: var(--hard-sm); font-size: 20px; font-weight: 900; color: var(--c-navy); white-space: nowrap; }
+.grow b { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; border: var(--bd); font-family: var(--f-en); font-size: 17px; font-weight: 700; }
+.grow li:nth-child(1) b { background: var(--c-yellow); color: var(--c-navy); }
+.grow li:nth-child(2) b { background: var(--c-blue); color: var(--c-white); }
+.grow li:nth-child(3) b { background: var(--c-teal); color: var(--c-white); }
+.grow li:not(:last-child)::after { content: ""; position: absolute; top: 50%; right: -33px; width: 11px; height: 11px; margin-top: -6px;
+  border-top: 4px solid var(--c-navy); border-right: 4px solid var(--c-navy); transform: rotate(45deg); }
+.grow .g-next { background: var(--c-orange-100); box-shadow: none; }
+.grow .g-next b { background: var(--c-white); color: var(--c-navy); }
+.grow small { position: absolute; top: -15px; right: -18px; padding: 3px 9px; border-radius: 999px; background: var(--c-navy); color: var(--c-white);
+  font-size: 11.5px; font-weight: 800; rotate: 5deg; }
+@media (max-width: 600px) {
+  .grow { gap: 14px; }
+  .grow li { flex: 1 1 0; flex-direction: column; gap: 6px; padding: 10px 4px 9px; border-radius: 20px; font-size: 15px; box-shadow: var(--hard-xs); }
+  .grow b { width: 28px; height: 28px; font-size: 14px; }
+  .grow li:not(:last-child)::after { right: -12px; width: 7px; height: 7px; margin-top: -4px; border-width: 3px; }
+  .grow small { top: -12px; right: -6px; font-size: 10px; padding: 2px 7px; }
+}
 .h2-pop { color: var(--c-white); text-shadow: 4px 4px 0 var(--c-navy); }
 .taste-grid { display: grid; grid-template-columns: .82fr 1.5fr; grid-template-areas: "s sort" "sen sen"; gap: 26px; }
 .taste-sound { grid-area: s; rotate: -1deg; }
@@ -621,8 +633,6 @@ p { margin: 0; }
   .nav-cta { margin-left: auto; }
   .nav-menu { display: grid; }
   .cards-3 { grid-template-columns: repeat(2, 1fr); }
-  .path-row { grid-template-columns: 1fr 1fr; }
-  .path-row li:nth-child(2)::after { display: none; }
   .steps { grid-template-columns: repeat(2, 1fr); gap: 40px 22px; }
 }
 @media (max-width: 900px) {
@@ -684,8 +694,6 @@ p { margin: 0; }
   .steps { grid-template-columns: 1fr; gap: 40px; }
   .steps > li .step { rotate: 0deg !important; }
   .step h3 { font-size: 23px; }
-  .path-row { grid-template-columns: 1fr; }
-  .path-row li::after { display: none; }
   .taste-grid > .stk { padding: 18px; }
   .taste-sound, .taste-sort { rotate: 0deg; }
   .lt-xxl { --s: 132px; font-size: 70px; }
@@ -879,24 +887,6 @@ p { margin: 0; }
   .steps.board .step-no.token { width: 64px; height: 64px; font-size: 30px; box-shadow: 4px 4px 0 var(--c-navy); }
   .steps.board .station { gap: 16px; }
   .steps.board .step::before { top: 22px; }
-}
-
-/* 소리가 읽기로 자라는 길 = real Blend It screens (Constella /learn/blend-it/FP.A.U1L1), not a repeat of 1분 맛보기 */
-.path-title { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 14px; }
-.path-note { font-size: 13px; font-weight: 700; color: var(--c-blue-300); }
-.path-row.shots { grid-template-columns: repeat(4, 1fr); gap: 22px; }
-.path-row.shots li { padding: 10px 10px 12px; gap: 10px; background: var(--c-white-a12); }
-.path-row.shots .path-k { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; }
-.path-row.shots .path-k b { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: var(--c-yellow); color: var(--c-navy);
-  font-family: var(--f-en); font-size: 14px; }
-.path-row.shots img { display: block; width: 100%; height: auto; aspect-ratio: 720 / 367; object-fit: cover; object-position: top; border-radius: 12px; border: 2.5px solid var(--c-white);
-  box-shadow: 4px 4px 0 var(--c-navy-900); background: var(--c-white); }
-.path-row.shots li:not(:last-child)::after { right: -17px; }
-@media (max-width: 1080px) { .path-row.shots { grid-template-columns: 1fr 1fr; } .path-row.shots li:nth-child(2)::after { display: none; } }
-@media (max-width: 767px) {
-  .path-row.shots { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; padding-bottom: 6px; }
-  .path-row.shots li { flex: 0 0 78%; scroll-snap-align: start; }
-  .path-row.shots li::after { display: none; }
 }
 
 /* survey popup in C's sticker style */
