@@ -682,6 +682,7 @@ button.g:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--c-n
 /* 게임하기: bigger, the main action of the card (user 2026-11-25) */
 .card .go { min-height: 60px; padding: 7px 7px 7px 26px; gap: 14px; font-size: 18px; border-width: 2.5px; box-shadow: 4px 4px 0 var(--c-navy);
   transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
+.card .go { align-self: flex-end; }   /* 게임하기 sits at the right of the card (user 2026-11-26) */
 .card .go .ic-dot { width: 44px; height: 44px; }
 .card .go .ic-dot .ic { width: 20px; height: 20px; }
 .card.press:hover .go { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--c-navy); }
